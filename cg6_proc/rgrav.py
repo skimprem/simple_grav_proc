@@ -7,8 +7,13 @@ import sys
 to_vgfit = False
 v = False
 
+# if sys.platform.startswith('linux'):
 if sys.platform.startswith('win32'):
-    data_file = fd.askopenfilename()
+    data_file = fd.askopenfilename(
+        defaultextension='.dat',
+        filetypes=[('CG-6 data files', '*.dat'), ('All files', '*')],
+        title='Choose data file'
+    )
 elif sys.platform.startswith('linux'):
     parser = argparse.ArgumentParser(
                     prog='rgrav',
@@ -35,13 +40,19 @@ sum = get_ties_sum(means)
 basename = os.path.splitext(os.path.basename(data_file))[0]
 # dirname = os.path.dirname(data_file)
 
+default_output_file = 'report_'+basename+'.txt'
+# if sys.platform.startswith('linux'):
 if sys.platform.startswith('win32'):
-    output_file = fd.asksaveasfilename()
+    output_file = fd.asksaveasfilename(
+        defaultextension=".txt",
+        filetypes=[('ACSII text file', '*.txt'), ('All files', '*')],
+        initialfile=default_output_file,
+        title="Save Report")
 elif sys.platform.startswith('linux'):
     if not args.o:
-        output_file = 'report_'+basename+'.txt'
+        output_file = default_output_file
 else:
-    output_file = 'report_'+basename+'.txt'
+    output_file = default_output_file
     
 make_output(means, output_file)
 with open(output_file, 'a') as report:
