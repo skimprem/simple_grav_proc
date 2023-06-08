@@ -1,9 +1,11 @@
 import pandas as pd
 import re
 from datetime import datetime
+import os
 
 def cg6_data_file_reader(path_to_input_data_file):
-    input_data_file = open(path_to_input_data_file, 'r')
+    # os.path.abspath("insert-file-name-here")
+    input_data_file = open(os.path.abspath(path_to_input_data_file), 'r')
     columns = ['survey_name', 'instrument_serial_number', 'created', 'operator', 'g_cal1', 'g_off', 'g_ref', 'x_scale', 'y_scale', 'x_offset', 'y_offset', 'temperature_coefficient',
     'temperature_scale', 'drift_rate', 'drift_zero_time', 'firmware_version', 'station', 'date_time', 'corr_grav', 'line', 'std_dev', 'std_err', 'raw_grav', 'x', 'y',
     'sensor_temp', 'tide_corr', 'tilt_corr', 'temp_corr', 'drift_corr', 'measur_dur', 'instr_height', 'lat_user', 'lon_user', 'elev_user', 'lat_gps', 'lon_gps', 'elev_gps', 'corrections', 'data_file']
