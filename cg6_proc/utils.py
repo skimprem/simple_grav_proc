@@ -11,7 +11,9 @@ def cg6_data_file_reader(path_to_input_data_file):
     'sensor_temp', 'tide_corr', 'tilt_corr', 'temp_corr', 'drift_corr', 'measur_dur', 'instr_height', 'lat_user', 'lon_user', 'elev_user', 'lat_gps', 'lon_gps', 'elev_gps', 'corrections', 'data_file']
     cg6_data = pd.DataFrame(
         columns = columns)
+    count = 0
     for line in input_data_file:
+        count += 1
         split_line = re.split('\t', line.replace('\t\t', '\t').replace('\n', ''))
         if split_line[0] == '/' and len(split_line) > 2:
             match split_line[1]:
@@ -52,8 +54,12 @@ def cg6_data_file_reader(path_to_input_data_file):
         elif split_line[0] == '/' and len(split_line) < 3:
             continue
         else:
-            station, date_, time_, corrgrav, line_, stddev, stderr, rawgrav, x, y, sensortemp, tidecorr, tiltcorr, tempcorr, driftcorr, measurdur, instrheight, latuser, \
-            lonuser, elevuser, latgps, longps, elevgps, corrections = split_line
+            try:
+                station, date_, time_, corrgrav, line_, stddev, stderr, rawgrav, x, y, sensortemp, tidecorr, tiltcorr, tempcorr, driftcorr, measurdur, instrheight, latuser, \
+                lonuser, elevuser, latgps, longps, elevgps, corrections = split_line
+            except ValueError:
+                print(f'Warning: incorrect input data at line {count}')
+
             date_time = datetime.strptime(date_ + 'T' + time_, "%Y-%m-%dT%H:%M:%S")
             corrgrav = float(corrgrav) * 1e3
             line_ = int(line_)
