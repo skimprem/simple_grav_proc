@@ -18,10 +18,12 @@ elif sys.platform.startswith('linux'):
     parser.add_argument('data_file')                  # positional argument
     parser.add_argument('-v', action='store_true')  # on/off flag
     parser.add_argument('--to_vgfit', action='store_true')  # on/off flag
+    parser.add_argument('-o', metavar='out-file') #, type=argparse.FileType('w'))
     args = parser.parse_args()
     data_file = args.data_file
-    args.to_vgfit = to_vgfit
-    args.v = v
+    to_vgfit = args.to_vgfit 
+    v = args.v 
+    output_file = args.o 
 
 data = cg6_data_file_reader(data_file) 
 
@@ -31,13 +33,20 @@ means = get_mean_ties(ties)
 sum = get_ties_sum(means)
 
 basename = os.path.splitext(os.path.basename(data_file))[0]
-dirname = os.path.dirname(data_file)
+# dirname = os.path.dirname(data_file)
 
-output_file = 'report_'+basename+'.txt'
+if sys.platform.startswith('win32'):
+    output_file = fd.asksaveasfilename()
+elif sys.platform.startswith('linux'):
+    if not args.o:
+        output_file = 'report_'+basename+'.txt'
+else:
+    output_file = 'report_'+basename+'.txt'
+    
 make_output(means, output_file)
-report = open(output_file, 'a')
-report.write(f'\n Sum of the ties = {get_ties_sum(means): .2f}\n')
-report.close()
+with open(output_file, 'a') as report:
+    report.write(f'\n Sum of the ties = {get_ties_sum(means): .2f}\n')
+    report.close()
 
 if to_vgfit:
     make_vgfit_input(means, basename+'.csv')
