@@ -34,3 +34,5 @@ if args.to_vgfit:
 if args.v:
     print_means(means)
     print(f'Sum of the ties = {sum: .2f}')
+
+input()
