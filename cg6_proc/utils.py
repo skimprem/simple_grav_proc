@@ -168,7 +168,7 @@ def get_mean_ties(ties):
         mean = group_mean.agg({'created': 'last', 'survey_name': 'last', 'operator': 'last', 'instrument_serial_number': 'last', 'line': 'last', 'instr_height_from': 'mean', 'instr_height_to': 'mean', 'tie': ['mean', 'std'], 'data_file': 'last'})
         count += 1
 
-        mean.columns = ['station_from', 'station_to', 'created', 'survey_name', 'operator', 'instrument_serial_number', 'line', 'instr_height_from', 'instr_height_to', 'tie', 'std', 'source']
+        mean.columns = ['station_from', 'station_to', 'created', 'survey_name', 'operator', 'instrument_serial_number', 'line', 'instr_height_from', 'instr_height_to', 'tie', 'std', 'data_file']
         means.append(mean)
     result = pd.concat(means, ignore_index=True)
     return result
@@ -188,21 +188,26 @@ def get_ties_sum(ties):
             previous_to = current_to 
             count += 1
         elif current_to == previous_to:
-            ties.loc[index] = [current_to, current_from, row.created, row.survey_name, row.operator, row.instrument_serial_number, row.line, row.instr_height_to, row.instr_height_from, -row.tie, row['std'], row.source]
+            ties.loc[index] = [current_to, current_from, row.created, row.survey_name, row.operator, row.instrument_serial_number, row.line, row.instr_height_to, row.instr_height_from, -row.tie, row['std'], row.data_file]
             previous_to = current_to 
             count += 1
     return ties.tie.sum()
 
 def print_means(means):
     columns = ['station_from', 'station_to', 'created', 'survey_name', 'operator', 'instrument_serial_number', 'line', 'instr_height_from', 'instr_height_to', 'tie', 'std']
-    headers = ['From', 'To', 'Date', 'Survey', 'Operator', 'S/N', 'Line', 'Height From (mm)', 'To (mm)', 'Tie (uGals)', 'SDev (uGals)']
-    print(means[columns].to_markdown(index=False, headers=headers, tablefmt="simple", floatfmt=".1f"))
-    # print(means[columns].to_csv(index=False))
+    headers = ['From', 'To', 'Date', 'Survey', 'Operator', 'S/N', 'Line', 'Height From (mm)', 'Height To (mm)', 'Tie (uGals)', 'SDev (uGals)']
 
+    print(means[columns].to_markdown(index=False, headers=headers, tablefmt="simple", floatfmt=".1f"))
     return
 
-def make_vgfit_input(ties, filename):
-    # mean.columns = ['from', 'to', 'date', 'station', 'observer', 'gravimeter', 'runn', 'level_1', 'level_2', 'delta_g', 'std', 'source']
-    ties = ties.drop(columns=['from', 'to'])
-    ties.to_csv(filename, index=False)
-    return ties
+def make_output(means, filename):
+    columns = ['station_from', 'station_to', 'created', 'survey_name', 'operator', 'instrument_serial_number', 'line', 'instr_height_from', 'instr_height_to', 'tie', 'std']
+    headers = ['From', 'To', 'Date', 'Survey', 'Operator', 'S/N', 'Line', 'Height From (mm)', 'Height To (mm)', 'Tie (uGals)', 'SDev (uGals)']
+    means[columns].to_markdown(filename, index=False, headers=headers, tablefmt="simple", floatfmt=".1f")
+    return
+
+def make_vgfit_input(means, filename):
+    means.columns = ['from', 'to', 'date', 'station', 'observer', 'gravimeter', 'runn', 'level_1', 'level_2', 'delta_g', 'std', 'source']
+    columns = ['date', 'station', 'observer', 'gravimeter', 'runn', 'level_1', 'level_2', 'delta_g', 'std', 'source']
+    means[columns].to_csv(filename, index=False)
+    return means
