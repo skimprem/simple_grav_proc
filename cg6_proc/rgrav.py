@@ -41,6 +41,7 @@ ties = get_ties(readings)
 means = get_mean_ties(ties)
 if s:
     means = sort_ties(means)
+
 sum = get_ties_sum(means)
 
 basename = os.path.splitext(os.path.basename(data_file))[0]
@@ -62,7 +63,7 @@ else:
     
 make_output(means, output_file)
 with open(output_file, 'a') as report:
-    report.write(f'\n Sum of the ties = {get_ties_sum(means): .2f}\n')
+    report.write(f'\n Sum of the ties = {get_ties_sum(means): .2f} uGals\n')
     report.close()
 
 if to_vgfit:
@@ -70,4 +71,4 @@ if to_vgfit:
 
 if v:
     print_means(means)
-    print(f'Sum of the ties = {sum: .2f}')
+    print(f'Sum of the ties = {sum: .2f} uGals')
