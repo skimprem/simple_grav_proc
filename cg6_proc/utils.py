@@ -10,59 +10,82 @@ def cg6_data_file_reader(path_to_input_data_file):
     columns = ['survey_name', 'instrument_serial_number', 'created', 'operator', 'g_cal1', 'g_off', 'g_ref', 'x_scale', 'y_scale', 'x_offset', 'y_offset', 'temperature_coefficient',
                'temperature_scale', 'drift_rate', 'drift_zero_time', 'firmware_version', 'station', 'date_time', 'corr_grav', 'line', 'std_dev', 'std_err', 'raw_grav', 'x', 'y',
                'sensor_temp', 'tide_corr', 'tilt_corr', 'temp_corr', 'drift_corr', 'measur_dur', 'instr_height', 'lat_user', 'lon_user', 'elev_user', 'lat_gps', 'lon_gps', 'elev_gps', 'corrections', 'data_file']
-    cg6_data = pd.DataFrame(
-        columns=columns)
+    cg6_data = pd.DataFrame(columns=columns)
     count = 0
     for line in input_data_file:
         count += 1
-        split_line = re.split('\t', line.replace(
-            '\t\t', '\t').replace('\n', ''))
-        if split_line[0] == '/' and len(split_line) > 2:
-            match split_line[1]:
-                case 'Survey Name:':
-                    survey_name = split_line[2]
-                case 'Instrument Serial Number:':
-                    instrument_serial_number = int(split_line[2])
-                case 'Created:':
+        if line[0] == '/':
+            line = line[1:].strip()
+            split_line = re.split(':\t', line)
+            if line[:6] == 'Station':
+                continue
+            elif not line:
+                continue
+            match split_line[0]:
+                case 'CG-6 Survey':
+                    continue
+                case 'CG-6 Calibration':
+                    continue
+                case 'Survey Name':
+                    survey_name = split_line[1]
+                    continue
+                case 'Instrument Serial Number':
+                    instrument_serial_number = int(split_line[1])
+                    continue
+                case 'Created':
                     created = datetime.strptime(
-                        split_line[2], "%Y-%m-%d %H:%M:%S")
-                case 'Operator:':
-                    operator = split_line[2]
-                case 'Gcal1 [mGal]:':
-                    gcal1 = float(split_line[2])
-                case 'Goff [ADU]:':
-                    goff = float(split_line[2])
-                case 'Gref [mGal]:':
-                    gref = float(split_line[2])
-                case 'X Scale [arc-sec/ADU]:':
-                    x_scale = float(split_line[2])
-                case 'Y Scale [arc-sec/ADU]:':
-                    y_scale = float(split_line[2])
-                case 'X Offset [ADU]:':
-                    x_offset = float(split_line[2])
-                case 'Y Offset [ADU]:':
-                    y_offset = float(split_line[2])
-                case 'Temperature Coefficient [mGal/mK]:':
-                    temperature_coefficient = float(split_line[2])
-                case 'Temperature Scale [mK/ADU]:':
-                    temperature_scale = float(split_line[2])
-                case 'Drift Rate [mGal/day]:':
-                    drift_rate = float(split_line[2])
-                case 'Drift Zero Time:':
+                        split_line[1], "%Y-%m-%d %H:%M:%S")
+                    continue
+                case 'Operator':
+                    operator = split_line[1]
+                    continue
+                case 'Gcal1 [mGal]':
+                    gcal1 = float(split_line[1])
+                    continue
+                case 'Goff [ADU]':
+                    goff = float(split_line[1])
+                    continue
+                case 'Gref [mGal]':
+                    gref = float(split_line[1])
+                    continue
+                case 'X Scale [arc-sec/ADU]':
+                    x_scale = float(split_line[1])
+                    continue
+                case 'Y Scale [arc-sec/ADU]':
+                    y_scale = float(split_line[1])
+                    continue
+                case 'X Offset [ADU]':
+                    x_offset = float(split_line[1])
+                    continue
+                case 'Y Offset [ADU]':
+                    y_offset = float(split_line[1])
+                    continue
+                case 'Temperature Coefficient [mGal/mK]':
+                    temperature_coefficient = float(split_line[1])
+                    continue
+                case 'Temperature Scale [mK/ADU]':
+                    temperature_scale = float(split_line[1])
+                    continue
+                case 'Drift Rate [mGal/day]':
+                    drift_rate = float(split_line[1])
+                    continue
+                case 'Drift Zero Time':
                     drift_zero_time = datetime.strptime(
-                        split_line[2], "%Y-%m-%d %H:%M:%S")
-                case 'Firmware Version:':
-                    firmware_version = split_line[2]
-        elif split_line[0] == '/Station':
-            continue
-        elif split_line[0] == '/' and len(split_line) < 3:
-            continue
+                        split_line[1], "%Y-%m-%d %H:%M:%S")
+                    continue
+                case 'Firmware Version':
+                    firmware_version = split_line[1]
+                    continue
         else:
+            if not line.strip():
+                continue
+            split_line = line.split()
             try:
                 station, date_, time_, corrgrav, line_, stddev, stderr, rawgrav, x, y, sensortemp, tidecorr, tiltcorr, tempcorr, driftcorr, measurdur, instrheight, latuser, \
-                    lonuser, elevuser, latgps, longps, elevgps, corrections = split_line
+                lonuser, elevuser, latgps, longps, elevgps, corrections = split_line
             except ValueError:
-                print(f'Warning: incorrect input data at line {count}')
+                print(f'Warning: ValueError at line {count}')
+                continue
 
             date_time = datetime.strptime(
                 date_ + 'T' + time_, "%Y-%m-%dT%H:%M:%S")
@@ -96,13 +119,13 @@ def cg6_data_file_reader(path_to_input_data_file):
             except ValueError:
                 elevgps = None
             cg6_data.loc[len(cg6_data)] = [survey_name, instrument_serial_number, created, operator, gcal1, goff, gref, x_scale, y_scale,
-                                           x_offset, y_offset, temperature_coefficient, temperature_scale, drift_rate, drift_zero_time, firmware_version, station, date_time, corrgrav,
-                                           line_, stddev, stderr, rawgrav, x, y, sensortemp, tidecorr, tiltcorr, tempcorr, driftcorr, measurdur, instrheight, latuser, lonuser, elevuser, latgps,
-                                           longps, elevgps, corrections, path_to_input_data_file]
+                                            x_offset, y_offset, temperature_coefficient, temperature_scale, drift_rate, drift_zero_time, firmware_version, station, date_time, corrgrav,
+                                            line_, stddev, stderr, rawgrav, x, y, sensortemp, tidecorr, tiltcorr, tempcorr, driftcorr, measurdur, instrheight, latuser, lonuser, elevuser, latgps,
+                                            longps, elevgps, corrections, path_to_input_data_file]
     input_data_file.close()
     cg6_data.set_index('date_time', inplace=True)
-    return cg6_data
 
+    return cg6_data
 
 def get_readings(cg6_data):
     readings = pd.DataFrame(columns=['created', 'survey_name', 'operator', 'instrument_serial_number',
