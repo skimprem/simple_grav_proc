@@ -1,11 +1,13 @@
 import argparse
 import os
-from cg6_proc.utils import cg6_data_file_reader, get_readings, get_ties, get_mean_ties, get_ties_sum, print_means, make_vgfit_input, make_output
+from cg6_proc.utils import cg6_data_file_reader, get_readings, get_ties, get_mean_ties, \
+get_ties_sum, print_means, make_vgfit_input, make_output, sort_ties
 from tkinter import filedialog as fd
 import sys
 
 to_vgfit = False
 v = False
+s = False
 
 # if sys.platform.startswith('linux'):
 if sys.platform.startswith('win32'):
@@ -23,11 +25,13 @@ elif sys.platform.startswith('linux'):
     parser.add_argument('data_file')                  # positional argument
     parser.add_argument('-v', action='store_true')  # on/off flag
     parser.add_argument('--to_vgfit', action='store_true')  # on/off flag
+    parser.add_argument('-s', action='store_true')  # on/off flag
     parser.add_argument('-o', metavar='out-file') #, type=argparse.FileType('w'))
     args = parser.parse_args()
     data_file = args.data_file
     to_vgfit = args.to_vgfit 
     v = args.v 
+    s = args.s
     output_file = args.o 
 
 data = cg6_data_file_reader(data_file) 
@@ -35,6 +39,8 @@ data = cg6_data_file_reader(data_file)
 readings = get_readings(data)
 ties = get_ties(readings)
 means = get_mean_ties(ties)
+if s:
+    means = sort_ties(means)
 sum = get_ties_sum(means)
 
 basename = os.path.splitext(os.path.basename(data_file))[0]
