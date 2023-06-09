@@ -2,6 +2,7 @@ import pandas as pd
 import re
 from datetime import datetime
 import os
+import numpy as np
 
 
 def cg6_data_file_reader(path_to_input_data_file):
@@ -233,11 +234,6 @@ def get_mean_ties(ties):
     result = pd.concat(means, ignore_index=True)
     return result
 
-
-def get_ties_sum(ties):
-
-    return sort_ties(ties).tie.sum()
-
 def sort_ties(ties):
     sort_ties = ties
     index = 0
@@ -276,25 +272,14 @@ def reverse_tie(tie):
     ]
     return reverse_tie
 
-def print_means(means):
-
+def get_report(means):
     columns = means.columns[:-1]
     headers = ['From', 'To', 'Date', 'Survey', 'Operator', 'S/N', 'Line',
                'Height From (mm)', 'Height To (mm)', 'Tie (uGals)', 'SDev (uGals)']
-    print(means[columns].to_markdown(index=False,
-          headers=headers, tablefmt="simple", floatfmt='.2f'))
-    return
-
-
-def make_output(means, filename):
-    columns = means.columns[:-1]
-                # ['station_from', 'station_to', 'created', 'survey_name', 'operator',
-            #    'instrument_serial_number', 'line', 'instr_height_from', 'instr_height_to', 'tie', 'std']
-    headers = ['From', 'To', 'Date', 'Survey', 'Operator', 'S/N', 'Line',
-               'Height From (mm)', 'Height To (mm)', 'Tie (uGals)', 'SDev (uGals)']
-    means[columns].to_markdown(
-        filename, index=False, headers=headers, tablefmt="simple", floatfmt=".1f")
-    return
+    means = means.replace(np.nan, None)
+    report = means[columns].to_markdown(index=False, headers=headers, tablefmt="simple", floatfmt=".1f")
+    report = f'{report} \n \n Sum of the ties = {sort_ties(means).tie.sum(): .2f} uGals\n'
+    return report
 
 
 def make_vgfit_input(means, filename):
