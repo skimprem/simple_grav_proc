@@ -129,23 +129,17 @@ def cg6_data_file_reader(path_to_input_data_file):
     return cg6_data
 
 def get_readings(cg6_data):
-    readings = pd.DataFrame(columns=['created', 'survey_name', 'operator', 'instrument_serial_number',
-                            'instr_height', 'line', 'station', 'date_time', 'corr_grav', 'data_file'])
-    reading_count = 0
+    readings = pd.DataFrame(columns=['created', 'survey_name', 'operator', 'instrument_serial_number', 'instr_height', 'line', 'station', 'corr_grav', 'data_file'])
     for line in cg6_data.line.unique():
         line_data = cg6_data[cg6_data.line == line]
         trigger = False
         count = 0
         for index, row in line_data.iterrows():
             if index == line_data.index[-1]:
-                station_mean = line_data.corr_grav.loc[first_index:index].mean(
-                )
-                height_mean = line_data.instr_height.loc[first_index:index].mean(
-                )
+                station_mean = line_data.corr_grav.loc[first_index:index].mean()
+                height_mean = line_data.instr_height.loc[first_index:index].mean()
                 mean_time = first_index + (index - first_index) / 2
-                readings.loc[reading_count] = [datetime.date(
-                    row.created), row.survey_name, row.operator, row.instrument_serial_number, height_mean, row.line, row.station, mean_time, station_mean, row.data_file]
-                reading_count += 1
+                readings.loc[mean_time] = [row.created, row.survey_name, row.operator, row.instrument_serial_number, height_mean, row.line, row.station, station_mean, row.data_file]
                 break
             if row.station == line_data.station.iloc[count + 1]:
                 count += 1
@@ -154,57 +148,49 @@ def get_readings(cg6_data):
                     first_index = index
             else:
                 trigger = False
-                station_mean = line_data.corr_grav.loc[first_index:index].mean(
-                )
-                height_mean = line_data.instr_height.loc[first_index:index].mean(
-                )
+                station_mean = line_data.corr_grav.loc[first_index:index].mean()
+                height_mean = line_data.instr_height.loc[first_index:index].mean()
                 mean_time = first_index + (index - first_index) / 2
-                readings.loc[reading_count] = [datetime.date(
-                    row.created), row.survey_name, row.operator, row.instrument_serial_number, height_mean, row.line, row.station, mean_time, station_mean, row.data_file]
-                reading_count += 1
+                readings.loc[mean_time] = [row.created, row.survey_name, row.operator, row.instrument_serial_number, height_mean, row.line, row.station, station_mean, row.data_file]
                 count += 1
     return readings
 
-
 def get_ties(readings):
-    ties = pd.DataFrame(columns=['created', 'survey_name', 'operator', 'instrument_serial_number',
+    ties = pd.DataFrame(columns=['date_from', 'date_to', 'created', 'survey_name', 'operator', 'instrument_serial_number',
                         'instr_height_from', 'instr_height_to', 'line', 'station_from', 'station_to', 'tie', 'data_file'])
-    tie_count = 0
+    count = 0
     for line in readings.line.unique():
         line_readings = readings[readings.line == line]
         loops = []
         for index, row in line_readings.iterrows():
             if len(loops) == 0:
-                loops.append({'date': row['created'], 'survey_name': row.survey_name, 'operator': row.operator, 'station': row.station, 'index': index, 'date_time': row.date_time,
+                loops.append({'date_time': index, 'created': row.created, 'survey_name': row.survey_name, 'operator': row.operator, 'station': row.station,
                              'corr_grav': row.corr_grav, 'instr_height': row.instr_height, 'instrument_serial_number': row.instrument_serial_number, 'data_file': row.data_file})
                 continue
             if row.station == loops[0]['station']:
-                begin_index = loops[0]['index']
-                factor = (row.corr_grav - line_readings.corr_grav.loc[begin_index]) / (datetime.timestamp(
-                    row.date_time) - datetime.timestamp(line_readings.date_time.loc[begin_index]))
+                begin_index = loops[0]['date_time']
+                factor = (row.corr_grav - line_readings.corr_grav.loc[begin_index]) / (datetime.timestamp(index) - datetime.timestamp(begin_index))
                 for reading in loops[1:]:
-                    correction = factor * (datetime.timestamp(reading['date_time']) - datetime.timestamp(
-                        line_readings.date_time.loc[begin_index]))
-                    tie = reading['corr_grav'] - \
-                        loops[0]['corr_grav'] + correction
+                    correction = factor * (datetime.timestamp(reading['date_time']) - datetime.timestamp(begin_index))
+                    tie = reading['corr_grav'] - loops[0]['corr_grav'] + correction
                     level_from = loops[0]['instr_height']
                     level_to = reading['instr_height']
-                    date = reading['date']
+                    date = reading['created']
+                    date_from = begin_index
+                    date_to = reading['date_time']
                     site = reading['survey_name']
                     operator = reading['operator']
                     meter = reading['instrument_serial_number']
                     data_file = reading['data_file']
-                    ties.loc[tie_count] = [date, site, operator, meter, level_to,
-                                           level_from, row.line, row.station, reading['station'], tie, data_file]
-                    tie_count += 1
+                    ties.loc[count] = [date_from, date_to, date, site, operator, meter, level_to, level_from, row.line, row.station, reading['station'], tie, data_file]
+                    count += 1
                 loops.pop(0)
-                loops.append({'date': row['created'], 'survey_name': row.survey_name, 'operator': row.operator, 'station': row.station, 'index': index, 'date_time': row.date_time,
+                loops.append({'date_time': index, 'created': row.created, 'survey_name': row.survey_name, 'operator': row.operator, 'station': row.station,
                              'corr_grav': row.corr_grav, 'instr_height': row.instr_height, 'instrument_serial_number': row.instrument_serial_number, 'data_file': row.data_file})
             else:
-                loops.append({'date': row['created'], 'survey_name': row.survey_name, 'operator': row.operator, 'station': row.station, 'index': index, 'date_time': row.date_time,
+                loops.append({'date_time': index, 'created': row.created, 'survey_name': row.survey_name, 'operator': row.operator, 'station': row.station,
                              'corr_grav': row.corr_grav, 'instr_height': row.instr_height, 'instrument_serial_number': row.instrument_serial_number, 'data_file': row.data_file})
     return ties
-
 
 def get_mean_ties(ties):
     
@@ -213,25 +199,25 @@ def get_mean_ties(ties):
         to_station = row['station_to']
         for tie_index, tie_row in ties.iterrows():
             if tie_row['station_from'] == to_station and tie_row['station_to'] == from_station:
-                ties.loc[tie_index] = [tie_row['created'], tie_row['survey_name'], tie_row['operator'], tie_row['instrument_serial_number'],
+                ties.loc[tie_index] = [tie_row['date_from'], tie_row['date_to'], tie_row['created'], tie_row['survey_name'], tie_row['operator'], tie_row['instrument_serial_number'],
                                        row['instr_height_to'], row['instr_height_from'], tie_row['line'], from_station, to_station, -tie_row['tie'], tie_row['data_file']]
+
     result = pd.DataFrame(columns=['station_from', 'station_to', 'created', 'station', 'operator',
                           'instrument_serial_number', 'line', 'instr_height_from', 'instr_height_to', 'tie', 'std', 'source'])
 
     means = []
-    count = 1
+    dates = []
     for line in ties.line.unique():
         line_ties = ties[ties.line == int(line)]
-        group_mean = line_ties.groupby(
-            ['station_from', 'station_to'], as_index=False)
+        group_mean = line_ties.groupby(['station_from', 'station_to'], as_index=False)
         mean = group_mean.agg({'created': 'last', 'survey_name': 'last', 'operator': 'last', 'instrument_serial_number': 'last',
                               'line': 'last', 'instr_height_from': 'mean', 'instr_height_to': 'mean', 'tie': ['mean', 'std'], 'data_file': 'last'})
-        count += 1
-
+        dates.append(datetime.date(pd.to_datetime(line_ties.date_to.values[-1])))
         mean.columns = ['station_from', 'station_to', 'created', 'survey_name', 'operator',
                         'instrument_serial_number', 'line', 'instr_height_from', 'instr_height_to', 'tie', 'std', 'data_file']
         means.append(mean)
     result = pd.concat(means, ignore_index=True)
+    result['date_time'] = dates
     return result
 
 def sort_ties(ties):
@@ -250,7 +236,7 @@ def sort_ties(ties):
             previous_to = tie.station_from
             index += 1
         else:
-            last_ties = sort_ties.iloc[index:].shift(-1, fill_value=9999)
+            last_ties = sort_ties.iloc[index:].shift(-1)
             last_ties.iloc[-1] = tie
             sort_ties = pd.concat([sort_ties.iloc[:index], last_ties])
     return sort_ties
@@ -268,12 +254,14 @@ def reverse_tie(tie):
         tie.instr_height_from,
         -tie.tie,
         tie['std'],
-        tie.data_file
+        tie.data_file,
+        tie.date_time
     ]
     return reverse_tie
 
 def get_report(means):
-    columns = means.columns[:-1]
+    columns = ['station_from', 'station_to', 'date_time', 'survey_name', 'operator',
+               'instrument_serial_number', 'line', 'instr_height_from', 'instr_height_to', 'tie', 'std']
     headers = ['From', 'To', 'Date', 'Survey', 'Operator', 'S/N', 'Line',
                'Height From (mm)', 'Height To (mm)', 'Tie (uGals)', 'SDev (uGals)']
     means = means.replace(np.nan, None)
@@ -283,8 +271,8 @@ def get_report(means):
 
 
 def make_vgfit_input(means, filename):
-    means_to_vgfit = means
-    means_to_vgfit.columns = ['from', 'to', 'date', 'station', 'observer',
-                     'gravimeter', 'runn', 'level_1', 'level_2', 'delta_g', 'std', 'source']
-    means_to_vgfit[means_to_vgfit.columns[2:]].to_csv(filename, index=False)
+    columns = ['date_time', 'survey_name', 'operator', 'instrument_serial_number', 'line', 'instr_height_from', 'instr_height_to', 'tie', 'std', 'data_file']
+    means_to_vgfit = means[columns]
+    means_to_vgfit.columns = ['date', 'station', 'observer', 'gravimeter', 'runn', 'level_1', 'level_2', 'delta_g', 'std', 'source']
+    means_to_vgfit.to_csv(filename, index=False)
     return means_to_vgfit
