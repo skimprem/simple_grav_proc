@@ -3,6 +3,9 @@ import re
 from datetime import datetime
 import os
 import numpy as np
+import seaborn as sns
+from matplotlib.dates import DateFormatter
+import matplotlib.pyplot as plt
 
 
 def cg6_data_file_reader(path_to_input_data_file):
@@ -82,12 +85,12 @@ def cg6_data_file_reader(path_to_input_data_file):
                 continue
             split_line = line.split()
             try:
+                float(split_line[3])
                 station, date_, time_, corrgrav, line_, stddev, stderr, rawgrav, x, y, sensortemp, tidecorr, tiltcorr, tempcorr, driftcorr, measurdur, instrheight, latuser, \
                 lonuser, elevuser, latgps, longps, elevgps, corrections = split_line
             except ValueError:
                 print(f'Warning: ValueError at line {count}')
                 continue
-
             date_time = datetime.strptime(
                 date_ + 'T' + time_, "%Y-%m-%dT%H:%M:%S")
             corrgrav = float(corrgrav) * 1e3
@@ -276,3 +279,25 @@ def make_vgfit_input(means, filename):
     means_to_vgfit.columns = ['date', 'station', 'observer', 'gravimeter', 'runn', 'level_1', 'level_2', 'delta_g', 'std', 'source']
     means_to_vgfit.to_csv(filename, index=False)
     return means_to_vgfit
+
+def get_residuals_plot(readings, ties):
+
+    for tie_index, tie_row in ties.iterrows():
+        tie_readings = readings[readings.line == tie_row.line ]
+        first_reading = tie_readings.corr_grav[0]
+        tie_station = tie_row.station_to
+        for reading_index, reading_row in tie_readings.iterrows():
+            if reading_row.station == tie_station:
+                readings.loc[reading_index, ['residuals']] = reading_row.corr_grav - first_reading - tie_row.tie
+            else:
+                readings.loc[reading_index, ['residuals']] = reading_row.corr_grav - first_reading
+
+    survey_name = readings.survey_name[0]
+    sns.set(style="whitegrid")
+    plt.xlabel('Date & Time')
+    plt.ylabel('Residuals [uGals]')
+    plt.title(f'Residuals of {survey_name}')
+    ax = sns.scatterplot(readings, x='date_time', y='residuals', hue='station').xaxis.set_major_formatter(DateFormatter('%m/%d\n%H-%M'))
+    plt.legend(title='Stations')
+
+    return ax

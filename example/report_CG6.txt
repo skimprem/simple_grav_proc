@@ -1,0 +1,5 @@
+  From    To  Date        Survey     Operator         S/N    Line    Height From (mm)    Height To (mm)    Tie (uGals)    SDev (uGals)
+------  ----  ----------  ---------  ----------  --------  ------  ------------------  ----------------  -------------  --------------
+    40    10  2020-08-20  TEST-CITG  REUDINK     19090203       0                 0.0               0.0         7150.7             5.5 
+ 
+ Sum of the ties =  7150.71 uGals

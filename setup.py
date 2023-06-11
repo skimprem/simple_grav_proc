@@ -24,6 +24,6 @@ setup(
     #     "Topic :: Utilities",
     #     "License :: OSI Approved :: BSD License",
     # ],
-    install_requires = ['pandas', 'tabulate'],
+    install_requires = ['pandas', 'tabulate', 'seaborn'],
     scripts=['cg6_proc/rgrav.py']
 )
