@@ -24,7 +24,7 @@ The following Python packages need to be installed:
 
         git clone https://github.com/skimprem/simple_grav_proc
 
-4. From repository directory setup this package
+4. Install this package from the repository directory
 
         python setup.py install --user
 
@@ -36,7 +36,7 @@ The following Python packages need to be installed:
 
 1. For Linux
 
-        rgrav.py [options] path_to_input_filename.dat
+        rgrav.py [options] <path to input filename>.dat
 
         Options:
             -v                              verbose mode: print result table to stdout

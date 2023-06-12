@@ -7,6 +7,8 @@ import numpy as np
 import seaborn as sns
 from matplotlib.dates import DateFormatter
 import matplotlib.pyplot as plt
+import geopandas as gpd
+from shapely.geometry import LineString
 
 
 def cg6_data_file_reader(path_to_input_data_file):
@@ -131,7 +133,7 @@ def cg6_data_file_reader(path_to_input_data_file):
     return cg6_data
 
 def get_readings(cg6_data):
-    readings = pd.DataFrame(columns=['created', 'survey_name', 'operator', 'instrument_serial_number', 'instr_height', 'line', 'station', 'corr_grav', 'data_file'])
+    readings = pd.DataFrame(columns=['created', 'survey_name', 'operator', 'instrument_serial_number', 'instr_height', 'line', 'station', 'corr_grav', 'data_file', 'lat_user', 'lon_user'])
     for line in cg6_data.line.unique():
         line_data = cg6_data[cg6_data.line == line]
         trigger = False
@@ -141,7 +143,7 @@ def get_readings(cg6_data):
                 station_mean = line_data.corr_grav.loc[first_index:index].mean()
                 height_mean = line_data.instr_height.loc[first_index:index].mean()
                 mean_time = first_index + (index - first_index) / 2
-                readings.loc[mean_time] = [row.created, row.survey_name, row.operator, row.instrument_serial_number, height_mean, row.line, row.station, station_mean, row.data_file]
+                readings.loc[mean_time] = [row.created, row.survey_name, row.operator, row.instrument_serial_number, height_mean, row.line, row.station, station_mean, row.data_file, row.lat_user, row.lon_user]
                 break
             if row.station == line_data.station.iloc[count + 1]:
                 count += 1
@@ -153,13 +155,21 @@ def get_readings(cg6_data):
                 station_mean = line_data.corr_grav.loc[first_index:index].mean()
                 height_mean = line_data.instr_height.loc[first_index:index].mean()
                 mean_time = first_index + (index - first_index) / 2
-                readings.loc[mean_time] = [row.created, row.survey_name, row.operator, row.instrument_serial_number, height_mean, row.line, row.station, station_mean, row.data_file]
+                readings.loc[mean_time] = [row.created, row.survey_name, row.operator, row.instrument_serial_number, height_mean, row.line, row.station, station_mean, row.data_file, row.lat_user, row.lon_user]
                 count += 1
+                
+    for station in readings.station.unique():
+        station_readings = readings[readings.station == station]
+        first_lat = station_readings.lat_user[0]
+        first_lon = station_readings.lon_user[0]
+        for index, row in station_readings.iterrows():
+            readings.loc[index, ['lat_user', 'lon_user']] = [first_lat, first_lon]
+
     return readings
 
 def get_ties(readings):
     ties = pd.DataFrame(columns=['date_from', 'date_to', 'created', 'survey_name', 'operator', 'instrument_serial_number',
-                        'instr_height_from', 'instr_height_to', 'line', 'station_from', 'station_to', 'tie', 'data_file'])
+                        'instr_height_from', 'instr_height_to', 'line', 'station_from', 'station_to', 'tie', 'data_file', 'lat_user_from', 'lat_user_to', 'lon_user_from', 'lon_user_to'])
     count = 0
     for line in readings.line.unique():
         line_readings = readings[readings.line == line]
@@ -167,7 +177,7 @@ def get_ties(readings):
         for index, row in line_readings.iterrows():
             if len(loops) == 0:
                 loops.append({'date_time': index, 'created': row.created, 'survey_name': row.survey_name, 'operator': row.operator, 'station': row.station,
-                             'corr_grav': row.corr_grav, 'instr_height': row.instr_height, 'instrument_serial_number': row.instrument_serial_number, 'data_file': row.data_file})
+                             'corr_grav': row.corr_grav, 'instr_height': row.instr_height, 'instrument_serial_number': row.instrument_serial_number, 'data_file': row.data_file, 'lat_user': row.lat_user, 'lon_user': row.lon_user})
                 continue
             if row.station == loops[0]['station']:
                 begin_index = loops[0]['date_time']
@@ -184,14 +194,16 @@ def get_ties(readings):
                     operator = reading['operator']
                     meter = reading['instrument_serial_number']
                     data_file = reading['data_file']
-                    ties.loc[count] = [date_from, date_to, date, site, operator, meter, level_to, level_from, row.line, row.station, reading['station'], tie, data_file]
+                    lat_user = reading['lat_user']
+                    lon_user = reading['lon_user']
+                    ties.loc[count] = [date_from, date_to, date, site, operator, meter, level_to, level_from, row.line, row.station, reading['station'], tie, data_file, row.lat_user, lat_user, row.lon_user, lon_user]
                     count += 1
                 loops.pop(0)
                 loops.append({'date_time': index, 'created': row.created, 'survey_name': row.survey_name, 'operator': row.operator, 'station': row.station,
-                             'corr_grav': row.corr_grav, 'instr_height': row.instr_height, 'instrument_serial_number': row.instrument_serial_number, 'data_file': row.data_file})
+                             'corr_grav': row.corr_grav, 'instr_height': row.instr_height, 'instrument_serial_number': row.instrument_serial_number, 'data_file': row.data_file, 'lat_user': row.lat_user, 'lon_user': row.lon_user})
             else:
                 loops.append({'date_time': index, 'created': row.created, 'survey_name': row.survey_name, 'operator': row.operator, 'station': row.station,
-                             'corr_grav': row.corr_grav, 'instr_height': row.instr_height, 'instrument_serial_number': row.instrument_serial_number, 'data_file': row.data_file})
+                             'corr_grav': row.corr_grav, 'instr_height': row.instr_height, 'instrument_serial_number': row.instrument_serial_number, 'data_file': row.data_file, 'lat_user': row.lat_user, 'lon_user': row.lon_user})
     return ties
 
 def get_mean_ties(ties):
@@ -202,10 +214,10 @@ def get_mean_ties(ties):
         for tie_index, tie_row in ties.iterrows():
             if tie_row['station_from'] == to_station and tie_row['station_to'] == from_station:
                 ties.loc[tie_index] = [tie_row['date_from'], tie_row['date_to'], tie_row['created'], tie_row['survey_name'], tie_row['operator'], tie_row['instrument_serial_number'],
-                                       row['instr_height_to'], row['instr_height_from'], tie_row['line'], from_station, to_station, -tie_row['tie'], tie_row['data_file']]
+                                       row['instr_height_to'], row['instr_height_from'], tie_row['line'], from_station, to_station, -tie_row['tie'], tie_row['data_file'], tie_row['lat_user_from'], tie_row['lat_user_to'], tie_row['lat_user_from'], tie_row['lat_user_to']]
 
     result = pd.DataFrame(columns=['station_from', 'station_to', 'created', 'station', 'operator',
-                          'instrument_serial_number', 'line', 'instr_height_from', 'instr_height_to', 'tie', 'std', 'source'])
+                          'instrument_serial_number', 'line', 'instr_height_from', 'instr_height_to', 'tie', 'std', 'data_file', 'lat_user_from', 'lat_user_to', 'lon_user_from', 'lon_user_to'])
 
     means = []
     dates = []
@@ -213,10 +225,10 @@ def get_mean_ties(ties):
         line_ties = ties[ties.line == int(line)]
         group_mean = line_ties.groupby(['station_from', 'station_to'], as_index=False)
         mean = group_mean.agg({'created': 'last', 'survey_name': 'last', 'operator': 'last', 'instrument_serial_number': 'last',
-                              'line': 'last', 'instr_height_from': 'mean', 'instr_height_to': 'mean', 'tie': ['mean', 'std'], 'data_file': 'last'})
+                              'line': 'last', 'instr_height_from': 'mean', 'instr_height_to': 'mean', 'tie': ['mean', 'std'], 'data_file': 'last', 'lat_user_from': 'mean', 'lat_user_to': 'mean', 'lon_user_from': 'mean', 'lon_user_to': 'mean'})
         dates.append(dt.date(pd.to_datetime(line_ties.date_to.values[-1])))
         mean.columns = ['station_from', 'station_to', 'created', 'survey_name', 'operator',
-                        'instrument_serial_number', 'line', 'instr_height_from', 'instr_height_to', 'tie', 'std', 'data_file']
+                        'instrument_serial_number', 'line', 'instr_height_from', 'instr_height_to', 'tie', 'std', 'data_file', 'lat_user_from', 'lat_user_to', 'lon_user_from', 'lon_user_to']
         means.append(mean)
     result = pd.concat(means, ignore_index=True)
     result['date_time'] = dates
@@ -257,6 +269,10 @@ def reverse_tie(tie):
         -tie.tie,
         tie['std'],
         tie.data_file,
+        tie.lat_user_from,
+        tie.lat_user_to,
+        tie.lon_user_from,
+        tie.lon_user_to,
         tie.date_time
     ]
     return reverse_tie
@@ -307,3 +323,35 @@ def get_residuals_plot(raw, readings, ties):
     plt.legend(title='Stations')
 
     return raw
+
+def get_map(readings):
+    columns = ['station', 'lat_user', 'lon_user']
+    group = ['station']
+    stations = readings[columns].groupby(group).mean()
+    stations = gpd.GeoDataFrame(stations, geometry=gpd.points_from_xy(stations.lon_user, stations.lat_user), crs='epsg:4326')
+    columns = [
+        'survey_name', 'instrument_serial_number', 'created', 'operator', 'station',
+        'data_file', 'lon_user', 'lat_user'
+    ]
+    group = [
+        'survey_name', 'station'
+    ]
+    agg = {
+        'instrument_serial_number': 'last', 'created': 'last', 'operator': 'last',
+        'data_file': 'last', 'lon_user': 'mean', 'lat_user': 'mean'   
+    }
+    lines = readings[columns].groupby(group).agg(agg)
+    lines = gpd.GeoDataFrame(lines, geometry=gpd.points_from_xy(lines.lon_user, lines.lat_user), crs='epsg:4326')
+    lines = lines.sort_values(by=['station']).groupby(['survey_name'])['geometry'].apply(lambda x: LineString(x.tolist()))
+    lines = gpd.GeoDataFrame(lines, geometry='geometry', crs='epsg:4326')
+
+    # stations.plot()
+    # map = lines.explore(
+        # legend = True
+    # )
+    # map = stations.explore(
+        # m = map,
+        # color = 'red'
+    # )
+
+    return lines
