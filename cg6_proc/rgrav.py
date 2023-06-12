@@ -24,12 +24,12 @@ elif sys.platform.startswith('linux'):
                     description='Read CG-6 data file and compute ties',
                     epilog='This program read CG-6 data file, then compute ties by ...')
 
-    parser.add_argument('data_file')                  # positional argument
-    parser.add_argument('-v', action='store_true')  # on/off flag
+    parser.add_argument('data_file')                        # positional argument
+    parser.add_argument('-v', action='store_true')          # on/off flag
     parser.add_argument('--to_vgfit', action='store_true')  # on/off flag
-    parser.add_argument('-s', action='store_true')  # on/off flag
-    parser.add_argument('-o', metavar='out-file') #, type=argparse.FileType('w'))
-    parser.add_argument('--plot', action='store_true')  # on/off flag
+    parser.add_argument('-s', action='store_true')          # on/off flag
+    parser.add_argument('-o', metavar='out-file', type=argparse.FileType('w'))
+    parser.add_argument('--plot', action='store_true')      # on/off flag
     args = parser.parse_args()
     data_file = args.data_file
     to_vgfit = args.to_vgfit 
@@ -73,7 +73,7 @@ if to_vgfit:
 if v:
     print(report)
 
-get_residuals_plot(data, means)
+get_residuals_plot(data, readings, means)
 
 if p:
     plt.savefig(basename+'.pdf')

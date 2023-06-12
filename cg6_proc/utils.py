@@ -280,24 +280,24 @@ def make_vgfit_input(means, filename):
     means_to_vgfit.to_csv(filename, index=False)
     return means_to_vgfit
 
-def get_residuals_plot(readings, ties):
+def get_residuals_plot(raw, readings, ties):
 
     for tie_index, tie_row in ties.iterrows():
-        tie_readings = readings[readings.line == tie_row.line ]
-        first_reading = tie_readings.corr_grav[0]
+        tie_readings = raw[raw.line == tie_row.line ]
+        first_reading = readings[readings.line == tie_row.line].corr_grav[0]
         tie_station = tie_row.station_to
         for reading_index, reading_row in tie_readings.iterrows():
             if reading_row.station == tie_station:
-                readings.loc[reading_index, ['residuals']] = reading_row.corr_grav - first_reading - tie_row.tie
+                raw.loc[reading_index, ['residuals']] = reading_row.corr_grav - first_reading - tie_row.tie
             else:
-                readings.loc[reading_index, ['residuals']] = reading_row.corr_grav - first_reading
+                raw.loc[reading_index, ['residuals']] = reading_row.corr_grav - first_reading
 
     survey_name = readings.survey_name[0]
     sns.set(style="whitegrid")
     plt.xlabel('Date & Time')
     plt.ylabel('Residuals [uGals]')
     plt.title(f'Residuals of {survey_name}')
-    ax = sns.scatterplot(readings, x='date_time', y='residuals', hue='station').xaxis.set_major_formatter(DateFormatter('%m/%d\n%H-%M'))
+    ax = sns.scatterplot(raw, x='date_time', y='residuals', hue='station').xaxis.set_major_formatter(DateFormatter('%m/%d\n%H-%M'))
     plt.legend(title='Stations')
 
-    return ax
+    return raw
