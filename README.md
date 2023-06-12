@@ -51,3 +51,6 @@ The following Python packages need to be installed:
 - [ ] Option to select lines for processing
 - [ ] Option to different processing methods
 - [ ] Option to adjustment of network
+- [ ] Test of Windows installing
+- [ ] Option to interactive stations mapping (GeoPandas, Leaflet, Folium etc.)
+- [ ] Correct setting for setuptools
