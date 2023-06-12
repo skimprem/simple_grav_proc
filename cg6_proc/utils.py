@@ -1,6 +1,7 @@
 import pandas as pd
 import re
-from datetime import datetime
+from datetime import datetime as dt 
+from datetime import timedelta as td 
 import os
 import numpy as np
 import seaborn as sns
@@ -37,8 +38,7 @@ def cg6_data_file_reader(path_to_input_data_file):
                     instrument_serial_number = int(split_line[1])
                     continue
                 case 'Created':
-                    created = datetime.strptime(
-                        split_line[1], "%Y-%m-%d %H:%M:%S")
+                    created = dt.strptime(split_line[1], "%Y-%m-%d %H:%M:%S")
                     continue
                 case 'Operator':
                     operator = split_line[1]
@@ -74,8 +74,7 @@ def cg6_data_file_reader(path_to_input_data_file):
                     drift_rate = float(split_line[1])
                     continue
                 case 'Drift Zero Time':
-                    drift_zero_time = datetime.strptime(
-                        split_line[1], "%Y-%m-%d %H:%M:%S")
+                    drift_zero_time = dt.strptime(split_line[1], "%Y-%m-%d %H:%M:%S")
                     continue
                 case 'Firmware Version':
                     firmware_version = split_line[1]
@@ -91,7 +90,7 @@ def cg6_data_file_reader(path_to_input_data_file):
             except ValueError:
                 print(f'Warning: ValueError at line {count}')
                 continue
-            date_time = datetime.strptime(
+            date_time = dt.strptime(
                 date_ + 'T' + time_, "%Y-%m-%dT%H:%M:%S")
             corrgrav = float(corrgrav) * 1e3
             line_ = int(line_)
@@ -172,9 +171,9 @@ def get_ties(readings):
                 continue
             if row.station == loops[0]['station']:
                 begin_index = loops[0]['date_time']
-                factor = (row.corr_grav - line_readings.corr_grav.loc[begin_index]) / (datetime.timestamp(index) - datetime.timestamp(begin_index))
+                factor = (row.corr_grav - line_readings.corr_grav.loc[begin_index]) / (dt.timestamp(index) - dt.timestamp(begin_index))
                 for reading in loops[1:]:
-                    correction = factor * (datetime.timestamp(reading['date_time']) - datetime.timestamp(begin_index))
+                    correction = factor * (dt.timestamp(reading['date_time']) - dt.timestamp(begin_index))
                     tie = reading['corr_grav'] - loops[0]['corr_grav'] + correction
                     level_from = loops[0]['instr_height']
                     level_to = reading['instr_height']
@@ -215,7 +214,7 @@ def get_mean_ties(ties):
         group_mean = line_ties.groupby(['station_from', 'station_to'], as_index=False)
         mean = group_mean.agg({'created': 'last', 'survey_name': 'last', 'operator': 'last', 'instrument_serial_number': 'last',
                               'line': 'last', 'instr_height_from': 'mean', 'instr_height_to': 'mean', 'tie': ['mean', 'std'], 'data_file': 'last'})
-        dates.append(datetime.date(pd.to_datetime(line_ties.date_to.values[-1])))
+        dates.append(dt.date(pd.to_datetime(line_ties.date_to.values[-1])))
         mean.columns = ['station_from', 'station_to', 'created', 'survey_name', 'operator',
                         'instrument_serial_number', 'line', 'instr_height_from', 'instr_height_to', 'tie', 'std', 'data_file']
         means.append(mean)
@@ -293,11 +292,18 @@ def get_residuals_plot(raw, readings, ties):
                 raw.loc[reading_index, ['residuals']] = reading_row.corr_grav - first_reading
 
     survey_name = readings.survey_name[0]
+    delta_time = (readings.index[-1] - readings.index[0])
+    if delta_time < td(hours=24):
+        date_formatter = DateFormatter('%H-%M')
+    elif delta_time > td(days=2):
+        date_formatter = DateFormatter('%b %d')
+    else:
+        date_formatter = DateFormatter('%b %d %H-%M')
     sns.set(style="whitegrid")
     plt.xlabel('Date & Time')
     plt.ylabel('Residuals [uGals]')
     plt.title(f'Residuals of {survey_name}')
-    ax = sns.scatterplot(raw, x='date_time', y='residuals', hue='station').xaxis.set_major_formatter(DateFormatter('%m/%d\n%H-%M'))
+    ax = sns.scatterplot(raw, x='date_time', y='residuals', hue='station').xaxis.set_major_formatter(date_formatter)
     plt.legend(title='Stations')
 
     return raw
