@@ -354,4 +354,4 @@ def get_map(readings):
         color = 'red'
     )
 
-    return lines
+    return map 
