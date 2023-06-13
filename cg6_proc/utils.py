@@ -217,24 +217,27 @@ def get_mean_ties(ties):
                                        row['instr_height_to'], row['instr_height_from'], tie_row['line'], from_station, to_station, -tie_row['tie'], tie_row['data_file'], tie_row['lat_user_from'], tie_row['lat_user_to'], tie_row['lat_user_from'], tie_row['lat_user_to']]
 
     result = pd.DataFrame(columns=['station_from', 'station_to', 'created', 'station', 'operator',
-                          'instrument_serial_number', 'line', 'instr_height_from', 'instr_height_to', 'tie', 'std', 'data_file', 'lat_user_from', 'lat_user_to', 'lon_user_from', 'lon_user_to'])
+                          'instrument_serial_number', 'line', 'instr_height_from', 'instr_height_to', 'tie', 'std', 'data_file', 'lat_user_from', 'lat_user_to', 'lon_user_from', 'lon_user_to', 'date_time'])
 
     means = []
     dates = []
     for line in ties.line.unique():
         line_ties = ties[ties.line == int(line)]
+        for index_line_tie, line_tie in line_ties.iterrows():
+            line_ties.loc[index_line_tie, 'date_to'] = dt.date(line_ties.loc[index_line_tie, 'date_to'])
         group_mean = line_ties.groupby(['station_from', 'station_to'], as_index=False)
         mean = group_mean.agg({'created': 'last', 'survey_name': 'last', 'operator': 'last', 'instrument_serial_number': 'last',
-                              'line': 'last', 'instr_height_from': 'mean', 'instr_height_to': 'mean', 'tie': ['mean', 'std'], 'data_file': 'last', 'lat_user_from': 'mean', 'lat_user_to': 'mean', 'lon_user_from': 'mean', 'lon_user_to': 'mean'})
-        dates.append(dt.date(pd.to_datetime(line_ties.date_to.values[-1])))
+                              'line': 'last', 'instr_height_from': 'mean', 'instr_height_to': 'mean', 'tie': ['mean', 'std'], 'data_file': 'last', 'lat_user_from': 'mean', 'lat_user_to': 'mean', 'lon_user_from': 'mean', 'lon_user_to': 'mean', 'date_to': 'last'})
+        # dates.append(dt.date(pd.to_datetime(line_ties.date_to.values[-1])))
         mean.columns = ['station_from', 'station_to', 'created', 'survey_name', 'operator',
-                        'instrument_serial_number', 'line', 'instr_height_from', 'instr_height_to', 'tie', 'std', 'data_file', 'lat_user_from', 'lat_user_to', 'lon_user_from', 'lon_user_to']
+                        'instrument_serial_number', 'line', 'instr_height_from', 'instr_height_to', 'tie', 'std', 'data_file', 'lat_user_from', 'lat_user_to', 'lon_user_from', 'lon_user_to', 'date_time']
         means.append(mean)
     result = pd.concat(means, ignore_index=True)
-    result['date_time'] = dates
+    # result['date_time'] = dates
     return result
 
 def sort_ties(ties):
+    print('sort ties')
     sort_ties = ties
     index = 0
     tie = sort_ties.iloc[index]
@@ -284,7 +287,7 @@ def get_report(means):
                'Height From (mm)', 'Height To (mm)', 'Tie (uGals)', 'SDev (uGals)']
     means = means.replace(np.nan, None)
     report = means[columns].to_markdown(index=False, headers=headers, tablefmt="simple", floatfmt=".1f")
-    report = f'{report} \n \n Sum of the ties = {sort_ties(means).tie.sum(): .2f} uGals\n'
+    # report = f'{report} \n \n Sum of the ties = {sort_ties(means).tie.sum(): .2f} uGals\n'
     return report
 
 
