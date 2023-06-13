@@ -10,21 +10,24 @@ The following Python packages need to be installed:
 - numpy
 - matplotlib
 - seaborn
+- geopandas
+- folium
+- mapclassify
 
 ## Installing
 
 ### Windows system
 
 1. Install [Python 3.x for Windows](https://www.python.org/downloads/windows/)
-2. Install requirements packages
+<!-- 2. Install requirements packages
 
-        pip install pandas numpy matplotlib seaborn
+        pip install pandas numpy matplotlib seaborn -->
 
-3. Clone this repository
+2. Clone this repository
 
         git clone https://github.com/skimprem/simple_grav_proc
 
-4. Install this package from the repository directory
+3. Install this package from the repository directory
 
         pip install .
 
