@@ -84,8 +84,6 @@ else:
 
 
 default_output_file_map = 'index_'+basename+'.html'
-print(default_output_file_map)
-
 if sys.platform.startswith('win32'):
     output_file_map = fd.asksaveasfilename(
         defaultextension='.html',

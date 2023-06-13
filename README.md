@@ -26,11 +26,11 @@ The following Python packages need to be installed:
 
 4. Install this package from the repository directory
 
-        python setup.py install --user
+        pip install .
 
 ### Linux system
 
-        sudo python setyp.py install
+        sudo python setup.py install
 
 ## Usage
 
@@ -40,7 +40,8 @@ The following Python packages need to be installed:
 
         Options:
             -v                              verbose mode: print result table to stdout
-            -o path_to_output_filename      custom name for report file (default: report_[input_filename].txt)
+            -o path_to_output_report        custom name for report file (default: report_[input_filename].txt)
+            -m path_to_output_map           custom name for map file (default: index_[input_filename].txt)
             --to_vgfit                      create CSV input file for the vg_fit utility
             --plot                          create residuals plot figure to PDF file (default show to display)
 
@@ -52,5 +53,5 @@ The following Python packages need to be installed:
 - [ ] Option to different processing methods
 - [ ] Option to adjustment of network
 - [ ] Test of Windows installing
-- [ ] Option to interactive stations mapping (GeoPandas, Leaflet, Folium etc.)
+- [x] Option to interactive stations mapping (GeoPandas, Leaflet, Folium etc.)
 - [ ] Correct setting for setuptools
