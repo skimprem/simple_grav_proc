@@ -345,13 +345,13 @@ def get_map(readings):
     lines = lines.sort_values(by=['station']).groupby(['survey_name'])['geometry'].apply(lambda x: LineString(x.tolist()))
     lines = gpd.GeoDataFrame(lines, geometry='geometry', crs='epsg:4326')
 
-    # stations.plot()
-    # map = lines.explore(
-        # legend = True
-    # )
-    # map = stations.explore(
-        # m = map,
-        # color = 'red'
-    # )
+    stations.plot()
+    map = lines.explore(
+        legend = True
+    )
+    map = stations.explore(
+        m = map,
+        color = 'red'
+    )
 
     return lines

@@ -85,4 +85,4 @@ else:
 
 if m:
     map = get_map(readings)
-    map.plot()
+    map.save(basename+'.html')
