@@ -237,7 +237,6 @@ def get_mean_ties(ties):
     return result
 
 def sort_ties(ties):
-    print('sort ties')
     sort_ties = ties
     index = 0
     tie = sort_ties.iloc[index]
