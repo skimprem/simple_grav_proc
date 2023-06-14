@@ -287,7 +287,7 @@ def get_report(means):
                'Height From (mm)', 'Height To (mm)', 'Tie (uGals)', 'SDev (uGals)']
     means = means.replace(np.nan, None)
     report = means[columns].to_markdown(index=False, headers=headers, tablefmt="simple", floatfmt=".1f")
-    # report = f'{report} \n \n Sum of the ties = {sort_ties(means).tie.sum(): .2f} uGals\n'
+    report = f'{report} \n \n Sum of the ties = {sort_ties(means).tie.sum(): .2f} uGals\n'
     return report
 
 
