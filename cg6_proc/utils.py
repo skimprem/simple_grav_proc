@@ -9,6 +9,7 @@ from matplotlib.dates import DateFormatter
 import matplotlib.pyplot as plt
 import geopandas as gpd
 from shapely.geometry import LineString
+import networkx as nx
 
 
 def cg6_data_file_reader(path_to_input_data_file):
@@ -220,7 +221,6 @@ def get_mean_ties(ties):
                           'instrument_serial_number', 'line', 'instr_height_from', 'instr_height_to', 'tie', 'std', 'data_file', 'lat_user_from', 'lat_user_to', 'lon_user_from', 'lon_user_to', 'date_time'])
 
     means = []
-    dates = []
     for line in ties.line.unique():
         line_ties = ties[ties.line == int(line)]
         for index_line_tie, line_tie in line_ties.iterrows():
@@ -228,34 +228,31 @@ def get_mean_ties(ties):
         group_mean = line_ties.groupby(['station_from', 'station_to'], as_index=False)
         mean = group_mean.agg({'created': 'last', 'survey_name': 'last', 'operator': 'last', 'instrument_serial_number': 'last',
                               'line': 'last', 'instr_height_from': 'mean', 'instr_height_to': 'mean', 'tie': ['mean', 'std'], 'data_file': 'last', 'lat_user_from': 'mean', 'lat_user_to': 'mean', 'lon_user_from': 'mean', 'lon_user_to': 'mean', 'date_to': 'last'})
-        # dates.append(dt.date(pd.to_datetime(line_ties.date_to.values[-1])))
         mean.columns = ['station_from', 'station_to', 'created', 'survey_name', 'operator',
                         'instrument_serial_number', 'line', 'instr_height_from', 'instr_height_to', 'tie', 'std', 'data_file', 'lat_user_from', 'lat_user_to', 'lon_user_from', 'lon_user_to', 'date_time']
         means.append(mean)
     result = pd.concat(means, ignore_index=True)
-    # result['date_time'] = dates
     return result
 
 def sort_ties(ties):
-    sort_ties = ties
-    index = 0
-    tie = sort_ties.iloc[index]
-    previous_to = tie.station_to
-    index += 1
-    while index < len(sort_ties):
-        tie = sort_ties.iloc[index]
-        if previous_to == tie.station_from:
-            previous_to = tie.station_to
-            index += 1
-        elif previous_to == tie.station_to:
-            sort_ties.iloc[index] = reverse_tie(tie)
-            previous_to = tie.station_from
-            index += 1
-        else:
-            last_ties = sort_ties.iloc[index:].shift(-1)
-            last_ties.iloc[-1] = tie
-            sort_ties = pd.concat([sort_ties.iloc[:index], last_ties])
-    return sort_ties
+    nodes = list(ties.station_from)
+    nodes.extend(list(ties.station_to))
+    nodes = list(set(nodes))
+    edges = []
+    for index, row in ties.iterrows():
+        edges.append((row.station_from, row.station_to))
+
+    G = nx.Graph()
+    G.add_nodes_from(nodes)
+    G.add_edges_from(edges)
+
+    for cicle in nx.simple_cycles(G):
+        print(cicle)
+
+    nx.draw(G, with_labels=True, font_weight='bold', node_color='white')
+    plt.show()
+    
+    return ties
 
 def reverse_tie(tie):
     reverse_tie = [
