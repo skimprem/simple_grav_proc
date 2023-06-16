@@ -1,7 +1,7 @@
 import argparse
 import os
 from cg6_proc.utils import cg6_data_file_reader, get_readings, get_ties, get_mean_ties, \
-make_vgfit_input, get_report, sort_ties, get_residuals_plot, get_map
+make_vgfit_input, get_report, get_residuals_plot, get_map
 from tkinter import filedialog as fd
 import matplotlib.pyplot as plt
 import sys
@@ -9,7 +9,7 @@ import webbrowser
 
 to_vgfit = False
 v = False
-s = False
+# s = False
 p = False
 
 # if sys.platform.startswith('linux'):
@@ -28,7 +28,7 @@ elif sys.platform.startswith('linux'):
     parser.add_argument('data_file')                        # positional argument
     parser.add_argument('-v', action='store_true')          # on/off flag
     parser.add_argument('--to_vgfit', action='store_true')  # on/off flag
-    parser.add_argument('-s', action='store_true')          # on/off flag
+    # parser.add_argument('-s', action='store_true')          # on/off flag
     parser.add_argument('-o', metavar='out-file', type=argparse.FileType('w'))
     parser.add_argument('--plot', action='store_true')      # on/off flag
     parser.add_argument('-m', metavar='out-file', type=argparse.FileType('w'))
@@ -36,7 +36,7 @@ elif sys.platform.startswith('linux'):
     data_file = args.data_file
     to_vgfit = args.to_vgfit 
     v = args.v 
-    s = args.s
+    # s = args.s
     p = args.plot
     output_file_map = args.m 
     output_file_report = args.o 
@@ -46,8 +46,8 @@ data = cg6_data_file_reader(data_file)
 readings = get_readings(data)
 ties = get_ties(readings)
 means = get_mean_ties(ties)
-if s:
-    means = sort_ties(means)
+# if s:
+    # means = sort_ties(means)
 
 basename = os.path.splitext(os.path.basename(data_file))[0]
 

@@ -234,7 +234,7 @@ def get_mean_ties(ties):
     result = pd.concat(means, ignore_index=True)
     return result
 
-def sort_ties(ties):
+def get_ties_sum(ties):
     nodes = list(ties.station_from)
     nodes.extend(list(ties.station_to))
     nodes = list(set(nodes))
@@ -246,15 +246,35 @@ def sort_ties(ties):
     G.add_nodes_from(nodes)
     G.add_edges_from(edges)
 
+    cicles_sum = {
+        'cicle': [],
+        'sum': []
+    }
     for cicle in nx.simple_cycles(G):
-        print(cicle)
+        cicle.append(cicle[0])
+        cicle_ties = []
+        for station_index in range(len(cicle)-1):
+            line_ties = []
+            for tie_index, tie_row in ties.iterrows():
+                if cicle[station_index] == tie_row.station_from and cicle[station_index+1] == tie_row.station_to:
+                    line_ties.append(tie_row.tie)
+                elif cicle[station_index] == tie_row.station_to and cicle[station_index+1] == tie_row.station_from:
+                    line_ties.append(-tie_row.tie)
+                else:
+                    continue
+            line_tie = sum(line_ties) / len(line_ties)
+            cicle_ties.append(line_tie)
+        cicle.pop()
+        cicle_line = '-'.join([str(station) for station in cicle])
+        cicles_sum['cicle'].append(cicle_line)
+        cicles_sum['sum'].append(sum(cicle_ties))
 
-    nx.draw(G, with_labels=True, font_weight='bold', node_color='white')
-    plt.show()
+    cicles = pd.DataFrame(cicles_sum)
     
-    return ties
+    return cicles
 
 def reverse_tie(tie):
+    print(tie)
     reverse_tie = [
         tie.station_to,
         tie.station_from,
@@ -274,16 +294,20 @@ def reverse_tie(tie):
         tie.lon_user_to,
         tie.date_time
     ]
+    print(reverse_tie)
     return reverse_tie
 
 def get_report(means):
+    report = 'The mean ties between the stations:'
     columns = ['station_from', 'station_to', 'date_time', 'survey_name', 'operator',
                'instrument_serial_number', 'line', 'instr_height_from', 'instr_height_to', 'tie', 'std']
     headers = ['From', 'To', 'Date', 'Survey', 'Operator', 'S/N', 'Line',
                'Height From (mm)', 'Height To (mm)', 'Tie (uGals)', 'SDev (uGals)']
     means = means.replace(np.nan, None)
-    report = means[columns].to_markdown(index=False, headers=headers, tablefmt="simple", floatfmt=".1f")
-    report = f'{report} \n \n Sum of the ties = {sort_ties(means).tie.sum(): .2f} uGals\n'
+    report = f'{report}\n\n{means[columns].to_markdown(index=False, headers=headers, tablefmt="simple", floatfmt=".1f")}'
+    headers = ['Cicles', 'Sum (uGals)']
+    sums = get_ties_sum(means).to_markdown(index=False, headers=headers, tablefmt="simple", floatfmt=".2f")
+    report = f'{report}\n\nSum of the ties:\n\n{sums}'
     return report
 
 
