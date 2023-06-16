@@ -1,8 +1,12 @@
-import pandas as pd
-import re
+'''
+Set of utilites for relative gravity processing
+'''
+
+import os
 from datetime import datetime as dt
 from datetime import timedelta as td
-import os
+import re
+import pandas as pd
 import numpy as np
 import seaborn as sns
 from matplotlib.dates import DateFormatter
@@ -13,211 +17,215 @@ import networkx as nx
 
 
 def cg6_data_file_reader(path_to_input_data_file):
-    # os.path.abspath("insert-file-name-here")
-    input_data_file = open(os.path.abspath(path_to_input_data_file), 'r')
-    columns = [
-        'survey_name',
-        'instrument_serial_number',
-        'created',
-        'operator',
-        'g_cal1',
-        'g_off',
-        'g_ref',
-        'x_scale',
-        'y_scale',
-        'x_offset',
-        'y_offset',
-        'temperature_coefficient',
-        'temperature_scale',
-        'drift_rate',
-        'drift_zero_time',
-        'firmware_version',
-        'station',
-        'date_time',
-        'corr_grav',
-        'line',
-        'std_dev',
-        'std_err',
-        'raw_grav',
-        'x',
-        'y',
-        'sensor_temp',
-        'tide_corr',
-        'tilt_corr',
-        'temp_corr',
-        'drift_corr',
-        'measur_dur',
-        'instr_height',
-        'lat_user',
-        'lon_user',
-        'elev_user',
-        'lat_gps',
-        'lon_gps',
-        'elev_gps',
-        'corrections',
-        'data_file'
-    ]
-    cg6_data = pd.DataFrame(columns=columns)
-    count = 0
-    for line in input_data_file:
-        count += 1
-        if line[0] == '/':
-            line = line[1:].strip()
-            split_line = re.split(':\t', line)
-            if line[:6] == 'Station':
-                continue
-            elif not line:
-                continue
-            match split_line[0]:
-                case 'CG-6 Survey':
+    ''' Load data from CG-6 data file'''
+    with open(
+        os.path.abspath(path_to_input_data_file),
+        'r',
+        encoding='utf-8') as input_data_file:
+        columns = [
+            'survey_name',
+            'instrument_serial_number',
+            'created',
+            'operator',
+            'g_cal1',
+            'g_off',
+            'g_ref',
+            'x_scale',
+            'y_scale',
+            'x_offset',
+            'y_offset',
+            'temperature_coefficient',
+            'temperature_scale',
+            'drift_rate',
+            'drift_zero_time',
+            'firmware_version',
+            'station',
+            'date_time',
+            'corr_grav',
+            'line',
+            'std_dev',
+            'std_err',
+            'raw_grav',
+            'x',
+            'y',
+            'sensor_temp',
+            'tide_corr',
+            'tilt_corr',
+            'temp_corr',
+            'drift_corr',
+            'measur_dur',
+            'instr_height',
+            'lat_user',
+            'lon_user',
+            'elev_user',
+            'lat_gps',
+            'lon_gps',
+            'elev_gps',
+            'corrections',
+            'data_file'
+        ]
+        cg6_data = pd.DataFrame(columns=columns)
+        count = 0
+        for line in input_data_file:
+            count += 1
+            if line[0] == '/':
+                line = line[1:].strip()
+                split_line = re.split(':\t', line)
+                if line[:6] == 'Station':
                     continue
-                case 'CG-6 Calibration':
+                elif not line:
                     continue
-                case 'Survey Name':
-                    survey_name = split_line[1]
+                match split_line[0]:
+                    case 'CG-6 Survey':
+                        continue
+                    case 'CG-6 Calibration':
+                        continue
+                    case 'Survey Name':
+                        survey_name = split_line[1]
+                        continue
+                    case 'Instrument Serial Number':
+                        instrument_serial_number = int(split_line[1])
+                        continue
+                    case 'Created':
+                        created = dt.strptime(split_line[1], "%Y-%m-%d %H:%M:%S")
+                        continue
+                    case 'Operator':
+                        operator = split_line[1]
+                        continue
+                    case 'Gcal1 [mGal]':
+                        gcal1 = float(split_line[1])
+                        continue
+                    case 'Goff [ADU]':
+                        goff = float(split_line[1])
+                        continue
+                    case 'Gref [mGal]':
+                        gref = float(split_line[1])
+                        continue
+                    case 'X Scale [arc-sec/ADU]':
+                        x_scale = float(split_line[1])
+                        continue
+                    case 'Y Scale [arc-sec/ADU]':
+                        y_scale = float(split_line[1])
+                        continue
+                    case 'X Offset [ADU]':
+                        x_offset = float(split_line[1])
+                        continue
+                    case 'Y Offset [ADU]':
+                        y_offset = float(split_line[1])
+                        continue
+                    case 'Temperature Coefficient [mGal/mK]':
+                        temperature_coefficient = float(split_line[1])
+                        continue
+                    case 'Temperature Scale [mK/ADU]':
+                        temperature_scale = float(split_line[1])
+                        continue
+                    case 'Drift Rate [mGal/day]':
+                        drift_rate = float(split_line[1])
+                        continue
+                    case 'Drift Zero Time':
+                        drift_zero_time = dt.strptime(
+                            split_line[1],
+                            "%Y-%m-%d %H:%M:%S"
+                        )
+                        continue
+                    case 'Firmware Version':
+                        firmware_version = split_line[1]
+                        continue
+            else:
+                if not line.strip():
                     continue
-                case 'Instrument Serial Number':
-                    instrument_serial_number = int(split_line[1])
+                split_line = line.split()
+                try:
+                    float(split_line[3])
+                    station, date_, time_, corrgrav, line_, stddev,\
+                        stderr, rawgrav, x, y, sensortemp, tidecorr,\
+                        tiltcorr, tempcorr, driftcorr, measurdur,\
+                        instrheight, latuser, lonuser, elevuser, latgps,\
+                        longps, elevgps, corrections = split_line
+                except ValueError:
+                    print(f'Warning: ValueError at line {count}')
                     continue
-                case 'Created':
-                    created = dt.strptime(split_line[1], "%Y-%m-%d %H:%M:%S")
-                    continue
-                case 'Operator':
-                    operator = split_line[1]
-                    continue
-                case 'Gcal1 [mGal]':
-                    gcal1 = float(split_line[1])
-                    continue
-                case 'Goff [ADU]':
-                    goff = float(split_line[1])
-                    continue
-                case 'Gref [mGal]':
-                    gref = float(split_line[1])
-                    continue
-                case 'X Scale [arc-sec/ADU]':
-                    x_scale = float(split_line[1])
-                    continue
-                case 'Y Scale [arc-sec/ADU]':
-                    y_scale = float(split_line[1])
-                    continue
-                case 'X Offset [ADU]':
-                    x_offset = float(split_line[1])
-                    continue
-                case 'Y Offset [ADU]':
-                    y_offset = float(split_line[1])
-                    continue
-                case 'Temperature Coefficient [mGal/mK]':
-                    temperature_coefficient = float(split_line[1])
-                    continue
-                case 'Temperature Scale [mK/ADU]':
-                    temperature_scale = float(split_line[1])
-                    continue
-                case 'Drift Rate [mGal/day]':
-                    drift_rate = float(split_line[1])
-                    continue
-                case 'Drift Zero Time':
-                    drift_zero_time = dt.strptime(
-                        split_line[1],
-                        "%Y-%m-%d %H:%M:%S"
-                    )
-                    continue
-                case 'Firmware Version':
-                    firmware_version = split_line[1]
-                    continue
-        else:
-            if not line.strip():
-                continue
-            split_line = line.split()
-            try:
-                float(split_line[3])
-                station, date_, time_, corrgrav, line_, stddev,\
-                    stderr, rawgrav, x, y, sensortemp, tidecorr,\
-                    tiltcorr, tempcorr, driftcorr, measurdur,\
-                    instrheight, latuser, lonuser, elevuser, latgps,\
-                    longps, elevgps, corrections = split_line
-            except ValueError:
-                print(f'Warning: ValueError at line {count}')
-                continue
-            date_time = dt.strptime(
-                date_ + 'T' + time_, "%Y-%m-%dT%H:%M:%S")
-            corrgrav = float(corrgrav) * 1e3
-            line_ = int(line_)
-            stddev = float(stddev) * 1e3
-            stderr = float(stderr) * 1e3
-            rawgrav = float(rawgrav) * 1e3
-            x = float(x)
-            y = float(y)
-            sensortemp = float(sensortemp)
-            tidecorr = float(tidecorr) * 1e3
-            tiltcorr = float(tiltcorr) * 1e3
-            tempcorr = float(tempcorr) * 1e3
-            driftcorr = float(driftcorr) * 1e3
-            measurdur = float(measurdur)
-            instrheight = float(instrheight) * 1e3
-            latuser = float(latuser)
-            lonuser = float(lonuser)
-            elevuser = float(elevuser)
-            try:
-                latgps = float(latgps)
-            except ValueError:
-                latgps = None
-            try:
-                longps = float(longps)
-            except ValueError:
-                longps = None
-            try:
-                elevgps = float(elevgps)
-            except ValueError:
-                elevgps = None
-            cg6_data.loc[len(cg6_data)] = [
-                survey_name,
-                instrument_serial_number,
-                created,
-                operator,
-                gcal1,
-                goff,
-                gref,
-                x_scale,
-                y_scale,
-                x_offset,
-                y_offset,
-                temperature_coefficient,
-                temperature_scale,
-                drift_rate,
-                drift_zero_time,
-                firmware_version,
-                station,
-                date_time,
-                corrgrav,
-                line_,
-                stddev,
-                stderr,
-                rawgrav,
-                x,
-                y,
-                sensortemp,
-                tidecorr,
-                tiltcorr,
-                tempcorr,
-                driftcorr,
-                measurdur,
-                instrheight,
-                latuser,
-                lonuser,
-                elevuser,
-                latgps,
-                longps,
-                elevgps,
-                corrections,
-                path_to_input_data_file
-            ]
-    input_data_file.close()
-    cg6_data.set_index('date_time', inplace=True)
+                date_time = dt.strptime(
+                    date_ + 'T' + time_, "%Y-%m-%dT%H:%M:%S")
+                corrgrav = float(corrgrav) * 1e3
+                line_ = int(line_)
+                stddev = float(stddev) * 1e3
+                stderr = float(stderr) * 1e3
+                rawgrav = float(rawgrav) * 1e3
+                x = float(x)
+                y = float(y)
+                sensortemp = float(sensortemp)
+                tidecorr = float(tidecorr) * 1e3
+                tiltcorr = float(tiltcorr) * 1e3
+                tempcorr = float(tempcorr) * 1e3
+                driftcorr = float(driftcorr) * 1e3
+                measurdur = float(measurdur)
+                instrheight = float(instrheight) * 1e3
+                latuser = float(latuser)
+                lonuser = float(lonuser)
+                elevuser = float(elevuser)
+                try:
+                    latgps = float(latgps)
+                except ValueError:
+                    latgps = None
+                try:
+                    longps = float(longps)
+                except ValueError:
+                    longps = None
+                try:
+                    elevgps = float(elevgps)
+                except ValueError:
+                    elevgps = None
+                cg6_data.loc[len(cg6_data)] = [
+                    survey_name,
+                    instrument_serial_number,
+                    created,
+                    operator,
+                    gcal1,
+                    goff,
+                    gref,
+                    x_scale,
+                    y_scale,
+                    x_offset,
+                    y_offset,
+                    temperature_coefficient,
+                    temperature_scale,
+                    drift_rate,
+                    drift_zero_time,
+                    firmware_version,
+                    station,
+                    date_time,
+                    corrgrav,
+                    line_,
+                    stddev,
+                    stderr,
+                    rawgrav,
+                    x,
+                    y,
+                    sensortemp,
+                    tidecorr,
+                    tiltcorr,
+                    tempcorr,
+                    driftcorr,
+                    measurdur,
+                    instrheight,
+                    latuser,
+                    lonuser,
+                    elevuser,
+                    latgps,
+                    longps,
+                    elevgps,
+                    corrections,
+                    path_to_input_data_file
+                ]
+        input_data_file.close()
+        cg6_data.set_index('date_time', inplace=True)
 
     return cg6_data
 
 
 def get_readings(cg6_data):
+    ''' Get mean values of signals of readings '''
     readings = pd.DataFrame(
         columns=[
             'created',
@@ -296,6 +304,7 @@ def get_readings(cg6_data):
 
 
 def get_ties(readings):
+    ''' Get ties '''
     ties = pd.DataFrame(columns=[
         'date_from',
         'date_to',
@@ -347,8 +356,8 @@ def get_ties(readings):
                         dt.timestamp(reading['date_time'])
                         - dt.timestamp(begin_index)
                     )
-                    tie = reading['corr_grav']
-                    - loops[0]['corr_grav'] + correction
+                    tie = reading['corr_grav'] -\
+                        loops[0]['corr_grav'] + correction
                     level_from = loops[0]['instr_height']
                     level_to = reading['instr_height']
                     date = reading['created']
@@ -412,8 +421,8 @@ def get_ties(readings):
 
 
 def get_mean_ties(ties):
-
-    for index, row in ties.iterrows():
+    ''' Get mean values of ties '''
+    for _, row in ties.iterrows():
         from_station = row['station_from']
         to_station = row['station_to']
         for tie_index, tie_row in ties.iterrows():
@@ -463,7 +472,7 @@ def get_mean_ties(ties):
     means = []
     for line in ties.line.unique():
         line_ties = ties[ties.line == int(line)]
-        for index_line_tie, line_tie in line_ties.iterrows():
+        for index_line_tie, _ in line_ties.iterrows():
             line_ties.loc[index_line_tie, 'date_to'] =\
                 dt.date(line_ties.loc[index_line_tie, 'date_to'])
         group_mean = line_ties.groupby(
@@ -509,27 +518,28 @@ def get_mean_ties(ties):
 
 
 def get_ties_sum(ties):
+    ''' Get sum of ties '''
     nodes = list(ties.station_from)
     nodes.extend(list(ties.station_to))
     nodes = list(set(nodes))
     edges = []
-    for index, row in ties.iterrows():
+    for _, row in ties.iterrows():
         edges.append((row.station_from, row.station_to))
 
-    G = nx.Graph()
-    G.add_nodes_from(nodes)
-    G.add_edges_from(edges)
+    ties_graph = nx.Graph()
+    ties_graph.add_nodes_from(nodes)
+    ties_graph.add_edges_from(edges)
 
     cicles_sum = {
         'cicle': [],
         'sum': []
     }
-    for cicle in nx.simple_cycles(G):
+    for cicle in nx.simple_cycles(ties_graph):
         cicle.append(cicle[0])
         cicle_ties = []
         for station_index in range(len(cicle)-1):
             line_ties = []
-            for tie_index, tie_row in ties.iterrows():
+            for _, tie_row in ties.iterrows():
                 station_from = cicle[station_index]
                 station_to = cicle[station_index+1]
                 if station_from == tie_row.station_from and\
@@ -553,8 +563,8 @@ def get_ties_sum(ties):
 
 
 def reverse_tie(tie):
-    print(tie)
-    reverse_tie = [
+    ''' Reverse of tie (from -> to, to -> from, tie = - tie) '''
+    reverse = [
         tie.station_to,
         tie.station_from,
         tie.created,
@@ -573,11 +583,11 @@ def reverse_tie(tie):
         tie.lon_user_to,
         tie.date_time
     ]
-    print(reverse_tie)
-    return reverse_tie
+    return reverse
 
 
 def get_report(means):
+    ''' Get table report of means '''
     report = 'The mean ties between the stations:'
     columns = [
         'station_from',
@@ -623,6 +633,7 @@ def get_report(means):
 
 
 def make_vgfit_input(means, filename):
+    ''' Make CSV file for vg_fit utilite '''
     columns = [
         'date_time',
         'survey_name',
@@ -653,8 +664,8 @@ def make_vgfit_input(means, filename):
 
 
 def get_residuals_plot(raw, readings, ties):
-
-    for tie_index, tie_row in ties.iterrows():
+    ''' Get plot of residuals '''
+    for _, tie_row in ties.iterrows():
         tie_readings = raw[raw.line == tie_row.line]
         first_reading = readings[readings.line == tie_row.line].corr_grav[0]
         tie_station = tie_row.station_to
@@ -670,7 +681,7 @@ def get_residuals_plot(raw, readings, ties):
                     ['residuals']] = reading_row.corr_grav - first_reading
 
     survey_name = readings.survey_name[0]
-    delta_time = (readings.index[-1] - readings.index[0])
+    delta_time = readings.index[-1] - readings.index[0]
     if delta_time < td(hours=24):
         date_formatter = DateFormatter('%H-%M')
     elif delta_time > td(days=2):
@@ -692,6 +703,7 @@ def get_residuals_plot(raw, readings, ties):
 
 
 def get_map(readings):
+    ''' Get map of ties scheme '''
     columns = ['station', 'lat_user', 'lon_user']
     group = ['station']
     stations = readings[columns].groupby(group).mean()
@@ -737,12 +749,12 @@ def get_map(readings):
     lines = gpd.GeoDataFrame(lines, geometry='geometry', crs='epsg:4326')
 
     stations.plot()
-    map = lines.explore(
+    ties_map = lines.explore(
         legend=True
     )
-    map = stations.explore(
-        m=map,
+    ties_map = stations.explore(
+        m=ties_map,
         color='red'
     )
 
-    return map
+    return ties_map
