@@ -16,57 +16,57 @@ from shapely.geometry import LineString
 import networkx as nx
 
 
-def cg6_data_file_reader(path_to_input_data_file):
-    ''' Load data from CG-6 data file'''
-    with open(
-        os.path.abspath(path_to_input_data_file),
-        'r',
-        encoding='utf-8') as input_data_file:
-        columns = [
-            'survey_name',
-            'instrument_serial_number',
-            'created',
-            'operator',
-            'g_cal1',
-            'g_off',
-            'g_ref',
-            'x_scale',
-            'y_scale',
-            'x_offset',
-            'y_offset',
-            'temperature_coefficient',
-            'temperature_scale',
-            'drift_rate',
-            'drift_zero_time',
-            'firmware_version',
-            'station',
-            'date_time',
-            'corr_grav',
-            'line',
-            'std_dev',
-            'std_err',
-            'raw_grav',
-            'x',
-            'y',
-            'sensor_temp',
-            'tide_corr',
-            'tilt_corr',
-            'temp_corr',
-            'drift_corr',
-            'measur_dur',
-            'instr_height',
-            'lat_user',
-            'lon_user',
-            'elev_user',
-            'lat_gps',
-            'lon_gps',
-            'elev_gps',
-            'corrections',
-            'data_file'
-        ]
-        cg6_data = pd.DataFrame(columns=columns)
+def read_data(data_files):
+    columns = [
+        'survey_name',
+        'instrument_serial_number',
+        'created',
+        'operator',
+        'g_cal1',
+        'g_off',
+        'g_ref',
+        'x_scale',
+        'y_scale',
+        'x_offset',
+        'y_offset',
+        'temperature_coefficient',
+        'temperature_scale',
+        'drift_rate',
+        'drift_zero_time',
+        'firmware_version',
+        'station',
+        'corr_grav',
+        'line',
+        'std_dev',
+        'std_err',
+        'raw_grav',
+        'x',
+        'y',
+        'sensor_temp',
+        'tide_corr',
+        'tilt_corr',
+        'temp_corr',
+        'drift_corr',
+        'measur_dur',
+        'instr_height',
+        'lat_user',
+        'lon_user',
+        'elev_user',
+        'lat_gps',
+        'lon_gps',
+        'elev_gps',
+        'corrections',
+        'data_file'
+    ]
+    cg6_data = pd.DataFrame(columns=columns)
+    for data_file in data_files:
+        ''' Load data from CG-6 data file'''
+        # with open(
+            # os.path.abspath(data_file),
+            # 'r',
+            # encoding='utf-8') as input_data_file:
         count = 0
-        for line in input_data_file:
+        for line in data_file:
             count += 1
             if line[0] == '/':
                 line = line[1:].strip()
@@ -164,6 +164,7 @@ def cg6_data_file_reader(path_to_input_data_file):
                 latuser = float(latuser)
                 lonuser = float(lonuser)
                 elevuser = float(elevuser)
+
                 try:
                     latgps = float(latgps)
                 except ValueError:
@@ -176,7 +177,8 @@ def cg6_data_file_reader(path_to_input_data_file):
                     elevgps = float(elevgps)
                 except ValueError:
                     elevgps = None
-                cg6_data.loc[len(cg6_data)] = [
+
+                cg6_data.loc[date_time] = [
                     survey_name,
                     instrument_serial_number,
                     created,
@@ -194,7 +196,6 @@ def cg6_data_file_reader(path_to_input_data_file):
                     drift_zero_time,
                     firmware_version,
                     station,
-                    date_time,
                     corrgrav,
                     line_,
                     stddev,
@@ -216,10 +217,10 @@ def cg6_data_file_reader(path_to_input_data_file):
                     longps,
                     elevgps,
                     corrections,
-                    path_to_input_data_file
+                    data_file.name
                 ]
-        input_data_file.close()
-        cg6_data.set_index('date_time', inplace=True)
+        data_file.close()
+        # cg6_data.set_index('date_time', inplace=True)
 
     return cg6_data
 
@@ -680,21 +681,21 @@ def get_residuals_plot(raw, readings, ties):
                     reading_index,
                     ['residuals']] = reading_row.corr_grav - first_reading
 
-    survey_name = readings.survey_name[0]
+    survey_names = ', '.join(str(survey_name) for survey_name in readings.survey_name.unique())
     delta_time = readings.index[-1] - readings.index[0]
     if delta_time < td(hours=24):
-        date_formatter = DateFormatter('%H-%M')
+        date_formatter = DateFormatter('%H:%M')
     elif delta_time > td(days=2):
         date_formatter = DateFormatter('%b %d')
     else:
-        date_formatter = DateFormatter('%b %d %H-%M')
+        date_formatter = DateFormatter('%b %d %H:%M')
     sns.set(style="whitegrid")
     plt.xlabel('Date & Time')
     plt.ylabel('Residuals [uGals]')
-    plt.title(f'Residuals of {survey_name}')
+    plt.title(f'Residuals of {survey_names} surveys')
     sns.scatterplot(
         raw,
-        x='date_time',
+        x=raw.index,
         y='residuals',
         hue='station').xaxis.set_major_formatter(date_formatter)
     plt.legend(title='Stations')
