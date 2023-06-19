@@ -49,45 +49,49 @@ def read_data(data_files):
 
 def cg5_reader(data_files):
     meter_type = 'cg5'
-    columns = [
-        'survey_name',
-        'instrument_serial_number',
-        'client',
-        'operator',
-        'created',
-        'survey_lon',
-        'survey_lat',
-        'zone',
-        'gmt_diff',
-        'g_ref',
-        'g_cal1',
-        'tilt_x_s',
-        'tilt_y_s',
-        'tilt_x_0',
-        'tilt_y_0',
-        'temperature_coefficient',
-        'drift',
-        'drift_zero_time',
-        'options',
-        'line',
-        'station',
-        'alt',
-        'grav',
-        'sd',
-        'tilt_x',
-        'tilt_y',
-        'temp',
-        'tide',
-        'dur',
-        'rej',
-        'time',
-        'dec_time_date',
-        'terrain',
-        'date',
-        'data_file',
-        'meter_type'
-    ]
-    cg_data = pd.DataFrame(columns=columns)
+    rows = {
+        'Survey name': [],
+        'Instrument S/N': [],
+        'Client': [],
+        'Operator': [],
+        'Date': [],
+        'Time': [],
+        'LONG': [],
+        'LAT': [],
+        'ZONE': [],
+        'GMT DIFF.': [],
+        'Gref': [],
+        'Gcal1': [],
+        'TiltxS': [],
+        'TiltyS': [],
+        'TiltxO': [],
+        'TiltyO': [],
+        'Tempco': [],
+        'Drift': [],
+        'DriftTime Start': [],
+        'DriftDate Start': [],
+        'Tide Correction': [],
+        'Cont. Tilt': [],
+        'Auto Rejection': [],
+        'Terrain Corr.': [],
+        'Seismic Filter': [],
+        'Raw Data': [],
+        'LINE': [],
+        'STATION': [],
+        'ALT.': [],
+        'GRAV.': [],
+        'SD.': [],
+        'TILTX': [],
+        'TILTY': [],
+        'TEMP': [],
+        'TIDE': [],
+        'DUR': [],
+        'REJ': [],
+        'TIME': [],
+        'DEC.TIME+DATE': [],
+        'TERRAIN': [],
+        'DATE': []
+    }
     for data_file in data_files:
         if format_detect(data_file) != meter_type:
             raise ImportError(f'{data_file.name} data file must be in {meter_type.upper()} format')
@@ -95,152 +99,34 @@ def cg5_reader(data_files):
         lines = data_file.readlines()
         data_file.close()
 
-        line_number = -1
-        lines_number = len(lines)
-        while line_number < lines_number:
-            line_number += 1
-            line = lines[line_number].strip()
-            if not line:
-                continue
-            split_line = line.split()
-            match split_line[0]:
-                case '/':
-                    match ' '.join(x for x in split_line[1:]):
-                        case 'CG-5 SURVEY':
-                            for _ in range(10):
-                                line_number += 1
-                                split_line = re.split(':', lines[line_number][1:].strip())
-                                survey_key = split_line[0].strip()
-                                survey_value = split_line[1:]
-                                match survey_key:
-                                    case 'Survey name':
-                                        survey_name = str(survey_value[0].strip())
-                                    case 'Instrument S/N':
-                                        instrument_serial_number = int(survey_value[0])
-                                    case 'Client':
-                                        client = str(survey_value[0].strip())
-                                    case 'Operator':
-                                        operator = str(survey_value[0].strip())
-                                    case 'Date':
-                                        date_ = re.split('/', survey_value[0].strip())
-                                    case 'Time':
-                                        created = dt(
-                                            int(date_[0]),
-                                            int(date_[1]),
-                                            int(date_[2]),
-                                            int(survey_value[0]),
-                                            int(survey_value[1]),
-                                            int(survey_value[2])
-                                        )
-                                    case 'LONG':
-                                        survey_lon = float(survey_value[0].split()[0])
-                                        if survey_value[0].split()[1] == 'W':
-                                            survey_lon = 360.0 - survey_lon
-                                    case 'LAT':
-                                        survey_lat = float(survey_value[0].split()[0])
-                                        if survey_value[0].split()[1] == 'S':
-                                            survey_lat = -survey_lat
-                                    case 'ZONE':
-                                        zone = int(survey_value[0])
-                                    case 'GMT DIFF.':
-                                        gmt_diff = float(survey_value[0])
-                        case 'CG-5 SETUP PARAMETERS':
-                            for _ in range(10):
-                                line_number += 1
-                                split_line = re.split(':', lines[line_number][1:].strip())
-                                setup_key = split_line[0].strip()
-                                setup_value = split_line[1:]
-                                match setup_key:
-                                    case 'Gref':
-                                        g_ref = float(setup_value[0])
-                                    case 'Gcal1':
-                                        g_cal1 = float(setup_value[0])
-                                    case 'TiltxS':
-                                        titl_x_s = float(setup_value[0])
-                                    case 'TiltyS':
-                                        titl_y_s = float(setup_value[0])
-                                    case 'Tiltx0':
-                                        titl_x_0 = float(setup_value[0])
-                                    case 'Tilty0':
-                                        titl_y_0 = float(setup_value[0])
-                                    case 'Tempco':
-                                        temperature_coefficient = float(setup_value[0])
-                                    case 'Drift':
-                                        drift = float(setup_value[0])
-                                    case 'DriftTime Start':
-                                        time_ = [setup_value[0], setup_value[1], setup_value[2]]
-                                    case 'DriftDate Start':
-                                        date_ = re.split('/', setup_value[0].strip())
-                                        drift_zero_time = dt(
-                                            int(date_[0]),
-                                            int(date_[1]),
-                                            int(date_[2]),
-                                            int(time_[0]),
-                                            int(time_[1]),
-                                            int(time_[2])
-                                        )
-                        case 'CG-5 OPTIONS':
-                            options = ''
-                            for _ in range(6):
-                                line_number += 1
-                                split_line = re.split(':', lines[line_number][1:].strip())
-                                option_key = split_line[0].strip()
-                                option_value = split_line[1:]
-                                match setup_key:
-                                    case 'Tide Corrections':
-                                        if option_key.strip() == 'YES':
-                                            options += '1'
-                                        else:
-                                            options += '0'
-                                    case 'Cont. Tilt':
-                                        if option_key.strip() == 'YES':
-                                            options += '1'
-                                        else:
-                                            options += '0'
-                                    case 'Auto Rejection':
-                                        if option_key.strip() == 'YES':
-                                            options += '1'
-                                        else:
-                                            options += '0'
-                                    case 'Terrain Corr.':
-                                        if option_key.strip() == 'YES':
-                                            options += '1'
-                                        else:
-                                            options += '0'
-                                    case 'Seismic Filter':
-                                        if option_key.strip() == 'YES':
-                                            options += '1'
-                                        else:
-                                            options += '0'
-                                    case 'Raw Data':
-                                        if option_key.strip() == 'YES':
-                                            options += '1'
-                                        else:
-                                            options += '0'
-                case 'Line':
-                    continue
-                case '/------LINE-----STATION-----ALT.------GRAV.---SD.--TILTX--TILTY-TEMP---TIDE---DUR-REJ-----TIME----DEC.TIME+DATE--TERRAIN---DATE': 
-                    continue
-                case _:
-                    line,\
-                    station,\
-                    alt,\
-                    grav,\
-                    sd,\
-                    tilt_x,\
-                    tilt_y,\
-                    temp,\
-                    tide,\
-                    dur,\
-                    rej,\
-                    time,\
-                    dec_time_date,\
-                    terrain,\
-                    date = split_line
-                    print(split_line)
+        line_station_format = False
 
-                                       
-                                
+        row = {}
+        for line in lines:
+            if not line.strip():
+                continue
+            match line[:2].strip():
+                case '/':
+                    split_line = re.split(':', line[1:])
+                    for index in range(len(split_line)):
+                        split_line[index] = split_line[index].strip()
+                    if len(split_line) > 1:
+                        row.update({split_line[0]: ' '.join(x for x in split_line[1:])})
+                case '/-':
+                    line = line[1:].replace('-', ' ')
+                    headers = line.split()
+                case 'Li':
+                    line_station_format = True
+                case _:
+                    split_line = line.split()
+                    for index in range(len(split_line)):
+                        row.update({headers[index]: split_line[index]})
+                    
+                    for key, value in row.items():
+                        rows[key].append(value)
+
+    cg_data = pd.DataFrame(rows)
+
     exit()
 
 
