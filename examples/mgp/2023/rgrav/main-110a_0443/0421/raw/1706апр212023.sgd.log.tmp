@@ -1,0 +1,5281 @@
+
+
+[ *** File Header Record *** ]
+FILE INDEX				0   	0   
+Record ID :				1008
+Record length :			112 
+Manufacture Name:		SCINTREX LTD.
+Manufacture ID:   		815 
+Family ID:      		8000
+Instrument Model:		0   
+Instrument Ver:		0   
+Instrument Name:		CG-5
+Instrument SN: 		40443
+Soft Manuf.ID: 		0   
+Soft manuf.Name:		
+Soft Pack Name:		
+Software Ver:  		1   
+Software Rev:  		0000
+Time:		        	06:26:24
+Date:	            	2023/04/21
+Flags:		        	0   
+Reserved:		    	ffff
+Ext point:		    	ffffffff
+Pointer1:		    	ffffffff
+Pointer2:		    	ffffffff
+Pointer3:		    	ffffffff
+
+
+[ *** Survey Header Record *** ]
+FILE INDEX				70  	112 
+Record ID :				1004
+Record length :			184 
+Client_Name:			ppk
+Survey Name:			main-110a
+Operator Name:			vsb
+Time:		        	       6 :26:24
+Date:	            	       2023/4 /21
+UTC_LTZ:	           	       0   
+Flags:	            	0   
+Azimuth:	           	0   
+UTM_Zone:				0   
+Mag Declin:	        0   
+Easting:		    	37.600  
+Northing:				55.800  
+Altitude:				0.000   
+Grid N:				0.000   
+Grid S:				0.000   
+Grid E:				0.000   
+Grid W:				0.000   
+*Next Survey:			ffffffff
+*First Line:			4041c4
+Reserved1:				0   
+Reserved2:				0   
+
+
+[ *** CG-5 Parameter Record *** ]
+FILE INDEX				128 	296 
+Record ID :				4800
+Record length :			78  
+Flags:	  before          3700
+Flags:	            37
+Gref:				0.000   
+Gcal1:				8444.126
+TiltxS:				635.894 
+TiltyS:				620.745 
+TiltxO:				-37.210 
+TiltyO:				67.255  
+Tempco:				-0.130  
+Drift:				0.441   
+DriftTime Start:	06:26:29
+Drift Date Start:	2023/04/21
+
+
+[ *** CG-5 Parameter Record *** ]
+FILE INDEX				176 	374 
+Record ID :				4800
+Record length :			78  
+Flags:	  before          3700
+Flags:	            37
+Gref:				0.000   
+Gcal1:				8444.126
+TiltxS:				635.894 
+TiltyS:				620.745 
+TiltxO:				-37.210 
+TiltyO:				67.255  
+Tempco:				-0.130  
+Drift:				0.441   
+DriftTime Start:	06:26:29
+Drift Date Start:	2023/04/21
+
+
+[ *** Profile Header Record *** ]
+FILE INDEX				1c4 	452 
+Record ID :				1002
+Record length :			28  
+*First_Data:			4041e0
+Line pos:				1.000   
+Line Coord:			0   
+Azimuth:				0   
+Station Num:			65535
+Reserved1:				ffff
+Reserved2:				ffffffff
+*Next Prof:			ffffffff
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				1e0 	480 
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.481
+Standard dev.:				0.038   
+TiltX:					1.2 
+TiltY:					1.5 
+Temperature:			-2.1
+Tide:					-0.008
+Duration:				55  
+Rejected:				4   
+Terrain Corr.:				0.000   
+Time:		        06:37:30
+Date:	            2023/04/21
+*Raw_Samples:		    4211230
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				16be	5822
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.480
+Standard dev.:				0.036   
+TiltX:					0.9 
+TiltY:					1.2 
+Temperature:			-2.1
+Tide:					-0.008
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        06:38:35
+Date:	            2023/04/21
+*Raw_Samples:		    4216572
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				2b9c	11164
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.481
+Standard dev.:				0.030   
+TiltX:					0.7 
+TiltY:					1.1 
+Temperature:			-2.1
+Tide:					-0.007
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        06:39:35
+Date:	            2023/04/21
+*Raw_Samples:		    4221914
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				407a	16506
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.029   
+TiltX:					0.6 
+TiltY:					0.9 
+Temperature:			-2.2
+Tide:					-0.007
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        06:40:35
+Date:	            2023/04/21
+*Raw_Samples:		    4227256
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				5558	21848
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.025   
+TiltX:					0.3 
+TiltY:					0.8 
+Temperature:			-2.2
+Tide:					-0.006
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        06:41:35
+Date:	            2023/04/21
+*Raw_Samples:		    4232598
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				6a36	27190
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.481
+Standard dev.:				0.034   
+TiltX:					0.2 
+TiltY:					0.5 
+Temperature:			-2.2
+Tide:					-0.006
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        06:42:35
+Date:	            2023/04/21
+*Raw_Samples:		    4237940
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				7f14	32532
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.028   
+TiltX:					0.2 
+TiltY:					0.2 
+Temperature:			-2.2
+Tide:					-0.005
+Duration:				55  
+Rejected:				3   
+Terrain Corr.:				0.000   
+Time:		        06:43:35
+Date:	            2023/04/21
+*Raw_Samples:		    4243282
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				93f2	37874
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.031   
+TiltX:					0.1 
+TiltY:					0.0 
+Temperature:			-2.2
+Tide:					-0.004
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        06:44:35
+Date:	            2023/04/21
+*Raw_Samples:		    4248624
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				a8d0	43216
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.480
+Standard dev.:				0.031   
+TiltX:					0.1 
+TiltY:					-0.2
+Temperature:			-2.2
+Tide:					-0.004
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        06:45:35
+Date:	            2023/04/21
+*Raw_Samples:		    4253966
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				bdae	48558
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.027   
+TiltX:					0.1 
+TiltY:					-0.4
+Temperature:			-2.2
+Tide:					-0.003
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        06:46:35
+Date:	            2023/04/21
+*Raw_Samples:		    4259308
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				d28c	53900
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.480
+Standard dev.:				0.034   
+TiltX:					0.0 
+TiltY:					-0.6
+Temperature:			-2.2
+Tide:					-0.003
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        06:47:35
+Date:	            2023/04/21
+*Raw_Samples:		    4264650
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				e76a	59242
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.480
+Standard dev.:				0.033   
+TiltX:					-0.1
+TiltY:					-0.9
+Temperature:			-2.2
+Tide:					-0.002
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        06:48:35
+Date:	            2023/04/21
+*Raw_Samples:		    4269992
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				fc48	64584
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.027   
+TiltX:					0.0 
+TiltY:					-1.2
+Temperature:			-2.2
+Tide:					-0.002
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        06:49:35
+Date:	            2023/04/21
+*Raw_Samples:		    4275334
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				11126	69926
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.478
+Standard dev.:				0.028   
+TiltX:					-0.2
+TiltY:					-1.3
+Temperature:			-2.2
+Tide:					-0.001
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        06:50:35
+Date:	            2023/04/21
+*Raw_Samples:		    4280676
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				12604	75268
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.478
+Standard dev.:				0.032   
+TiltX:					-0.3
+TiltY:					-1.5
+Temperature:			-2.2
+Tide:					0.000
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        06:51:35
+Date:	            2023/04/21
+*Raw_Samples:		    4286018
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				13ae2	80610
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.037   
+TiltX:					-0.4
+TiltY:					-1.6
+Temperature:			-2.2
+Tide:					0.000
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        06:52:35
+Date:	            2023/04/21
+*Raw_Samples:		    4291360
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				14fc0	85952
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.030   
+TiltX:					-0.6
+TiltY:					-1.7
+Temperature:			-2.2
+Tide:					0.000
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        06:53:35
+Date:	            2023/04/21
+*Raw_Samples:		    4296702
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				1649e	91294
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.031   
+TiltX:					-0.7
+TiltY:					-1.9
+Temperature:			-2.2
+Tide:					0.000
+Duration:				55  
+Rejected:				2   
+Terrain Corr.:				0.000   
+Time:		        06:54:35
+Date:	            2023/04/21
+*Raw_Samples:		    4302044
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				1797c	96636
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.480
+Standard dev.:				0.026   
+TiltX:					-0.8
+TiltY:					-2.2
+Temperature:			-2.2
+Tide:					0.001
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        06:55:35
+Date:	            2023/04/21
+*Raw_Samples:		    4307386
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				18e5a	101978
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.474
+Standard dev.:				0.038   
+TiltX:					-0.6
+TiltY:					-2.4
+Temperature:			-2.2
+Tide:					0.002
+Duration:				55  
+Rejected:				5   
+Terrain Corr.:				0.000   
+Time:		        06:56:35
+Date:	            2023/04/21
+*Raw_Samples:		    4312728
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				1a338	107320
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.034   
+TiltX:					-0.8
+TiltY:					-2.6
+Temperature:			-2.2
+Tide:					0.002
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        06:57:35
+Date:	            2023/04/21
+*Raw_Samples:		    4318070
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				1b816	112662
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.478
+Standard dev.:				0.032   
+TiltX:					-0.7
+TiltY:					-2.6
+Temperature:			-2.2
+Tide:					0.003
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        06:58:35
+Date:	            2023/04/21
+*Raw_Samples:		    4323412
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				1ccf4	118004
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.033   
+TiltX:					-0.9
+TiltY:					-2.8
+Temperature:			-2.2
+Tide:					0.003
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        06:59:35
+Date:	            2023/04/21
+*Raw_Samples:		    4328754
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				1e1d2	123346
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.480
+Standard dev.:				0.038   
+TiltX:					-1.0
+TiltY:					-3.0
+Temperature:			-2.2
+Tide:					0.004
+Duration:				55  
+Rejected:				2   
+Terrain Corr.:				0.000   
+Time:		        07:00:35
+Date:	            2023/04/21
+*Raw_Samples:		    4334096
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				1f6b0	128688
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.032   
+TiltX:					-1.0
+TiltY:					-3.1
+Temperature:			-2.2
+Tide:					0.004
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        07:01:35
+Date:	            2023/04/21
+*Raw_Samples:		    4339438
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				20b8e	134030
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.478
+Standard dev.:				0.031   
+TiltX:					-1.1
+TiltY:					-3.3
+Temperature:			-2.2
+Tide:					0.005
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        07:02:35
+Date:	            2023/04/21
+*Raw_Samples:		    4344780
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				2206c	139372
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.033   
+TiltX:					-1.1
+TiltY:					-3.5
+Temperature:			-2.2
+Tide:					0.005
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        07:03:35
+Date:	            2023/04/21
+*Raw_Samples:		    4350122
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				2354a	144714
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.480
+Standard dev.:				0.027   
+TiltX:					-1.2
+TiltY:					-3.6
+Temperature:			-2.2
+Tide:					0.006
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        07:04:35
+Date:	            2023/04/21
+*Raw_Samples:		    4355464
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				24a28	150056
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.035   
+TiltX:					-1.2
+TiltY:					-3.8
+Temperature:			-2.2
+Tide:					0.007
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        07:05:35
+Date:	            2023/04/21
+*Raw_Samples:		    4360806
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				25f06	155398
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.480
+Standard dev.:				0.032   
+TiltX:					-1.3
+TiltY:					-3.9
+Temperature:			-2.2
+Tide:					0.007
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        07:06:35
+Date:	            2023/04/21
+*Raw_Samples:		    4366148
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				273e4	160740
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.047   
+TiltX:					-1.4
+TiltY:					-4.0
+Temperature:			-2.2
+Tide:					0.008
+Duration:				55  
+Rejected:				1   
+Terrain Corr.:				0.000   
+Time:		        07:07:35
+Date:	            2023/04/21
+*Raw_Samples:		    4371490
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				288c2	166082
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.031   
+TiltX:					-1.5
+TiltY:					-4.2
+Temperature:			-2.2
+Tide:					0.008
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        07:08:35
+Date:	            2023/04/21
+*Raw_Samples:		    4376832
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				29da0	171424
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.030   
+TiltX:					-1.5
+TiltY:					-4.3
+Temperature:			-2.2
+Tide:					0.009
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        07:09:35
+Date:	            2023/04/21
+*Raw_Samples:		    4382174
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				2b27e	176766
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.031   
+TiltX:					-1.6
+TiltY:					-4.4
+Temperature:			-2.2
+Tide:					0.009
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        07:10:35
+Date:	            2023/04/21
+*Raw_Samples:		    4387516
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				2c75c	182108
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.041   
+TiltX:					-1.6
+TiltY:					-4.4
+Temperature:			-2.2
+Tide:					0.010
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        07:11:35
+Date:	            2023/04/21
+*Raw_Samples:		    4392858
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				2dc3a	187450
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.036   
+TiltX:					-1.6
+TiltY:					-4.5
+Temperature:			-2.3
+Tide:					0.011
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        07:12:35
+Date:	            2023/04/21
+*Raw_Samples:		    4398200
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				2f118	192792
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.037   
+TiltX:					-1.7
+TiltY:					-4.6
+Temperature:			-2.3
+Tide:					0.011
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        07:13:35
+Date:	            2023/04/21
+*Raw_Samples:		    4403542
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				305f6	198134
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.032   
+TiltX:					-1.8
+TiltY:					-4.6
+Temperature:			-2.3
+Tide:					0.012
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        07:14:35
+Date:	            2023/04/21
+*Raw_Samples:		    4408884
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				31ad4	203476
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.480
+Standard dev.:				0.027   
+TiltX:					-1.7
+TiltY:					-4.8
+Temperature:			-2.3
+Tide:					0.012
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        07:15:35
+Date:	            2023/04/21
+*Raw_Samples:		    4414226
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				32fb2	208818
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.034   
+TiltX:					-1.7
+TiltY:					-5.0
+Temperature:			-2.2
+Tide:					0.013
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        07:16:35
+Date:	            2023/04/21
+*Raw_Samples:		    4419568
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				34490	214160
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.480
+Standard dev.:				0.030   
+TiltX:					-1.8
+TiltY:					-5.1
+Temperature:			-2.2
+Tide:					0.013
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        07:17:35
+Date:	            2023/04/21
+*Raw_Samples:		    4424910
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				3596e	219502
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.480
+Standard dev.:				0.029   
+TiltX:					-1.8
+TiltY:					-5.2
+Temperature:			-2.2
+Tide:					0.014
+Duration:				55  
+Rejected:				2   
+Terrain Corr.:				0.000   
+Time:		        07:18:35
+Date:	            2023/04/21
+*Raw_Samples:		    4430252
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				36e4c	224844
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.481
+Standard dev.:				0.034   
+TiltX:					-1.8
+TiltY:					-5.4
+Temperature:			-2.2
+Tide:					0.014
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        07:19:35
+Date:	            2023/04/21
+*Raw_Samples:		    4435594
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				3832a	230186
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.481
+Standard dev.:				0.030   
+TiltX:					-1.8
+TiltY:					-5.6
+Temperature:			-2.2
+Tide:					0.015
+Duration:				55  
+Rejected:				1   
+Terrain Corr.:				0.000   
+Time:		        07:20:35
+Date:	            2023/04/21
+*Raw_Samples:		    4440936
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				39808	235528
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.480
+Standard dev.:				0.032   
+TiltX:					-1.7
+TiltY:					-5.6
+Temperature:			-2.2
+Tide:					0.016
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        07:21:36
+Date:	            2023/04/21
+*Raw_Samples:		    4446278
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				3ace6	240870
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.579
+Standard dev.:				0.107   
+TiltX:					-1.2
+TiltY:					1.6 
+Temperature:			-1.9
+Tide:					0.041
+Duration:				55  
+Rejected:				3   
+Terrain Corr.:				0.000   
+Time:		        08:11:02
+Date:	            2023/04/21
+*Raw_Samples:		    4451620
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				3c1c4	246212
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.580
+Standard dev.:				0.061   
+TiltX:					-1.0
+TiltY:					1.2 
+Temperature:			-2.0
+Tide:					0.041
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        08:12:07
+Date:	            2023/04/21
+*Raw_Samples:		    4456962
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				3d6a2	251554
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.580
+Standard dev.:				0.092   
+TiltX:					-0.8
+TiltY:					0.8 
+Temperature:			-2.0
+Tide:					0.041
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        08:13:07
+Date:	            2023/04/21
+*Raw_Samples:		    4462304
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				3eb80	256896
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.581
+Standard dev.:				0.074   
+TiltX:					-0.6
+TiltY:					0.7 
+Temperature:			-2.0
+Tide:					0.042
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        08:14:07
+Date:	            2023/04/21
+*Raw_Samples:		    4467646
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				4005e	262238
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.580
+Standard dev.:				0.089   
+TiltX:					-0.4
+TiltY:					0.5 
+Temperature:			-2.0
+Tide:					0.042
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        08:15:07
+Date:	            2023/04/21
+*Raw_Samples:		    4472988
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				4153c	267580
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.579
+Standard dev.:				0.084   
+TiltX:					-0.4
+TiltY:					0.2 
+Temperature:			-2.0
+Tide:					0.043
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        08:16:07
+Date:	            2023/04/21
+*Raw_Samples:		    4478330
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				42a1a	272922
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.579
+Standard dev.:				0.055   
+TiltX:					-0.3
+TiltY:					0.0 
+Temperature:			-2.1
+Tide:					0.043
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        08:17:07
+Date:	            2023/04/21
+*Raw_Samples:		    4483672
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				43ef8	278264
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.578
+Standard dev.:				0.107   
+TiltX:					-0.2
+TiltY:					-0.2
+Temperature:			-2.1
+Tide:					0.044
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        08:18:07
+Date:	            2023/04/21
+*Raw_Samples:		    4489014
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				453d6	283606
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.579
+Standard dev.:				0.137   
+TiltX:					0.0 
+TiltY:					-0.3
+Temperature:			-2.1
+Tide:					0.044
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        08:19:07
+Date:	            2023/04/21
+*Raw_Samples:		    4494356
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				468b4	288948
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.579
+Standard dev.:				0.054   
+TiltX:					0.0 
+TiltY:					-0.7
+Temperature:			-2.1
+Tide:					0.045
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        08:20:07
+Date:	            2023/04/21
+*Raw_Samples:		    4499698
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				47d92	294290
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.575
+Standard dev.:				0.065   
+TiltX:					0.1 
+TiltY:					-0.8
+Temperature:			-2.1
+Tide:					0.045
+Duration:				55  
+Rejected:				1   
+Terrain Corr.:				0.000   
+Time:		        08:21:07
+Date:	            2023/04/21
+*Raw_Samples:		    4505040
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				49270	299632
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.583
+Standard dev.:				0.068   
+TiltX:					0.1 
+TiltY:					-1.0
+Temperature:			-2.1
+Tide:					0.045
+Duration:				55  
+Rejected:				1   
+Terrain Corr.:				0.000   
+Time:		        08:22:07
+Date:	            2023/04/21
+*Raw_Samples:		    4510382
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				4a74e	304974
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.579
+Standard dev.:				0.083   
+TiltX:					0.1 
+TiltY:					-1.4
+Temperature:			-2.1
+Tide:					0.046
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        08:23:07
+Date:	            2023/04/21
+*Raw_Samples:		    4515724
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				4bc2c	310316
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.578
+Standard dev.:				0.091   
+TiltX:					0.2 
+TiltY:					-1.4
+Temperature:			-2.2
+Tide:					0.046
+Duration:				55  
+Rejected:				1   
+Terrain Corr.:				0.000   
+Time:		        08:24:07
+Date:	            2023/04/21
+*Raw_Samples:		    4521066
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				4d10a	315658
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.579
+Standard dev.:				0.073   
+TiltX:					0.2 
+TiltY:					-1.7
+Temperature:			-2.2
+Tide:					0.047
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        08:25:07
+Date:	            2023/04/21
+*Raw_Samples:		    4526408
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				4e5e8	321000
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.579
+Standard dev.:				0.061   
+TiltX:					0.2 
+TiltY:					-1.8
+Temperature:			-2.2
+Tide:					0.047
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        08:26:07
+Date:	            2023/04/21
+*Raw_Samples:		    4531750
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				4fac6	326342
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.579
+Standard dev.:				0.102   
+TiltX:					0.3 
+TiltY:					-2.0
+Temperature:			-2.2
+Tide:					0.047
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        08:27:07
+Date:	            2023/04/21
+*Raw_Samples:		    4537092
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				50fa4	331684
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.579
+Standard dev.:				0.110   
+TiltX:					0.2 
+TiltY:					-2.3
+Temperature:			-2.2
+Tide:					0.048
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        08:28:07
+Date:	            2023/04/21
+*Raw_Samples:		    4542434
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				52482	337026
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.579
+Standard dev.:				0.054   
+TiltX:					0.1 
+TiltY:					-2.4
+Temperature:			-2.2
+Tide:					0.048
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        08:29:07
+Date:	            2023/04/21
+*Raw_Samples:		    4547776
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				53960	342368
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.573
+Standard dev.:				0.051   
+TiltX:					0.2 
+TiltY:					-2.5
+Temperature:			-2.2
+Tide:					0.049
+Duration:				55  
+Rejected:				4   
+Terrain Corr.:				0.000   
+Time:		        08:30:07
+Date:	            2023/04/21
+*Raw_Samples:		    4553118
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				54e3e	347710
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.579
+Standard dev.:				0.055   
+TiltX:					0.2 
+TiltY:					-2.7
+Temperature:			-2.2
+Tide:					0.049
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        08:31:07
+Date:	            2023/04/21
+*Raw_Samples:		    4558460
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				5631c	353052
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.578
+Standard dev.:				0.066   
+TiltX:					0.1 
+TiltY:					-2.9
+Temperature:			-2.2
+Tide:					0.049
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        08:32:07
+Date:	            2023/04/21
+*Raw_Samples:		    4563802
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				577fa	358394
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.578
+Standard dev.:				0.060   
+TiltX:					0.0 
+TiltY:					-3.0
+Temperature:			-2.2
+Tide:					0.050
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        08:33:07
+Date:	            2023/04/21
+*Raw_Samples:		    4569144
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				58cd8	363736
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.578
+Standard dev.:				0.103   
+TiltX:					0.0 
+TiltY:					-3.1
+Temperature:			-2.2
+Tide:					0.050
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        08:34:07
+Date:	            2023/04/21
+*Raw_Samples:		    4574486
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				5a1b6	369078
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.573
+Standard dev.:				0.123   
+TiltX:					0.0 
+TiltY:					-3.4
+Temperature:			-2.2
+Tide:					0.051
+Duration:				55  
+Rejected:				2   
+Terrain Corr.:				0.000   
+Time:		        08:35:07
+Date:	            2023/04/21
+*Raw_Samples:		    4579828
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				5b694	374420
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.580
+Standard dev.:				0.076   
+TiltX:					0.2 
+TiltY:					-3.5
+Temperature:			-2.2
+Tide:					0.051
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        08:36:07
+Date:	            2023/04/21
+*Raw_Samples:		    4585170
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				5cb72	379762
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.578
+Standard dev.:				0.078   
+TiltX:					0.0 
+TiltY:					-3.6
+Temperature:			-2.2
+Tide:					0.051
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        08:37:07
+Date:	            2023/04/21
+*Raw_Samples:		    4590512
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				5e050	385104
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.578
+Standard dev.:				0.076   
+TiltX:					0.0 
+TiltY:					-3.7
+Temperature:			-2.2
+Tide:					0.052
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        08:38:07
+Date:	            2023/04/21
+*Raw_Samples:		    4595854
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				5f52e	390446
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.580
+Standard dev.:				0.067   
+TiltX:					0.0 
+TiltY:					-3.9
+Temperature:			-2.2
+Tide:					0.052
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        08:39:07
+Date:	            2023/04/21
+*Raw_Samples:		    4601196
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				60a0c	395788
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.580
+Standard dev.:				0.057   
+TiltX:					0.0 
+TiltY:					-3.9
+Temperature:			-2.2
+Tide:					0.053
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        08:40:07
+Date:	            2023/04/21
+*Raw_Samples:		    4606538
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				61eea	401130
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.578
+Standard dev.:				0.080   
+TiltX:					-0.1
+TiltY:					-4.0
+Temperature:			-2.2
+Tide:					0.053
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        08:41:07
+Date:	            2023/04/21
+*Raw_Samples:		    4611880
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				633c8	406472
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.578
+Standard dev.:				0.073   
+TiltX:					-0.2
+TiltY:					-4.2
+Temperature:			-2.2
+Tide:					0.053
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        08:42:07
+Date:	            2023/04/21
+*Raw_Samples:		    4617222
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				648a6	411814
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.579
+Standard dev.:				0.085   
+TiltX:					-0.1
+TiltY:					-4.2
+Temperature:			-2.2
+Tide:					0.054
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        08:43:07
+Date:	            2023/04/21
+*Raw_Samples:		    4622564
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				65d84	417156
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.578
+Standard dev.:				0.132   
+TiltX:					-0.1
+TiltY:					-4.4
+Temperature:			-2.3
+Tide:					0.054
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        08:44:07
+Date:	            2023/04/21
+*Raw_Samples:		    4627906
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				67262	422498
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.579
+Standard dev.:				0.078   
+TiltX:					-0.2
+TiltY:					-4.4
+Temperature:			-2.3
+Tide:					0.054
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        08:45:07
+Date:	            2023/04/21
+*Raw_Samples:		    4633248
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				68740	427840
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.579
+Standard dev.:				0.127   
+TiltX:					-0.2
+TiltY:					-4.5
+Temperature:			-2.3
+Tide:					0.055
+Duration:				55  
+Rejected:				2   
+Terrain Corr.:				0.000   
+Time:		        08:46:07
+Date:	            2023/04/21
+*Raw_Samples:		    4638590
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				69c1e	433182
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.579
+Standard dev.:				0.112   
+TiltX:					-0.2
+TiltY:					-4.6
+Temperature:			-2.3
+Tide:					0.055
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        08:47:07
+Date:	            2023/04/21
+*Raw_Samples:		    4643932
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				6b0fc	438524
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.577
+Standard dev.:				0.081   
+TiltX:					-0.3
+TiltY:					-4.8
+Temperature:			-2.3
+Tide:					0.055
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        08:48:07
+Date:	            2023/04/21
+*Raw_Samples:		    4649274
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				6c5da	443866
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.570
+Standard dev.:				0.156   
+TiltX:					-0.4
+TiltY:					-4.8
+Temperature:			-2.3
+Tide:					0.056
+Duration:				55  
+Rejected:				6   
+Terrain Corr.:				0.000   
+Time:		        08:49:07
+Date:	            2023/04/21
+*Raw_Samples:		    4654616
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				6dab8	449208
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.579
+Standard dev.:				0.064   
+TiltX:					-0.4
+TiltY:					-4.8
+Temperature:			-2.3
+Tide:					0.056
+Duration:				55  
+Rejected:				7   
+Terrain Corr.:				0.000   
+Time:		        08:50:07
+Date:	            2023/04/21
+*Raw_Samples:		    4659958
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				6ef96	454550
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.581
+Standard dev.:				0.087   
+TiltX:					-0.4
+TiltY:					-4.9
+Temperature:			-2.3
+Tide:					0.056
+Duration:				55  
+Rejected:				3   
+Terrain Corr.:				0.000   
+Time:		        08:51:07
+Date:	            2023/04/21
+*Raw_Samples:		    4665300
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				70474	459892
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.580
+Standard dev.:				0.085   
+TiltX:					-0.5
+TiltY:					-5.0
+Temperature:			-2.3
+Tide:					0.057
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        08:52:07
+Date:	            2023/04/21
+*Raw_Samples:		    4670642
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				71952	465234
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.580
+Standard dev.:				0.057   
+TiltX:					-0.3
+TiltY:					-5.1
+Temperature:			-2.3
+Tide:					0.057
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        08:53:07
+Date:	            2023/04/21
+*Raw_Samples:		    4675984
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				72e30	470576
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.580
+Standard dev.:				0.056   
+TiltX:					-0.4
+TiltY:					-5.2
+Temperature:			-2.3
+Tide:					0.057
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        08:54:07
+Date:	            2023/04/21
+*Raw_Samples:		    4681326
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				7430e	475918
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.579
+Standard dev.:				0.074   
+TiltX:					-0.4
+TiltY:					-5.3
+Temperature:			-2.3
+Tide:					0.058
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        08:55:08
+Date:	            2023/04/21
+*Raw_Samples:		    4686668
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				757ec	481260
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.480
+Standard dev.:				0.035   
+TiltX:					0.5 
+TiltY:					-1.9
+Temperature:			-2.0
+Tide:					0.071
+Duration:				55  
+Rejected:				1   
+Terrain Corr.:				0.000   
+Time:		        10:01:33
+Date:	            2023/04/21
+*Raw_Samples:		    4692010
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				76cca	486602
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.480
+Standard dev.:				0.028   
+TiltX:					0.6 
+TiltY:					-2.4
+Temperature:			-2.0
+Tide:					0.071
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        10:02:38
+Date:	            2023/04/21
+*Raw_Samples:		    4697352
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				781a8	491944
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.476
+Standard dev.:				0.049   
+TiltX:					0.9 
+TiltY:					-2.7
+Temperature:			-2.0
+Tide:					0.071
+Duration:				55  
+Rejected:				4   
+Terrain Corr.:				0.000   
+Time:		        10:03:38
+Date:	            2023/04/21
+*Raw_Samples:		    4702694
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				79686	497286
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.481
+Standard dev.:				0.030   
+TiltX:					1.1 
+TiltY:					-3.1
+Temperature:			-2.0
+Tide:					0.071
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        10:04:38
+Date:	            2023/04/21
+*Raw_Samples:		    4708036
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				7ab64	502628
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.022   
+TiltX:					1.5 
+TiltY:					-3.5
+Temperature:			-2.1
+Tide:					0.071
+Duration:				55  
+Rejected:				1   
+Terrain Corr.:				0.000   
+Time:		        10:05:38
+Date:	            2023/04/21
+*Raw_Samples:		    4713378
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				7c042	507970
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.034   
+TiltX:					1.5 
+TiltY:					-4.0
+Temperature:			-2.1
+Tide:					0.071
+Duration:				55  
+Rejected:				1   
+Terrain Corr.:				0.000   
+Time:		        10:06:38
+Date:	            2023/04/21
+*Raw_Samples:		    4718720
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				7d520	513312
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.023   
+TiltX:					1.7 
+TiltY:					-4.3
+Temperature:			-2.1
+Tide:					0.071
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        10:07:38
+Date:	            2023/04/21
+*Raw_Samples:		    4724062
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				7e9fe	518654
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.025   
+TiltX:					1.8 
+TiltY:					-4.7
+Temperature:			-2.1
+Tide:					0.071
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        10:08:38
+Date:	            2023/04/21
+*Raw_Samples:		    4729404
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				7fedc	523996
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.026   
+TiltX:					1.9 
+TiltY:					-5.1
+Temperature:			-2.1
+Tide:					0.071
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        10:09:38
+Date:	            2023/04/21
+*Raw_Samples:		    4734746
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				813ba	529338
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.022   
+TiltX:					2.0 
+TiltY:					-5.4
+Temperature:			-2.1
+Tide:					0.071
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        10:10:38
+Date:	            2023/04/21
+*Raw_Samples:		    4740088
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				82898	534680
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.032   
+TiltX:					2.0 
+TiltY:					-5.8
+Temperature:			-2.2
+Tide:					0.071
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        10:11:38
+Date:	            2023/04/21
+*Raw_Samples:		    4745430
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				83d76	540022
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.480
+Standard dev.:				0.028   
+TiltX:					2.1 
+TiltY:					-6.1
+Temperature:			-2.2
+Tide:					0.071
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        10:12:38
+Date:	            2023/04/21
+*Raw_Samples:		    4750772
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				85254	545364
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.036   
+TiltX:					2.2 
+TiltY:					-6.5
+Temperature:			-2.2
+Tide:					0.071
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        10:13:38
+Date:	            2023/04/21
+*Raw_Samples:		    4756114
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				86732	550706
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.480
+Standard dev.:				0.028   
+TiltX:					2.3 
+TiltY:					-6.8
+Temperature:			-2.2
+Tide:					0.071
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        10:14:38
+Date:	            2023/04/21
+*Raw_Samples:		    4761456
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				87c10	556048
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.478
+Standard dev.:				0.029   
+TiltX:					2.3 
+TiltY:					-7.1
+Temperature:			-2.2
+Tide:					0.071
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        10:15:38
+Date:	            2023/04/21
+*Raw_Samples:		    4766798
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				890ee	561390
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.478
+Standard dev.:				0.026   
+TiltX:					2.4 
+TiltY:					-7.4
+Temperature:			-2.2
+Tide:					0.071
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        10:16:38
+Date:	            2023/04/21
+*Raw_Samples:		    4772140
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				8a5cc	566732
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.030   
+TiltX:					2.6 
+TiltY:					-7.7
+Temperature:			-2.2
+Tide:					0.071
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        10:17:38
+Date:	            2023/04/21
+*Raw_Samples:		    4777482
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				8baaa	572074
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.036   
+TiltX:					2.6 
+TiltY:					-8.0
+Temperature:			-2.2
+Tide:					0.071
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        10:18:38
+Date:	            2023/04/21
+*Raw_Samples:		    4782824
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				8cf88	577416
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.033   
+TiltX:					2.8 
+TiltY:					-8.3
+Temperature:			-2.2
+Tide:					0.071
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        10:19:38
+Date:	            2023/04/21
+*Raw_Samples:		    4788166
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				8e466	582758
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.023   
+TiltX:					2.9 
+TiltY:					-8.5
+Temperature:			-2.2
+Tide:					0.071
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        10:20:38
+Date:	            2023/04/21
+*Raw_Samples:		    4793508
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				8f944	588100
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.025   
+TiltX:					2.9 
+TiltY:					-8.8
+Temperature:			-2.2
+Tide:					0.071
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        10:21:38
+Date:	            2023/04/21
+*Raw_Samples:		    4798850
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				90e22	593442
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.030   
+TiltX:					3.1 
+TiltY:					-8.9
+Temperature:			-2.2
+Tide:					0.071
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        10:22:38
+Date:	            2023/04/21
+*Raw_Samples:		    4804192
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				92300	598784
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.037   
+TiltX:					3.2 
+TiltY:					-9.2
+Temperature:			-2.2
+Tide:					0.071
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        10:23:38
+Date:	            2023/04/21
+*Raw_Samples:		    4809534
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				937de	604126
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.030   
+TiltX:					3.1 
+TiltY:					-9.4
+Temperature:			-2.3
+Tide:					0.071
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        10:24:38
+Date:	            2023/04/21
+*Raw_Samples:		    4814876
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				94cbc	609468
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.025   
+TiltX:					3.3 
+TiltY:					-9.6
+Temperature:			-2.3
+Tide:					0.071
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        10:25:38
+Date:	            2023/04/21
+*Raw_Samples:		    4820218
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				9619a	614810
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.029   
+TiltX:					3.4 
+TiltY:					-9.8
+Temperature:			-2.3
+Tide:					0.071
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        10:26:38
+Date:	            2023/04/21
+*Raw_Samples:		    4825560
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				97678	620152
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.477
+Standard dev.:				0.032   
+TiltX:					3.5 
+TiltY:					-10.0
+Temperature:			-2.3
+Tide:					0.070
+Duration:				55  
+Rejected:				1   
+Terrain Corr.:				0.000   
+Time:		        10:27:38
+Date:	            2023/04/21
+*Raw_Samples:		    4830902
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				98b56	625494
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.478
+Standard dev.:				0.028   
+TiltX:					3.5 
+TiltY:					-10.1
+Temperature:			-2.3
+Tide:					0.070
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        10:28:38
+Date:	            2023/04/21
+*Raw_Samples:		    4836244
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				9a034	630836
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.030   
+TiltX:					3.6 
+TiltY:					-10.3
+Temperature:			-2.3
+Tide:					0.070
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        10:29:38
+Date:	            2023/04/21
+*Raw_Samples:		    4841586
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				9b512	636178
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.028   
+TiltX:					3.7 
+TiltY:					-10.5
+Temperature:			-2.3
+Tide:					0.070
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        10:30:38
+Date:	            2023/04/21
+*Raw_Samples:		    4846928
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				9c9f0	641520
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.025   
+TiltX:					3.7 
+TiltY:					-10.7
+Temperature:			-2.3
+Tide:					0.070
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        10:31:38
+Date:	            2023/04/21
+*Raw_Samples:		    4852270
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				9dece	646862
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.480
+Standard dev.:				0.024   
+TiltX:					3.8 
+TiltY:					-10.8
+Temperature:			-2.3
+Tide:					0.070
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        10:32:38
+Date:	            2023/04/21
+*Raw_Samples:		    4857612
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				9f3ac	652204
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.119   
+TiltX:					3.8 
+TiltY:					-11.0
+Temperature:			-2.3
+Tide:					0.070
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        10:33:38
+Date:	            2023/04/21
+*Raw_Samples:		    4862954
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				a088a	657546
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.480
+Standard dev.:				0.101   
+TiltX:					3.8 
+TiltY:					-11.2
+Temperature:			-2.3
+Tide:					0.070
+Duration:				55  
+Rejected:				2   
+Terrain Corr.:				0.000   
+Time:		        10:34:38
+Date:	            2023/04/21
+*Raw_Samples:		    4868296
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				a1d68	662888
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.048   
+TiltX:					4.0 
+TiltY:					-11.3
+Temperature:			-2.3
+Tide:					0.070
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        10:35:38
+Date:	            2023/04/21
+*Raw_Samples:		    4873638
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				a3246	668230
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.480
+Standard dev.:				0.033   
+TiltX:					4.0 
+TiltY:					-11.5
+Temperature:			-2.3
+Tide:					0.070
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        10:36:38
+Date:	            2023/04/21
+*Raw_Samples:		    4878980
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				a4724	673572
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.036   
+TiltX:					4.0 
+TiltY:					-11.6
+Temperature:			-2.3
+Tide:					0.070
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        10:37:38
+Date:	            2023/04/21
+*Raw_Samples:		    4884322
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				a5c02	678914
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.480
+Standard dev.:				0.033   
+TiltX:					4.1 
+TiltY:					-11.8
+Temperature:			-2.3
+Tide:					0.070
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        10:38:38
+Date:	            2023/04/21
+*Raw_Samples:		    4889664
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				a70e0	684256
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.038   
+TiltX:					4.2 
+TiltY:					-11.9
+Temperature:			-2.3
+Tide:					0.070
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        10:39:38
+Date:	            2023/04/21
+*Raw_Samples:		    4895006
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				a85be	689598
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.027   
+TiltX:					4.2 
+TiltY:					-12.1
+Temperature:			-2.3
+Tide:					0.069
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        10:40:38
+Date:	            2023/04/21
+*Raw_Samples:		    4900348
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				a9a9c	694940
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.480
+Standard dev.:				0.035   
+TiltX:					4.2 
+TiltY:					-12.2
+Temperature:			-2.3
+Tide:					0.069
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        10:41:38
+Date:	            2023/04/21
+*Raw_Samples:		    4905690
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				aaf7a	700282
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.030   
+TiltX:					4.3 
+TiltY:					-12.3
+Temperature:			-2.3
+Tide:					0.069
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        10:42:38
+Date:	            2023/04/21
+*Raw_Samples:		    4911032
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				ac458	705624
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.033   
+TiltX:					4.2 
+TiltY:					-12.5
+Temperature:			-2.3
+Tide:					0.069
+Duration:				55  
+Rejected:				2   
+Terrain Corr.:				0.000   
+Time:		        10:43:38
+Date:	            2023/04/21
+*Raw_Samples:		    4916374
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				ad936	710966
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.480
+Standard dev.:				0.038   
+TiltX:					4.4 
+TiltY:					-12.6
+Temperature:			-2.3
+Tide:					0.069
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        10:44:38
+Date:	            2023/04/21
+*Raw_Samples:		    4921716
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				aee14	716308
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.039   
+TiltX:					4.4 
+TiltY:					-12.7
+Temperature:			-2.3
+Tide:					0.069
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        10:45:39
+Date:	            2023/04/21
+*Raw_Samples:		    4927058
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				b02f2	721650
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.581
+Standard dev.:				0.104   
+TiltX:					2.5 
+TiltY:					1.2 
+Temperature:			-1.9
+Tide:					0.059
+Duration:				55  
+Rejected:				4   
+Terrain Corr.:				0.000   
+Time:		        11:30:22
+Date:	            2023/04/21
+*Raw_Samples:		    4932400
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				b17d0	726992
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.581
+Standard dev.:				0.061   
+TiltX:					2.7 
+TiltY:					0.9 
+Temperature:			-1.9
+Tide:					0.059
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        11:31:27
+Date:	            2023/04/21
+*Raw_Samples:		    4937742
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				b2cae	732334
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.580
+Standard dev.:				0.066   
+TiltX:					2.7 
+TiltY:					0.6 
+Temperature:			-2.0
+Tide:					0.059
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        11:32:27
+Date:	            2023/04/21
+*Raw_Samples:		    4943084
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				b418c	737676
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.583
+Standard dev.:				0.068   
+TiltX:					2.7 
+TiltY:					0.2 
+Temperature:			-2.0
+Tide:					0.058
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        11:33:27
+Date:	            2023/04/21
+*Raw_Samples:		    4948426
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				b566a	743018
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.581
+Standard dev.:				0.056   
+TiltX:					2.9 
+TiltY:					0.0 
+Temperature:			-2.0
+Tide:					0.058
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        11:34:27
+Date:	            2023/04/21
+*Raw_Samples:		    4953768
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				b6b48	748360
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.582
+Standard dev.:				0.057   
+TiltX:					3.0 
+TiltY:					-0.1
+Temperature:			-2.0
+Tide:					0.058
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        11:35:27
+Date:	            2023/04/21
+*Raw_Samples:		    4959110
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				b8026	753702
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.581
+Standard dev.:				0.067   
+TiltX:					3.1 
+TiltY:					-0.3
+Temperature:			-2.1
+Tide:					0.057
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        11:36:27
+Date:	            2023/04/21
+*Raw_Samples:		    4964452
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				b9504	759044
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.580
+Standard dev.:				0.050   
+TiltX:					3.0 
+TiltY:					-0.6
+Temperature:			-2.1
+Tide:					0.057
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        11:37:27
+Date:	            2023/04/21
+*Raw_Samples:		    4969794
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				ba9e2	764386
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.581
+Standard dev.:				0.070   
+TiltX:					3.1 
+TiltY:					-0.8
+Temperature:			-2.1
+Tide:					0.057
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        11:38:27
+Date:	            2023/04/21
+*Raw_Samples:		    4975136
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				bbec0	769728
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.579
+Standard dev.:				0.062   
+TiltX:					3.1 
+TiltY:					-1.0
+Temperature:			-2.1
+Tide:					0.056
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        11:39:27
+Date:	            2023/04/21
+*Raw_Samples:		    4980478
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				bd39e	775070
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.581
+Standard dev.:				0.078   
+TiltX:					3.1 
+TiltY:					-1.3
+Temperature:			-2.1
+Tide:					0.056
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        11:40:27
+Date:	            2023/04/21
+*Raw_Samples:		    4985820
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				be87c	780412
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.580
+Standard dev.:				0.114   
+TiltX:					3.2 
+TiltY:					-1.4
+Temperature:			-2.1
+Tide:					0.056
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        11:41:27
+Date:	            2023/04/21
+*Raw_Samples:		    4991162
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				bfd5a	785754
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.581
+Standard dev.:				0.066   
+TiltX:					3.3 
+TiltY:					-1.6
+Temperature:			-2.2
+Tide:					0.055
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        11:42:27
+Date:	            2023/04/21
+*Raw_Samples:		    4996504
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				c1238	791096
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.581
+Standard dev.:				0.084   
+TiltX:					3.3 
+TiltY:					-1.8
+Temperature:			-2.2
+Tide:					0.055
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        11:43:27
+Date:	            2023/04/21
+*Raw_Samples:		    5001846
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				c2716	796438
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.581
+Standard dev.:				0.072   
+TiltX:					3.3 
+TiltY:					-2.0
+Temperature:			-2.2
+Tide:					0.055
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        11:44:27
+Date:	            2023/04/21
+*Raw_Samples:		    5007188
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				c3bf4	801780
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.581
+Standard dev.:				0.077   
+TiltX:					3.3 
+TiltY:					-2.2
+Temperature:			-2.2
+Tide:					0.054
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        11:45:27
+Date:	            2023/04/21
+*Raw_Samples:		    5012530
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				c50d2	807122
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.581
+Standard dev.:				0.067   
+TiltX:					3.3 
+TiltY:					-2.3
+Temperature:			-2.2
+Tide:					0.054
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        11:46:27
+Date:	            2023/04/21
+*Raw_Samples:		    5017872
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				c65b0	812464
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.581
+Standard dev.:				0.061   
+TiltX:					3.3 
+TiltY:					-2.5
+Temperature:			-2.2
+Tide:					0.054
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        11:47:27
+Date:	            2023/04/21
+*Raw_Samples:		    5023214
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				c7a8e	817806
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.582
+Standard dev.:				0.072   
+TiltX:					3.2 
+TiltY:					-2.5
+Temperature:			-2.2
+Tide:					0.053
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        11:48:27
+Date:	            2023/04/21
+*Raw_Samples:		    5028556
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				c8f6c	823148
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.582
+Standard dev.:				0.049   
+TiltX:					3.2 
+TiltY:					-2.7
+Temperature:			-2.2
+Tide:					0.053
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        11:49:27
+Date:	            2023/04/21
+*Raw_Samples:		    5033898
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				ca44a	828490
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.584
+Standard dev.:				0.120   
+TiltX:					3.2 
+TiltY:					-2.8
+Temperature:			-2.2
+Tide:					0.053
+Duration:				55  
+Rejected:				5   
+Terrain Corr.:				0.000   
+Time:		        11:50:27
+Date:	            2023/04/21
+*Raw_Samples:		    5039240
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				cb928	833832
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.583
+Standard dev.:				0.086   
+TiltX:					3.1 
+TiltY:					-3.0
+Temperature:			-2.2
+Tide:					0.052
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        11:51:27
+Date:	            2023/04/21
+*Raw_Samples:		    5044582
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				cce06	839174
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.580
+Standard dev.:				0.086   
+TiltX:					3.0 
+TiltY:					-3.1
+Temperature:			-2.2
+Tide:					0.052
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        11:52:27
+Date:	            2023/04/21
+*Raw_Samples:		    5049924
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				ce2e4	844516
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.582
+Standard dev.:				0.061   
+TiltX:					3.0 
+TiltY:					-3.1
+Temperature:			-2.2
+Tide:					0.052
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        11:53:27
+Date:	            2023/04/21
+*Raw_Samples:		    5055266
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				cf7c2	849858
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.583
+Standard dev.:				0.057   
+TiltX:					3.0 
+TiltY:					-3.3
+Temperature:			-2.3
+Tide:					0.051
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        11:54:27
+Date:	            2023/04/21
+*Raw_Samples:		    5060608
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				d0ca0	855200
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.583
+Standard dev.:				0.048   
+TiltX:					2.9 
+TiltY:					-3.4
+Temperature:			-2.3
+Tide:					0.051
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        11:55:27
+Date:	            2023/04/21
+*Raw_Samples:		    5065950
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				d217e	860542
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.581
+Standard dev.:				0.078   
+TiltX:					2.9 
+TiltY:					-3.6
+Temperature:			-2.3
+Tide:					0.050
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        11:56:27
+Date:	            2023/04/21
+*Raw_Samples:		    5071292
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				d365c	865884
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.583
+Standard dev.:				0.068   
+TiltX:					2.8 
+TiltY:					-3.6
+Temperature:			-2.3
+Tide:					0.050
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        11:57:27
+Date:	            2023/04/21
+*Raw_Samples:		    5076634
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				d4b3a	871226
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.581
+Standard dev.:				0.051   
+TiltX:					2.8 
+TiltY:					-3.7
+Temperature:			-2.3
+Tide:					0.050
+Duration:				55  
+Rejected:				1   
+Terrain Corr.:				0.000   
+Time:		        11:58:27
+Date:	            2023/04/21
+*Raw_Samples:		    5081976
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				d6018	876568
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.582
+Standard dev.:				0.065   
+TiltX:					2.7 
+TiltY:					-3.9
+Temperature:			-2.3
+Tide:					0.049
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        11:59:27
+Date:	            2023/04/21
+*Raw_Samples:		    5087318
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				d74f6	881910
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.583
+Standard dev.:				0.046   
+TiltX:					2.6 
+TiltY:					-4.0
+Temperature:			-2.3
+Tide:					0.049
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        12:00:27
+Date:	            2023/04/21
+*Raw_Samples:		    5092660
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				d89d4	887252
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.582
+Standard dev.:				0.066   
+TiltX:					2.5 
+TiltY:					-4.1
+Temperature:			-2.3
+Tide:					0.048
+Duration:				55  
+Rejected:				2   
+Terrain Corr.:				0.000   
+Time:		        12:01:27
+Date:	            2023/04/21
+*Raw_Samples:		    5098002
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				d9eb2	892594
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.582
+Standard dev.:				0.052   
+TiltX:					2.6 
+TiltY:					-4.2
+Temperature:			-2.3
+Tide:					0.048
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        12:02:27
+Date:	            2023/04/21
+*Raw_Samples:		    5103344
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				db390	897936
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.583
+Standard dev.:				0.062   
+TiltX:					2.5 
+TiltY:					-4.2
+Temperature:			-2.3
+Tide:					0.048
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        12:03:27
+Date:	            2023/04/21
+*Raw_Samples:		    5108686
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				dc86e	903278
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.584
+Standard dev.:				0.048   
+TiltX:					2.5 
+TiltY:					-4.4
+Temperature:			-2.3
+Tide:					0.047
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        12:04:27
+Date:	            2023/04/21
+*Raw_Samples:		    5114028
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				ddd4c	908620
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.584
+Standard dev.:				0.104   
+TiltX:					2.5 
+TiltY:					-4.5
+Temperature:			-2.3
+Tide:					0.047
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        12:05:27
+Date:	            2023/04/21
+*Raw_Samples:		    5119370
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				df22a	913962
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.582
+Standard dev.:				0.066   
+TiltX:					2.4 
+TiltY:					-4.6
+Temperature:			-2.3
+Tide:					0.046
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        12:06:27
+Date:	            2023/04/21
+*Raw_Samples:		    5124712
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				e0708	919304
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.588
+Standard dev.:				0.079   
+TiltX:					2.4 
+TiltY:					-4.8
+Temperature:			-2.3
+Tide:					0.046
+Duration:				55  
+Rejected:				1   
+Terrain Corr.:				0.000   
+Time:		        12:07:27
+Date:	            2023/04/21
+*Raw_Samples:		    5130054
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				e1be6	924646
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.583
+Standard dev.:				0.104   
+TiltX:					2.4 
+TiltY:					-4.8
+Temperature:			-2.3
+Tide:					0.046
+Duration:				55  
+Rejected:				2   
+Terrain Corr.:				0.000   
+Time:		        12:08:27
+Date:	            2023/04/21
+*Raw_Samples:		    5135396
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				e30c4	929988
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.583
+Standard dev.:				0.079   
+TiltX:					2.2 
+TiltY:					-4.8
+Temperature:			-2.3
+Tide:					0.045
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        12:09:27
+Date:	            2023/04/21
+*Raw_Samples:		    5140738
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				e45a2	935330
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.583
+Standard dev.:				0.065   
+TiltX:					2.3 
+TiltY:					-4.9
+Temperature:			-2.3
+Tide:					0.045
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        12:10:27
+Date:	            2023/04/21
+*Raw_Samples:		    5146080
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				e5a80	940672
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.585
+Standard dev.:				0.128   
+TiltX:					2.2 
+TiltY:					-5.0
+Temperature:			-2.3
+Tide:					0.044
+Duration:				55  
+Rejected:				1   
+Terrain Corr.:				0.000   
+Time:		        12:11:27
+Date:	            2023/04/21
+*Raw_Samples:		    5151422
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				e6f5e	946014
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.583
+Standard dev.:				0.080   
+TiltX:					2.3 
+TiltY:					-5.1
+Temperature:			-2.3
+Tide:					0.044
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        12:12:27
+Date:	            2023/04/21
+*Raw_Samples:		    5156764
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				e843c	951356
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.582
+Standard dev.:				0.062   
+TiltX:					2.2 
+TiltY:					-5.1
+Temperature:			-2.3
+Tide:					0.044
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        12:13:27
+Date:	            2023/04/21
+*Raw_Samples:		    5162106
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				e991a	956698
+Record ID :				800 
+Record length :			5342
+X:				14.0000000  
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7049.583
+Standard dev.:				0.082   
+TiltX:					2.1 
+TiltY:					-5.2
+Temperature:			-2.3
+Tide:					0.043
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        12:14:28
+Date:	            2023/04/21
+*Raw_Samples:		    5167448
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				eadf8	962040
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.054   
+TiltX:					0.5 
+TiltY:					-1.8
+Temperature:			-2.1
+Tide:					0.015
+Duration:				55  
+Rejected:				1   
+Terrain Corr.:				0.000   
+Time:		        13:12:16
+Date:	            2023/04/21
+*Raw_Samples:		    5172790
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				ec2d6	967382
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.480
+Standard dev.:				0.034   
+TiltX:					0.7 
+TiltY:					-2.1
+Temperature:			-2.1
+Tide:					0.014
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        13:13:21
+Date:	            2023/04/21
+*Raw_Samples:		    5178132
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				ed7b4	972724
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.038   
+TiltX:					0.7 
+TiltY:					-2.4
+Temperature:			-2.2
+Tide:					0.014
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        13:14:21
+Date:	            2023/04/21
+*Raw_Samples:		    5183474
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				eec92	978066
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.042   
+TiltX:					0.7 
+TiltY:					-2.8
+Temperature:			-2.2
+Tide:					0.013
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        13:15:21
+Date:	            2023/04/21
+*Raw_Samples:		    5188816
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				f0170	983408
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.481
+Standard dev.:				0.033   
+TiltX:					0.6 
+TiltY:					-3.2
+Temperature:			-2.2
+Tide:					0.012
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        13:16:21
+Date:	            2023/04/21
+*Raw_Samples:		    5194158
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				f164e	988750
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.030   
+TiltX:					0.7 
+TiltY:					-3.5
+Temperature:			-2.2
+Tide:					0.012
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        13:17:21
+Date:	            2023/04/21
+*Raw_Samples:		    5199500
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				f2b2c	994092
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.023   
+TiltX:					0.8 
+TiltY:					-3.7
+Temperature:			-2.2
+Tide:					0.011
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        13:18:21
+Date:	            2023/04/21
+*Raw_Samples:		    5204842
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				f400a	999434
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.478
+Standard dev.:				0.031   
+TiltX:					0.7 
+TiltY:					-4.2
+Temperature:			-2.2
+Tide:					0.011
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        13:19:21
+Date:	            2023/04/21
+*Raw_Samples:		    5210184
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				f54e8	1004776
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.031   
+TiltX:					0.7 
+TiltY:					-4.4
+Temperature:			-2.2
+Tide:					0.010
+Duration:				55  
+Rejected:				1   
+Terrain Corr.:				0.000   
+Time:		        13:20:21
+Date:	            2023/04/21
+*Raw_Samples:		    5215526
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				f69c6	1010118
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.028   
+TiltX:					0.5 
+TiltY:					-4.6
+Temperature:			-2.2
+Tide:					0.010
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        13:21:21
+Date:	            2023/04/21
+*Raw_Samples:		    5220868
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				f7ea4	1015460
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.031   
+TiltX:					0.5 
+TiltY:					-5.0
+Temperature:			-2.2
+Tide:					0.009
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        13:22:21
+Date:	            2023/04/21
+*Raw_Samples:		    5226210
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				f9382	1020802
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.480
+Standard dev.:				0.033   
+TiltX:					0.4 
+TiltY:					-5.2
+Temperature:			-2.2
+Tide:					0.009
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        13:23:21
+Date:	            2023/04/21
+*Raw_Samples:		    5231552
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				fa860	1026144
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.479
+Standard dev.:				0.030   
+TiltX:					0.4 
+TiltY:					-5.5
+Temperature:			-2.2
+Tide:					0.008
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        13:24:21
+Date:	            2023/04/21
+*Raw_Samples:		    5236894
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				fbd3e	1031486
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.480
+Standard dev.:				0.033   
+TiltX:					0.3 
+TiltY:					-5.6
+Temperature:			-2.2
+Tide:					0.008
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        13:25:21
+Date:	            2023/04/21
+*Raw_Samples:		    5242236
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				fd21c	1036828
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.480
+Standard dev.:				0.033   
+TiltX:					0.2 
+TiltY:					-5.8
+Temperature:			-2.2
+Tide:					0.007
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        13:26:21
+Date:	            2023/04/21
+*Raw_Samples:		    5247578
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				fe6fa	1042170
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.480
+Standard dev.:				0.033   
+TiltX:					0.2 
+TiltY:					-6.1
+Temperature:			-2.3
+Tide:					0.006
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        13:27:21
+Date:	            2023/04/21
+*Raw_Samples:		    5252920
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				ffbd8	1047512
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.480
+Standard dev.:				0.038   
+TiltX:					0.0 
+TiltY:					-6.3
+Temperature:			-2.3
+Tide:					0.006
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        13:28:21
+Date:	            2023/04/21
+*Raw_Samples:		    5258262
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				1010b6	1052854
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.480
+Standard dev.:				0.034   
+TiltX:					0.1 
+TiltY:					-6.5
+Temperature:			-2.3
+Tide:					0.005
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        13:29:21
+Date:	            2023/04/21
+*Raw_Samples:		    5263604
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				102594	1058196
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.480
+Standard dev.:				0.029   
+TiltX:					-0.1
+TiltY:					-6.6
+Temperature:			-2.3
+Tide:					0.005
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        13:30:21
+Date:	            2023/04/21
+*Raw_Samples:		    5268946
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				103a72	1063538
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.482
+Standard dev.:				0.035   
+TiltX:					0.0 
+TiltY:					-6.8
+Temperature:			-2.3
+Tide:					0.004
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        13:31:21
+Date:	            2023/04/21
+*Raw_Samples:		    5274288
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				104f50	1068880
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.482
+Standard dev.:				0.033   
+TiltX:					-0.2
+TiltY:					-7.0
+Temperature:			-2.3
+Tide:					0.004
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        13:32:21
+Date:	            2023/04/21
+*Raw_Samples:		    5279630
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				10642e	1074222
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.482
+Standard dev.:				0.024   
+TiltX:					-0.3
+TiltY:					-7.2
+Temperature:			-2.3
+Tide:					0.003
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        13:33:21
+Date:	            2023/04/21
+*Raw_Samples:		    5284972
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				10790c	1079564
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.482
+Standard dev.:				0.027   
+TiltX:					-0.4
+TiltY:					-7.3
+Temperature:			-2.3
+Tide:					0.003
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        13:34:21
+Date:	            2023/04/21
+*Raw_Samples:		    5290314
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				108dea	1084906
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.483
+Standard dev.:				0.035   
+TiltX:					-0.5
+TiltY:					-7.5
+Temperature:			-2.3
+Tide:					0.002
+Duration:				55  
+Rejected:				1   
+Terrain Corr.:				0.000   
+Time:		        13:35:21
+Date:	            2023/04/21
+*Raw_Samples:		    5295656
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				10a2c8	1090248
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.482
+Standard dev.:				0.028   
+TiltX:					-0.5
+TiltY:					-7.6
+Temperature:			-2.3
+Tide:					0.002
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        13:36:21
+Date:	            2023/04/21
+*Raw_Samples:		    5300998
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				10b7a6	1095590
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.481
+Standard dev.:				0.030   
+TiltX:					-0.6
+TiltY:					-7.8
+Temperature:			-2.3
+Tide:					0.001
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        13:37:21
+Date:	            2023/04/21
+*Raw_Samples:		    5306340
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				10cc84	1100932
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.483
+Standard dev.:				0.031   
+TiltX:					-0.6
+TiltY:					-7.9
+Temperature:			-2.3
+Tide:					0.000
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        13:38:21
+Date:	            2023/04/21
+*Raw_Samples:		    5311682
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				10e162	1106274
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.483
+Standard dev.:				0.033   
+TiltX:					-0.8
+TiltY:					-8.1
+Temperature:			-2.3
+Tide:					0.000
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        13:39:21
+Date:	            2023/04/21
+*Raw_Samples:		    5317024
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				10f640	1111616
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.482
+Standard dev.:				0.037   
+TiltX:					-0.9
+TiltY:					-8.2
+Temperature:			-2.3
+Tide:					0.000
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        13:40:21
+Date:	            2023/04/21
+*Raw_Samples:		    5322366
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				110b1e	1116958
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.483
+Standard dev.:				0.029   
+TiltX:					-1.0
+TiltY:					-8.3
+Temperature:			-2.3
+Tide:					0.000
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        13:41:21
+Date:	            2023/04/21
+*Raw_Samples:		    5327708
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				111ffc	1122300
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.482
+Standard dev.:				0.033   
+TiltX:					-1.0
+TiltY:					-8.5
+Temperature:			-2.3
+Tide:					-0.001
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        13:42:21
+Date:	            2023/04/21
+*Raw_Samples:		    5333050
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				1134da	1127642
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.484
+Standard dev.:				0.024   
+TiltX:					-1.2
+TiltY:					-8.6
+Temperature:			-2.3
+Tide:					-0.001
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        13:43:21
+Date:	            2023/04/21
+*Raw_Samples:		    5338392
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				1149b8	1132984
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.483
+Standard dev.:				0.031   
+TiltX:					-1.3
+TiltY:					-8.6
+Temperature:			-2.3
+Tide:					-0.002
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        13:44:21
+Date:	            2023/04/21
+*Raw_Samples:		    5343734
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				115e96	1138326
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.483
+Standard dev.:				0.033   
+TiltX:					-1.4
+TiltY:					-8.8
+Temperature:			-2.3
+Tide:					-0.002
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        13:45:21
+Date:	            2023/04/21
+*Raw_Samples:		    5349076
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				117374	1143668
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.483
+Standard dev.:				0.031   
+TiltX:					-1.5
+TiltY:					-8.9
+Temperature:			-2.3
+Tide:					-0.003
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        13:46:21
+Date:	            2023/04/21
+*Raw_Samples:		    5354418
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				118852	1149010
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.483
+Standard dev.:				0.032   
+TiltX:					-1.5
+TiltY:					-9.0
+Temperature:			-2.3
+Tide:					-0.003
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        13:47:21
+Date:	            2023/04/21
+*Raw_Samples:		    5359760
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				119d30	1154352
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.483
+Standard dev.:				0.029   
+TiltX:					-1.6
+TiltY:					-9.2
+Temperature:			-2.3
+Tide:					-0.004
+Duration:				55  
+Rejected:				1   
+Terrain Corr.:				0.000   
+Time:		        13:48:21
+Date:	            2023/04/21
+*Raw_Samples:		    5365102
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				11b20e	1159694
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.484
+Standard dev.:				0.039   
+TiltX:					-1.8
+TiltY:					-9.3
+Temperature:			-2.3
+Tide:					-0.005
+Duration:				55  
+Rejected:				2   
+Terrain Corr.:				0.000   
+Time:		        13:49:21
+Date:	            2023/04/21
+*Raw_Samples:		    5370444
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				11c6ec	1165036
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.484
+Standard dev.:				0.030   
+TiltX:					-1.8
+TiltY:					-9.4
+Temperature:			-2.3
+Tide:					-0.005
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        13:50:21
+Date:	            2023/04/21
+*Raw_Samples:		    5375786
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				11dbca	1170378
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.484
+Standard dev.:				0.034   
+TiltX:					-1.8
+TiltY:					-9.5
+Temperature:			-2.3
+Tide:					-0.006
+Duration:				55  
+Rejected:				1   
+Terrain Corr.:				0.000   
+Time:		        13:51:21
+Date:	            2023/04/21
+*Raw_Samples:		    5381128
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				11f0a8	1175720
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.484
+Standard dev.:				0.059   
+TiltX:					-1.9
+TiltY:					-9.6
+Temperature:			-2.3
+Tide:					-0.006
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        13:52:21
+Date:	            2023/04/21
+*Raw_Samples:		    5386470
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				120586	1181062
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.483
+Standard dev.:				0.031   
+TiltX:					-1.9
+TiltY:					-9.6
+Temperature:			-2.3
+Tide:					-0.007
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        13:53:21
+Date:	            2023/04/21
+*Raw_Samples:		    5391812
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				121a64	1186404
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.485
+Standard dev.:				0.030   
+TiltX:					-2.2
+TiltY:					-9.7
+Temperature:			-2.3
+Tide:					-0.007
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        13:54:21
+Date:	            2023/04/21
+*Raw_Samples:		    5397154
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				122f42	1191746
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.485
+Standard dev.:				0.028   
+TiltX:					-2.4
+TiltY:					-9.8
+Temperature:			-2.3
+Tide:					-0.008
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        13:55:21
+Date:	            2023/04/21
+*Raw_Samples:		    5402496
+Raw_Length:		     5280
+
+
+[ *** CG-5 Data Record *** ]
+FILE INDEX				124420	1197088
+Record ID :				800 
+Record length :			5342
+X:				4.0000000   
+Y:				1.0000000   
+Altitude:				0.000   
+LineID:				0.000   
+Gravity:				7026.484
+Standard dev.:				0.030   
+TiltX:					-2.4
+TiltY:					-9.8
+Temperature:			-2.3
+Tide:					-0.008
+Duration:				55  
+Rejected:				0   
+Terrain Corr.:				0.000   
+Time:		        13:56:22
+Date:	            2023/04/21
+*Raw_Samples:		    5407838
+Raw_Length:		     5280
+
+
+[ *** Bad Record*** ]

@@ -17,6 +17,7 @@ import networkx as nx
 
 
 def read_data(data_files):
+    ''' Load data from CG-6 data file'''
     columns = [
         'survey_name',
         'instrument_serial_number',
@@ -60,11 +61,6 @@ def read_data(data_files):
     ]
     cg6_data = pd.DataFrame(columns=columns)
     for data_file in data_files:
-        ''' Load data from CG-6 data file'''
-        # with open(
-            # os.path.abspath(data_file),
-            # 'r',
-            # encoding='utf-8') as input_data_file:
         count = 0
         for line in data_file:
             count += 1
@@ -82,55 +78,39 @@ def read_data(data_files):
                         continue
                     case 'Survey Name':
                         survey_name = split_line[1]
-                        continue
                     case 'Instrument Serial Number':
                         instrument_serial_number = int(split_line[1])
-                        continue
                     case 'Created':
                         created = dt.strptime(split_line[1], "%Y-%m-%d %H:%M:%S")
-                        continue
                     case 'Operator':
                         operator = split_line[1]
-                        continue
                     case 'Gcal1 [mGal]':
                         gcal1 = float(split_line[1])
-                        continue
                     case 'Goff [ADU]':
                         goff = float(split_line[1])
-                        continue
                     case 'Gref [mGal]':
                         gref = float(split_line[1])
-                        continue
                     case 'X Scale [arc-sec/ADU]':
                         x_scale = float(split_line[1])
-                        continue
                     case 'Y Scale [arc-sec/ADU]':
                         y_scale = float(split_line[1])
-                        continue
                     case 'X Offset [ADU]':
                         x_offset = float(split_line[1])
-                        continue
                     case 'Y Offset [ADU]':
                         y_offset = float(split_line[1])
-                        continue
                     case 'Temperature Coefficient [mGal/mK]':
                         temperature_coefficient = float(split_line[1])
-                        continue
                     case 'Temperature Scale [mK/ADU]':
                         temperature_scale = float(split_line[1])
-                        continue
                     case 'Drift Rate [mGal/day]':
                         drift_rate = float(split_line[1])
-                        continue
                     case 'Drift Zero Time':
                         drift_zero_time = dt.strptime(
                             split_line[1],
                             "%Y-%m-%d %H:%M:%S"
                         )
-                        continue
                     case 'Firmware Version':
                         firmware_version = split_line[1]
-                        continue
             else:
                 if not line.strip():
                     continue
