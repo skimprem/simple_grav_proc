@@ -247,52 +247,56 @@ def cg6_reader(data_files):
         'LatGPS': 'float',
         'LonGPS': 'float',
         'ElevGPS': 'float',
-        })
+        }, errors='ignore')
     cg_data['Created'] = pd.to_datetime(cg_data['Created'], format='%Y-%m-%d %H %M %S')
     cg_data['Drift Zero Time'] = pd.to_datetime(cg_data['Drift Zero Time'], format='%Y-%m-%d %H %M %S')
     for index, row in cg_data.iterrows():
         cg_data.loc[index, 'date_time'] = dt.strptime(row.Date+' '+row.Time, '%Y-%m-%d %H:%M:%S')
 
-    cg_data.set_index('date_time')
-    print(cg_data.index)
+    cg_data = cg_data.set_index('date_time')
+
     return cg_data
 
 
 def make_frame_to_proc(cg_data):
     ''' Make a data frame to processing (only needed columns to be selected) '''
-    data = cg_data[[
-        'date_time',
-        'Created',
-        'Survey Name',
-        'Operator',
-        'Instrument Serial Number',
-        'InstrHeight',
-        'Line',
-        'Station',
-        'CorrGrav',
-        'DataFile',
-        'LatUser',
-        'LonUser']]
+    match cg_data.MeterType[0]:
+        case 'CG6':
+            data = cg_data[[
+                'Created',
+                'Survey Name',
+                'Operator',
+                'Instrument Serial Number',
+                'InstrHeight',
+                'Line',
+                'Station',
+                'CorrGrav',
+                'DataFile',
+                'LatUser',
+                'LonUser']]
 
-    headers = [
-        'date_time'
-        'created',
-        'survey_name',
-        'operator',
-        'instrument_serial_number',
-        'instr_height',
-        'line',
-        'station',
-        'corr_grav',
-        'data_file',
-        'lat_user',
-        'lon_user'
-    ]
+            headers = [
+                'created',
+                'survey_name',
+                'operator',
+                'instrument_serial_number',
+                'instr_height',
+                'line',
+                'station',
+                'corr_grav',
+                'data_file',
+                'lat_user',
+                'lon_user'
+            ]
 
-    data.columns = headers
-    data.set_index('date_time')
-    print(data)
-    return data
+            data.columns = headers
+            for index, row in data.iterrows():
+                data.loc[index, 'corr_grav'] = row.corr_grav * 1e3
+                data.loc[index, 'instr_height'] = row.instr_height * 1e3
+            return data
+        case 'CG5':
+            pass
+
 
 
 def get_readings(cg_data):

@@ -52,12 +52,9 @@ else:
     # GUI=args.gui
 
 data = read_data(data_files)
+data = make_frame_to_proc(data)
 
-readings = get_readings(
-    # make_frame_to_proc(
-        data
-    # )
-)
+readings = get_readings(data)
 ties = get_ties(readings)
 means = get_mean_ties(ties)
 
