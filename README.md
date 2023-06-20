@@ -51,7 +51,7 @@ The following Python packages need to be installed:
 ## To Do
 
 - [ ] Moving to classes
-- [ ] Loading set of the data files
+- [x] Loading set of the data files
 - [ ] Option to select lines for processing
 - [ ] Option to different processing methods
 - [ ] Option to adjustment of network
