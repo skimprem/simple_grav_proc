@@ -14,7 +14,8 @@ from cg6_proc.utils import \
     make_vgfit_input, \
     get_report, \
     get_residuals_plot, \
-    get_map
+    get_map, \
+    make_frame_to_proc
 
 GUI = False
 
@@ -52,7 +53,11 @@ else:
 
 data = read_data(data_files)
 
-readings = get_readings(data)
+readings = get_readings(
+    # make_frame_to_proc(
+        data
+    # )
+)
 ties = get_ties(readings)
 means = get_mean_ties(ties)
 

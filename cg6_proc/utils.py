@@ -90,7 +90,9 @@ def cg5_reader(data_files):
         'TIME': [],
         'DEC.TIME+DATE': [],
         'TERRAIN': [],
-        'DATE': []
+        'DATE': [],
+        'MeterType': [],
+        'DataFile': [],
     }
     for data_file in data_files:
         if format_detect(data_file) != meter_type:
@@ -121,6 +123,8 @@ def cg5_reader(data_files):
                     split_line = line.split()
                     for index in range(len(split_line)):
                         row.update({headers[index]: split_line[index]})
+                    row.update({'MeterType': meter_type.upper()})
+                    row.update({'DataFile': data_file.name})
                     
                     for key, value in row.items():
                         rows[key].append(value)
@@ -133,195 +137,162 @@ def cg5_reader(data_files):
 
 def cg6_reader(data_files):
     meter_type = 'cg6'
-    columns = [
-        'survey_name',
-        'instrument_serial_number',
-        'created',
-        'operator',
-        'g_cal1',
-        'g_off',
-        'g_ref',
-        'x_scale',
-        'y_scale',
-        'x_offset',
-        'y_offset',
-        'temperature_coefficient',
-        'temperature_scale',
-        'drift_rate',
-        'drift_zero_time',
-        'firmware_version',
-        'station',
-        'corr_grav',
-        'line',
-        'std_dev',
-        'std_err',
-        'raw_grav',
-        'x',
-        'y',
-        'sensor_temp',
-        'tide_corr',
-        'tilt_corr',
-        'temp_corr',
-        'drift_corr',
-        'measur_dur',
-        'instr_height',
-        'lat_user',
-        'lon_user',
-        'elev_user',
-        'lat_gps',
-        'lon_gps',
-        'elev_gps',
-        'corrections',
-        'data_file',
-        'meter_type'
-    ]
-    cg_data = pd.DataFrame(columns=columns)
+    rows = {
+        'Survey Name': [],
+        'Instrument Serial Number': [],
+        'Created': [],
+        'Operator': [],
+        'Gcal1 [mGal]': [],
+        'Goff [ADU]': [],
+        'Gref [mGal]': [],
+        'X Scale [arc-sec/ADU]': [],
+        'Y Scale [arc-sec/ADU]': [],
+        'X Offset [ADU]': [],
+        'Y Offset [ADU]': [],
+        'Temperature Coefficient [mGal/mK]': [],
+        'Temperature Scale [mK/ADU]': [],
+        'Drift Rate [mGal/day]': [],
+        'Drift Zero Time': [],
+        'Firmware Version': [],
+        'Station': [],
+        'Date': [],
+        'Time': [],
+        'CorrGrav': [],
+        'Line': [],
+        'StdDev': [],
+        'StdErr': [],
+        'RawGrav': [],
+        'X': [],
+        'Y': [],
+        'SensorTemp': [],
+        'TideCorr': [],
+        'TiltCorr': [],
+        'TempCorr': [],
+        'DriftCorr': [],
+        'MeasurDur': [],
+        'InstrHeight': [],
+        'LatUser': [],
+        'LonUser': [],
+        'ElevUser': [],
+        'LatGPS': [],
+        'LonGPS': [],
+        'ElevGPS': [],
+        'Corrections[drift-temp-na-tide-tilt]': [],
+        'MeterType': [],
+        'DataFile': []
+    }
 
     for data_file in data_files:
         if format_detect(data_file) != meter_type:
             raise ImportError(f'{data_file.name} data file must be in {meter_type.upper()} format')
-        count = 0
-        for line in data_file:
-            count += 1
-            if line[0] == '/':
-                line = line[1:].strip()
-                split_line = re.split(':\t', line)
-                if line[:6] == 'Station':
-                    continue
-                elif not line:
-                    continue
-                match split_line[0]:
-                    case 'CG-6 Survey':
-                        continue
-                    case 'CG-6 Calibration':
-                        continue
-                    case 'Survey Name':
-                        survey_name = split_line[1]
-                    case 'Instrument Serial Number':
-                        instrument_serial_number = int(split_line[1])
-                    case 'Created':
-                        created = dt.strptime(split_line[1], "%Y-%m-%d %H:%M:%S")
-                    case 'Operator':
-                        operator = split_line[1]
-                    case 'Gcal1 [mGal]':
-                        gcal1 = float(split_line[1])
-                    case 'Goff [ADU]':
-                        goff = float(split_line[1])
-                    case 'Gref [mGal]':
-                        gref = float(split_line[1])
-                    case 'X Scale [arc-sec/ADU]':
-                        x_scale = float(split_line[1])
-                    case 'Y Scale [arc-sec/ADU]':
-                        y_scale = float(split_line[1])
-                    case 'X Offset [ADU]':
-                        x_offset = float(split_line[1])
-                    case 'Y Offset [ADU]':
-                        y_offset = float(split_line[1])
-                    case 'Temperature Coefficient [mGal/mK]':
-                        temperature_coefficient = float(split_line[1])
-                    case 'Temperature Scale [mK/ADU]':
-                        temperature_scale = float(split_line[1])
-                    case 'Drift Rate [mGal/day]':
-                        drift_rate = float(split_line[1])
-                    case 'Drift Zero Time':
-                        drift_zero_time = dt.strptime(
-                            split_line[1],
-                            "%Y-%m-%d %H:%M:%S"
-                        )
-                    case 'Firmware Version':
-                        firmware_version = split_line[1]
-            else:
-                if not line.strip():
-                    continue
-                split_line = line.split()
-                try:
-                    float(split_line[3])
-                    station, date_, time_, corrgrav, line_, stddev,\
-                        stderr, rawgrav, x, y, sensortemp, tidecorr,\
-                        tiltcorr, tempcorr, driftcorr, measurdur,\
-                        instrheight, latuser, lonuser, elevuser, latgps,\
-                        longps, elevgps, corrections = split_line
-                except ValueError:
-                    print(f'Warning: ValueError at line {count}')
-                    continue
-                date_time = dt.strptime(
-                    date_ + 'T' + time_, "%Y-%m-%dT%H:%M:%S")
-                corrgrav = float(corrgrav) * 1e3
-                line_ = int(line_)
-                stddev = float(stddev) * 1e3
-                stderr = float(stderr) * 1e3
-                rawgrav = float(rawgrav) * 1e3
-                x = float(x)
-                y = float(y)
-                sensortemp = float(sensortemp)
-                tidecorr = float(tidecorr) * 1e3
-                tiltcorr = float(tiltcorr) * 1e3
-                tempcorr = float(tempcorr) * 1e3
-                driftcorr = float(driftcorr) * 1e3
-                measurdur = float(measurdur)
-                instrheight = float(instrheight) * 1e3
-                latuser = float(latuser)
-                lonuser = float(lonuser)
-                elevuser = float(elevuser)
 
-                try:
-                    latgps = float(latgps)
-                except ValueError:
-                    latgps = None
-                try:
-                    longps = float(longps)
-                except ValueError:
-                    longps = None
-                try:
-                    elevgps = float(elevgps)
-                except ValueError:
-                    elevgps = None
-
-                cg_data.loc[date_time] = [
-                    survey_name,
-                    instrument_serial_number,
-                    created,
-                    operator,
-                    gcal1,
-                    goff,
-                    gref,
-                    x_scale,
-                    y_scale,
-                    x_offset,
-                    y_offset,
-                    temperature_coefficient,
-                    temperature_scale,
-                    drift_rate,
-                    drift_zero_time,
-                    firmware_version,
-                    station,
-                    corrgrav,
-                    line_,
-                    stddev,
-                    stderr,
-                    rawgrav,
-                    x,
-                    y,
-                    sensortemp,
-                    tidecorr,
-                    tiltcorr,
-                    tempcorr,
-                    driftcorr,
-                    measurdur,
-                    instrheight,
-                    latuser,
-                    lonuser,
-                    elevuser,
-                    latgps,
-                    longps,
-                    elevgps,
-                    corrections,
-                    data_file.name,
-                    meter_type
-                ]
+        lines = data_file.readlines()
         data_file.close()
+            
+        row = {}
+        for line in lines:
+            if not line.strip():
+                continue
+            match line[:2].strip():
+                case '/':
+                    split_line = re.split(':', line[1:])
+                    for index in range(len(split_line)):
+                        split_line[index] = split_line[index].strip()
+                    if len(split_line) > 1:
+                        row.update({split_line[0]: ' '.join(x for x in split_line[1:])})
+                case '/S':
+                    line = line[1:]
+                    headers = line.split()
+                case _:
+                    split_line = line.split()
+                    for index in range(len(split_line)):
+                        row.update({headers[index]: split_line[index]})
+                    row.update({'MeterType': meter_type.upper()})
+                    row.update({'DataFile': data_file.name})
+                    
+                    for key, value in row.items():
+                        rows[key].append(value)    
+                
+    cg_data = pd.DataFrame(rows)        
 
+    cg_data = cg_data.astype({
+        'Instrument Serial Number': 'int',
+        'Gcal1 [mGal]': 'float',
+        'Goff [ADU]': 'float',
+        'Gref [mGal]': 'float',
+        'X Scale [arc-sec/ADU]': 'float',
+        'Y Scale [arc-sec/ADU]': 'float',
+        'X Offset [ADU]': 'float',
+        'Y Offset [ADU]': 'float',
+        'Temperature Coefficient [mGal/mK]': 'float',
+        'Temperature Scale [mK/ADU]': 'float',
+        'Drift Rate [mGal/day]': 'float',
+        'CorrGrav': 'float',
+        'Line': 'int',
+        'StdDev': 'float',
+        'StdErr': 'float',
+        'RawGrav': 'float',
+        'X': 'float',
+        'Y': 'float',
+        'SensorTemp': 'float',
+        'TideCorr': 'float',
+        'TiltCorr': 'float',
+        'TempCorr': 'float',
+        'DriftCorr': 'float',
+        'MeasurDur': 'int',
+        'InstrHeight': 'float',
+        'LatUser': 'float',
+        'LonUser': 'float',
+        'ElevUser': 'float',
+        'LatGPS': 'float',
+        'LonGPS': 'float',
+        'ElevGPS': 'float',
+        })
+    cg_data['Created'] = pd.to_datetime(cg_data['Created'], format='%Y-%m-%d %H %M %S')
+    cg_data['Drift Zero Time'] = pd.to_datetime(cg_data['Drift Zero Time'], format='%Y-%m-%d %H %M %S')
+    for index, row in cg_data.iterrows():
+        cg_data.loc[index, 'date_time'] = dt.strptime(row.Date+' '+row.Time, '%Y-%m-%d %H:%M:%S')
+
+    cg_data.set_index('date_time')
+    print(cg_data.index)
     return cg_data
+
+
+def make_frame_to_proc(cg_data):
+    ''' Make a data frame to processing (only needed columns to be selected) '''
+    data = cg_data[[
+        'date_time',
+        'Created',
+        'Survey Name',
+        'Operator',
+        'Instrument Serial Number',
+        'InstrHeight',
+        'Line',
+        'Station',
+        'CorrGrav',
+        'DataFile',
+        'LatUser',
+        'LonUser']]
+
+    headers = [
+        'date_time'
+        'created',
+        'survey_name',
+        'operator',
+        'instrument_serial_number',
+        'instr_height',
+        'line',
+        'station',
+        'corr_grav',
+        'data_file',
+        'lat_user',
+        'lon_user'
+    ]
+
+    data.columns = headers
+    data.set_index('date_time')
+    print(data)
+    return data
 
 
 def get_readings(cg_data):
