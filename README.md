@@ -59,3 +59,4 @@ The following Python packages need to be installed:
 - [x] Option to interactive stations mapping (GeoPandas, Leaflet, Folium etc.)
 - [ ] Correct setting for setuptools
 - [ ] Loading CG-5 data files
+- [ ] Processing with set of meters
