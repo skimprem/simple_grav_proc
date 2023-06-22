@@ -15,7 +15,11 @@ from cg6_proc.utils import \
     get_report, \
     get_residuals_plot, \
     get_map, \
-    make_frame_to_proc
+    make_frame_to_proc, \
+    get_meters_readings, \
+    get_meters_ties, \
+    get_meters_mean_ties, \
+    get_meters_report
 
 GUI = False
 
@@ -51,14 +55,13 @@ else:
     data_files = args.data_files
     # GUI=args.gui
 
-data = read_data(data_files)
-data = make_frame_to_proc(data)
+raw_data = make_frame_to_proc(read_data(data_files))
 
-readings = get_readings(data)
-ties = get_ties(readings)
-means = get_mean_ties(ties)
+readings = get_meters_readings(raw_data)
+ties = get_meters_ties(readings)
+means = get_meters_mean_ties(ties)
 
-basename = '_'.join(str(survey) for survey in data.survey_name.unique())
+basename = '_'.join(str(survey) for survey in raw_data.survey_name.unique())
 
 default_output_file_report = 'report_'+basename+'.txt'
 
@@ -74,7 +77,7 @@ else:
     else:
         output_file_report = default_output_file_report
 
-report = get_report(means)
+report = get_meters_report(means)
 
 with open(output_file_report, 'w', encoding='utf-8') as report_file:
     report_file.write(report)
@@ -82,18 +85,18 @@ with open(output_file_report, 'w', encoding='utf-8') as report_file:
 
 if not GUI:
     if args.to_vgfit:
-        make_vgfit_input(means, basename+'.csv')
+        for meter in means.instrument_serial_number.unique():
+            meter_means = means[means.instrument_serial_number == meter]
+            make_vgfit_input(means, str(meter)+'.csv')
 
     if args.verbose:
         print(report)
 
-get_residuals_plot(data, readings, means)
-
-if GUI:
-    plt.show()
-else:
-    if args.plot:
-        plt.savefig(basename+'.pdf')
+for meter in means.instrument_serial_number.unique():
+    meter_means = means[means.instrument_serial_number == meter]
+    meter_readings = readings[readings.instrument_serial_number == meter]
+    meter_data = raw_data[raw_data.instrument_serial_number == meter]
+    get_residuals_plot(meter_data, meter_readings, meter_means)
 
 default_output_file_map = 'index_'+basename+'.html'
 

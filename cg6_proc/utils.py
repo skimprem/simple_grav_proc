@@ -253,16 +253,16 @@ def cg6_reader(data_files):
     for index, row in cg_data.iterrows():
         cg_data.loc[index, 'date_time'] = dt.strptime(row.Date+' '+row.Time, '%Y-%m-%d %H:%M:%S')
 
-    cg_data = cg_data.set_index('date_time')
-
+    # cg_data = cg_data.set_index('date_time')
     return cg_data
 
 
 def make_frame_to_proc(cg_data):
     ''' Make a data frame to processing (only needed columns to be selected) '''
-    match cg_data.MeterType[0]:
+    match cg_data.iloc[0].MeterType:
         case 'CG6':
             data = cg_data[[
+                'date_time',
                 'Created',
                 'Survey Name',
                 'Operator',
@@ -276,6 +276,7 @@ def make_frame_to_proc(cg_data):
                 'LonUser']]
 
             headers = [
+                'date_time',
                 'created',
                 'survey_name',
                 'operator',
@@ -298,11 +299,11 @@ def make_frame_to_proc(cg_data):
             pass
 
 
-
-def get_readings(cg_data):
-    ''' Get mean values of signals of readings '''
+def get_meters_readings(cg_data):
+    ''' Get mean values of signals of readings from different meters '''
     readings = pd.DataFrame(
         columns=[
+            'date_time',
             'created',
             'survey_name',
             'operator',
@@ -316,66 +317,117 @@ def get_readings(cg_data):
             'lon_user'
         ]
     )
+    for meter in cg_data.instrument_serial_number.unique():
+        meter_data = cg_data[cg_data.instrument_serial_number == meter]
+        meter_readings = get_readings(meter_data)
+        readings = pd.concat([readings, meter_readings])
+    return readings
+
+
+def get_readings(cg_data):
+    ''' Get mean values of signals of readings '''
+    readings = pd.DataFrame(
+        columns=[
+            'date_time',
+            'created',
+            'survey_name',
+            'operator',
+            'instrument_serial_number',
+            'instr_height',
+            'line',
+            'station',
+            'corr_grav',
+            'data_file',
+            'lat_user',
+            'lon_user'
+        ]
+    )
+    reading_index = 0
     for line in cg_data.line.unique():
         line_data = cg_data[cg_data.line == line]
         trigger = False
         count = 0
-        first_index = line_data.index[0]
+        first_date_time = line_data.iloc[0].date_time
+        first_index = line_data.iloc[0].index
         for index, row in line_data.iterrows():
             if index == line_data.index[-1]:
-                station_mean = line_data.corr_grav.loc[
-                    first_index:index].mean()
-                height_mean = line_data.instr_height.loc[
-                    first_index:index].mean()
-                mean_time = first_index + (index - first_index) / 2
-                readings.loc[mean_time] = [
+                readings.loc[reading_index] = [
+                    first_date_time + (row.date_time - first_date_time) / 2,
                     row.created,
                     row.survey_name,
                     row.operator,
                     row.instrument_serial_number,
-                    height_mean,
+                    line_data.loc[first_index:index].instr_height.mean(),
                     row.line,
                     row.station,
-                    station_mean,
+                    line_data.loc[first_index:index].corr_grav.mean(),
                     row.data_file,
-                    row.lat_user,
-                    row.lon_user]
+                    line_data.loc[first_index:index].lat_user.mean(),
+                    line_data.loc[first_index:index].lon_user.mean(),
+                ]
+                reading_index += 1
                 break
             if row.station == line_data.station.iloc[count + 1]:
                 count += 1
                 if not trigger:
                     trigger = True
+                    first_date_time = row.date_time
                     first_index = index
             else:
                 trigger = False
-                station_mean = line_data.corr_grav.loc[
-                    first_index:index].mean()
-                height_mean = line_data.instr_height.loc[
-                    first_index:index].mean()
-                mean_time = first_index + (index - first_index) / 2
-                readings.loc[mean_time] = [
+                readings.loc[reading_index] = [
+                    first_date_time + (row.date_time - first_date_time) / 2,
                     row.created,
                     row.survey_name,
                     row.operator,
                     row.instrument_serial_number,
-                    height_mean,
+                    line_data.loc[first_index:index].instr_height.mean(),
                     row.line,
                     row.station,
-                    station_mean,
+                    line_data.loc[first_index:index].corr_grav.mean(),
                     row.data_file,
-                    row.lat_user,
-                    row.lon_user]
+                    line_data.loc[first_index:index].lat_user.mean(),
+                    line_data.loc[first_index:index].lon_user.mean(),
+                ]
                 count += 1
+                reading_index += 1
 
     for station in readings.station.unique():
         station_readings = readings[readings.station == station]
-        first_lat = station_readings.lat_user[0]
-        first_lon = station_readings.lon_user[0]
+        first_lat = station_readings.iloc[0].lat_user
+        first_lon = station_readings.iloc[0].lon_user
         for index, row in station_readings.iterrows():
             readings.loc[
                 index, ['lat_user', 'lon_user']] = [first_lat, first_lon]
-
     return readings
+
+
+def get_meters_ties(readings):
+    ''' Get ties from meters '''
+    ties = pd.DataFrame(columns=[
+        'date_from',
+        'date_to',
+        'created',
+        'survey_name',
+        'operator',
+        'instrument_serial_number',
+        'instr_height_from',
+        'instr_height_to',
+        'line',
+        'station_from',
+        'station_to',
+        'tie',
+        'data_file',
+        'lat_user_from',
+        'lat_user_to',
+        'lon_user_from',
+        'lon_user_to'
+    ])
+    for meter in readings.instrument_serial_number.unique():
+        meter_readings = readings[readings.instrument_serial_number == meter]
+        meter_ties = get_ties(meter_readings)
+        ties = pd.concat([ties, meter_ties])
+    return ties
 
 
 def get_ties(readings):
@@ -406,7 +458,8 @@ def get_ties(readings):
         for index, row in line_readings.iterrows():
             if len(loops) == 0:
                 loops.append({
-                    'date_time': index,
+                    'index': index,
+                    'date_time': row.date_time,
                     'created': row.created,
                     'survey_name': row.survey_name,
                     'operator': row.operator,
@@ -420,53 +473,42 @@ def get_ties(readings):
                 })
                 continue
             if row.station == loops[0]['station']:
-                begin_index = loops[0]['date_time']
+                begin_date_time = loops[0]['date_time']
+                begin_index = loops[0]['index']
                 factor = (
-                    row.corr_grav - line_readings.corr_grav.loc[begin_index]
+                    row.corr_grav - line_readings.loc[begin_index].corr_grav
                 ) / (
-                    dt.timestamp(index) - dt.timestamp(begin_index)
+                    dt.timestamp(row.date_time) - dt.timestamp(begin_date_time)
                 )
                 for reading in loops[1:]:
                     correction = factor * (
                         dt.timestamp(reading['date_time'])
-                        - dt.timestamp(begin_index)
+                        - dt.timestamp(begin_date_time)
                     )
-                    tie = reading['corr_grav'] -\
-                        loops[0]['corr_grav'] + correction
-                    level_from = loops[0]['instr_height']
-                    level_to = reading['instr_height']
-                    date = reading['created']
-                    date_from = begin_index
-                    date_to = reading['date_time']
-                    site = reading['survey_name']
-                    operator = reading['operator']
-                    meter = reading['instrument_serial_number']
-                    data_file = reading['data_file']
-                    lat_user = reading['lat_user']
-                    lon_user = reading['lon_user']
                     ties.loc[count] = [
-                        date_from,
-                        date_to,
-                        date,
-                        site,
-                        operator,
-                        meter,
-                        level_to,
-                        level_from,
+                        begin_date_time,
+                        reading['date_time'],
+                        reading['created'],
+                        reading['survey_name'],
+                        reading['operator'],
+                        reading['instrument_serial_number'],
+                        reading['instr_height'],
+                        loops[0]['instr_height'],
                         row.line,
                         row.station,
                         reading['station'],
-                        tie,
-                        data_file,
+                        reading['corr_grav'] - loops[0]['corr_grav'] + correction,
+                        reading['data_file'],
                         row.lat_user,
-                        lat_user,
+                        reading['lat_user'],
                         row.lon_user,
-                        lon_user
+                        reading['lon_user']
                     ]
                     count += 1
                 loops.pop(0)
                 loops.append({
-                    'date_time': index,
+                    'index': index,
+                    'date_time': row.date_time,
                     'created': row.created,
                     'survey_name': row.survey_name,
                     'operator': row.operator,
@@ -480,7 +522,8 @@ def get_ties(readings):
                 })
             else:
                 loops.append({
-                    'date_time': index,
+                    'index': index,
+                    'date_time': row.date_time,
                     'created': row.created,
                     'survey_name': row.survey_name,
                     'operator': row.operator,
@@ -493,6 +536,33 @@ def get_ties(readings):
                     'lon_user': row.lon_user
                 })
     return ties
+
+    
+def get_meters_mean_ties(ties):
+    mean_ties = pd.DataFrame(columns=[
+        'station_from',
+        'station_to',
+        'created',
+        'operator',
+        'instrument_serial_number',
+        'line',
+        'instr_height_from',
+        'instr_height_to',
+        'tie',
+        'std',
+        'data_file',
+        'lat_user_from',
+        'lat_user_to',
+        'lon_user_from',
+        'lon_user_to',
+        'date_time'
+
+    ])
+    for meter in ties.instrument_serial_number.unique():
+        meter_ties = ties[ties.instrument_serial_number == meter]
+        meter_mean_ties = get_mean_ties(meter_ties)
+        mean_ties = pd.concat([mean_ties, meter_mean_ties])
+    return mean_ties
 
 
 def get_mean_ties(ties):
@@ -660,10 +730,18 @@ def reverse_tie(tie):
     ]
     return reverse
 
+def get_meters_report(means):
+    report = ''    
+    for meter in means.instrument_serial_number.unique():
+        meter_means = means[means.instrument_serial_number == meter]
+        meter_report = get_report(meter_means)
+        report += meter_report
+    return report
+
 
 def get_report(means):
     ''' Get table report of means '''
-    report = 'The mean ties between the stations:'
+    report = f'The mean ties between the stations for meter {means.iloc[0].instrument_serial_number}:'
     columns = [
         'station_from',
         'station_to',
@@ -703,7 +781,7 @@ def get_report(means):
         headers=headers,
         tablefmt="simple",
         floatfmt=".2f")
-    report = f'{report}\n\nSum of the ties:\n\n{sums_table}'
+    report = f'{report}\n\nSum of the ties:\n\n{sums_table}\n\n'
     return report
 
 
@@ -742,7 +820,7 @@ def get_residuals_plot(raw, readings, ties):
     ''' Get plot of residuals '''
     for _, tie_row in ties.iterrows():
         tie_readings = raw[raw.line == tie_row.line]
-        first_reading = readings[readings.line == tie_row.line].corr_grav[0]
+        first_reading = readings[readings.line == tie_row.line].iloc[0].corr_grav
         tie_station = tie_row.station_to
         for reading_index, reading_row in tie_readings.iterrows():
             if reading_row.station == tie_station:
@@ -756,7 +834,7 @@ def get_residuals_plot(raw, readings, ties):
                     ['residuals']] = reading_row.corr_grav - first_reading
 
     survey_names = ', '.join(str(survey_name) for survey_name in readings.survey_name.unique())
-    delta_time = readings.index[-1] - readings.index[0]
+    delta_time = readings.iloc[-1].date_time - readings.iloc[0].date_time
     if delta_time < td(hours=24):
         date_formatter = DateFormatter('%H:%M')
     elif delta_time > td(days=2):
@@ -773,6 +851,7 @@ def get_residuals_plot(raw, readings, ties):
         y='residuals',
         hue='station').xaxis.set_major_formatter(date_formatter)
     plt.legend(title='Stations')
+    plt.savefig(str(ties.iloc[0].instrument_serial_number)+'.pdf')
 
     return raw
 
