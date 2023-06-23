@@ -8,11 +8,7 @@ import sys
 from matplotlib import pyplot as plt
 from cg6_proc.utils import \
     read_data, \
-    get_readings, \
-    get_ties, \
-    get_mean_ties, \
     make_vgfit_input, \
-    get_report, \
     get_residuals_plot, \
     get_map, \
     make_frame_to_proc, \
@@ -34,7 +30,7 @@ if GUI:
     )
     data_files = []
     for data_file_name in list(data_file_names):
-        data_files.append(open(data_file_name, 'r'))
+        data_files.append(open(data_file_name, 'r', encoding='utf-8'))
 else:
     parser = argparse.ArgumentParser(
         prog='rgrav',
@@ -85,31 +81,32 @@ with open(output_file_report, 'w', encoding='utf-8') as report_file:
 
 if not GUI:
     if args.to_vgfit:
-        for meter in means.instrument_serial_number.unique():
-            meter_means = means[means.instrument_serial_number == meter]
-            make_vgfit_input(means, str(meter)+'.csv')
-
+        make_vgfit_input(means)
     if args.verbose:
         print(report)
 
-for meter in means.instrument_serial_number.unique():
-    meter_means = means[means.instrument_serial_number == meter]
-    meter_readings = readings[readings.instrument_serial_number == meter]
-    meter_data = raw_data[raw_data.instrument_serial_number == meter]
-    get_residuals_plot(meter_data, meter_readings, meter_means)
+
+if GUI:
+    get_residuals_plot(raw_data, readings, means)
+    plt.show()
+else:
+    if args.plot:
+        get_residuals_plot(raw_data, readings, means)
+        plt.savefig(basename+'.pdf')
 
 default_output_file_map = 'index_'+basename+'.html'
 
-if GUI:
-    output_file_map = fd.asksaveasfilename(
-        defaultextension='.html',
-        filetypes=[('html', '*.html'), ('All files', '*')],
-        initialfile=default_output_file_map,
-        title='Save Map')
-else:
-    if args.map:
-        output_file_map = args.map
+if not args.to_vgfit:
+    if GUI:
+        output_file_map = fd.asksaveasfilename(
+            defaultextension='.html',
+            filetypes=[('html', '*.html'), ('All files', '*')],
+            initialfile=default_output_file_map,
+            title='Save Map')
     else:
-        output_file_map = default_output_file_map
+        if args.map:
+            output_file_map = args.map
+        else:
+            output_file_map = default_output_file_map
 
-get_map(readings).save(output_file_map)
+    get_map(readings).save(output_file_map)

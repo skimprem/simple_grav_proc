@@ -261,19 +261,23 @@ def make_frame_to_proc(cg_data):
     ''' Make a data frame to processing (only needed columns to be selected) '''
     match cg_data.iloc[0].MeterType:
         case 'CG6':
-            data = cg_data[[
-                'date_time',
-                'Created',
-                'Survey Name',
-                'Operator',
-                'Instrument Serial Number',
-                'InstrHeight',
-                'Line',
-                'Station',
-                'CorrGrav',
-                'DataFile',
-                'LatUser',
-                'LonUser']]
+            data = cg_data[
+                [
+                    'date_time',
+                    'Created',
+                    'Survey Name',
+                    'Operator',
+                    'Instrument Serial Number',
+                    'InstrHeight',
+                    'Line',
+                    'Station',
+                    'CorrGrav',
+                    'DataFile',
+                    'LatUser',
+                    'LonUser',
+                    'MeterType'
+                ]
+            ]
 
             headers = [
                 'date_time',
@@ -287,7 +291,8 @@ def make_frame_to_proc(cg_data):
                 'corr_grav',
                 'data_file',
                 'lat_user',
-                'lon_user'
+                'lon_user',
+                'meter_type'
             ]
 
             data.columns = headers
@@ -314,7 +319,8 @@ def get_meters_readings(cg_data):
             'corr_grav',
             'data_file',
             'lat_user',
-            'lon_user'
+            'lon_user',
+            'meter_type'
         ]
     )
     for meter in cg_data.instrument_serial_number.unique():
@@ -339,7 +345,8 @@ def get_readings(cg_data):
             'corr_grav',
             'data_file',
             'lat_user',
-            'lon_user'
+            'lon_user',
+            'meter_type'
         ]
     )
     reading_index = 0
@@ -364,6 +371,7 @@ def get_readings(cg_data):
                     row.data_file,
                     line_data.loc[first_index:index].lat_user.mean(),
                     line_data.loc[first_index:index].lon_user.mean(),
+                    row.meter_type
                 ]
                 reading_index += 1
                 break
@@ -388,6 +396,7 @@ def get_readings(cg_data):
                     row.data_file,
                     line_data.loc[first_index:index].lat_user.mean(),
                     line_data.loc[first_index:index].lon_user.mean(),
+                    row.meter_type
                 ]
                 count += 1
                 reading_index += 1
@@ -421,7 +430,8 @@ def get_meters_ties(readings):
         'lat_user_from',
         'lat_user_to',
         'lon_user_from',
-        'lon_user_to'
+        'lon_user_to',
+        'meter_type'
     ])
     for meter in readings.instrument_serial_number.unique():
         meter_readings = readings[readings.instrument_serial_number == meter]
@@ -449,7 +459,8 @@ def get_ties(readings):
         'lat_user_from',
         'lat_user_to',
         'lon_user_from',
-        'lon_user_to'
+        'lon_user_to',
+        'meter_type'
     ])
     count = 0
     for line in readings.line.unique():
@@ -469,7 +480,8 @@ def get_ties(readings):
                     'instrument_serial_number': row.instrument_serial_number,
                     'data_file': row.data_file,
                     'lat_user': row.lat_user,
-                    'lon_user': row.lon_user
+                    'lon_user': row.lon_user,
+                    'meter_type': row.meter_type
                 })
                 continue
             if row.station == loops[0]['station']:
@@ -502,7 +514,8 @@ def get_ties(readings):
                         row.lat_user,
                         reading['lat_user'],
                         row.lon_user,
-                        reading['lon_user']
+                        reading['lon_user'],
+                        reading['meter_type']
                     ]
                     count += 1
                 loops.pop(0)
@@ -518,7 +531,8 @@ def get_ties(readings):
                     'instrument_serial_number': row.instrument_serial_number,
                     'data_file': row.data_file,
                     'lat_user': row.lat_user,
-                    'lon_user': row.lon_user
+                    'lon_user': row.lon_user,
+                    'meter_type': row.meter_type
                 })
             else:
                 loops.append({
@@ -533,7 +547,8 @@ def get_ties(readings):
                     'instrument_serial_number': row.instrument_serial_number,
                     'data_file': row.data_file,
                     'lat_user': row.lat_user,
-                    'lon_user': row.lon_user
+                    'lon_user': row.lon_user,
+                    'meter_type': row.meter_type
                 })
     return ties
 
@@ -555,7 +570,8 @@ def get_meters_mean_ties(ties):
         'lat_user_to',
         'lon_user_from',
         'lon_user_to',
-        'date_time'
+        'date_time',
+        'meter_type'
 
     ])
     for meter in ties.instrument_serial_number.unique():
@@ -591,7 +607,8 @@ def get_mean_ties(ties):
                     tie_row['lat_user_from'],
                     tie_row['lat_user_to'],
                     tie_row['lat_user_from'],
-                    tie_row['lat_user_to']
+                    tie_row['lat_user_to'],
+                    tie_row['meter_type']
                 ]
 
     result = pd.DataFrame(columns=[
@@ -611,7 +628,8 @@ def get_mean_ties(ties):
         'lat_user_to',
         'lon_user_from',
         'lon_user_to',
-        'date_time'
+        'date_time',
+        'meter_type'
     ])
 
     means = []
@@ -636,7 +654,8 @@ def get_mean_ties(ties):
             'lat_user_to': 'mean',
             'lon_user_from': 'mean',
             'lon_user_to': 'mean',
-            'date_to': 'last'
+            'date_to': 'last',
+            'meter_type': 'last'
         })
         mean.columns = [
             'station_from',
@@ -655,7 +674,8 @@ def get_mean_ties(ties):
             'lat_user_to',
             'lon_user_from',
             'lon_user_to',
-            'date_time'
+            'date_time',
+            'meter_type'
         ]
         means.append(mean)
     result = pd.concat(means, ignore_index=True)
@@ -726,7 +746,8 @@ def reverse_tie(tie):
         tie.lat_user_to,
         tie.lon_user_from,
         tie.lon_user_to,
-        tie.date_time
+        tie.date_time,
+        tie.meter_type
     ]
     return reverse
 
@@ -735,19 +756,20 @@ def get_meters_report(means):
     for meter in means.instrument_serial_number.unique():
         meter_means = means[means.instrument_serial_number == meter]
         meter_report = get_report(meter_means)
-        report += meter_report
+        report = report + meter_report
     return report
 
 
 def get_report(means):
     ''' Get table report of means '''
-    report = f'The mean ties between the stations for meter {means.iloc[0].instrument_serial_number}:'
+    report = f'The mean ties between the stations for meter #{means.iloc[0].instrument_serial_number}:'
     columns = [
         'station_from',
         'station_to',
         'date_time',
         'survey_name',
         'operator',
+        'meter_type',
         'instrument_serial_number',
         'line',
         'instr_height_from',
@@ -761,6 +783,7 @@ def get_report(means):
         'Date',
         'Survey',
         'Operator',
+        'Meter',
         'S/N',
         'Line',
         'Height From (mm)',
@@ -774,84 +797,102 @@ def get_report(means):
         headers=headers,
         tablefmt="simple",
         floatfmt=".1f")
-    report = f'{report}\n\n{means_table}'
-    headers = ['Cicles', 'Sum (uGals)']
-    sums_table = get_ties_sum(means).to_markdown(
-        index=False,
-        headers=headers,
-        tablefmt="simple",
-        floatfmt=".2f")
-    report = f'{report}\n\nSum of the ties:\n\n{sums_table}\n\n'
+    report = f'{report}\n{means_table}\n\n'
+    ties_sum = get_ties_sum(means)
+    if len(ties_sum):
+        headers = ['Cicles', 'Sum (uGals)']
+        sums_table = ties_sum.to_markdown(
+            index=False,
+            headers=headers,
+            tablefmt="simple",
+            floatfmt=".2f")
+        report = f'{report}Sum of the ties:\n{sums_table}\n\n'
     return report
 
 
-def make_vgfit_input(means, filename):
+def make_vgfit_input(means):
     ''' Make CSV file for vg_fit utilite '''
-    columns = [
-        'date_time',
-        'survey_name',
-        'operator',
-        'instrument_serial_number',
-        'line',
-        'instr_height_from',
-        'instr_height_to',
-        'tie',
-        'std',
-        'data_file'
-    ]
-    means_to_vgfit = means[columns]
-    means_to_vgfit.columns = [
-        'date',
-        'station',
-        'observer',
-        'gravimeter',
-        'runn',
-        'level_1',
-        'level_2',
-        'delta_g',
-        'std',
-        'source'
-    ]
-    means_to_vgfit.to_csv(filename, index=False)
-    return means_to_vgfit
+    for meter in means.instrument_serial_number.unique():
+        meter_means = means[means.instrument_serial_number == meter]
+        filename = meter_means.iloc[0].survey_name+'_'+str(meter)+'.csv'
+        columns = [
+            'date_time',
+            'survey_name',
+            'operator',
+            'instrument_serial_number',
+            'line',
+            'instr_height_from',
+            'instr_height_to',
+            'tie',
+            'std',
+            'data_file'
+        ]
+        means_to_vgfit = meter_means[columns]
+        means_to_vgfit.columns = [
+            'date',
+            'station',
+            'observer',
+            'gravimeter',
+            'runn',
+            'level_1',
+            'level_2',
+            'delta_g',
+            'std',
+            'source'
+        ]
+        means_to_vgfit.to_csv(filename, index=False)
+    return
 
 
 def get_residuals_plot(raw, readings, ties):
     ''' Get plot of residuals '''
-    for _, tie_row in ties.iterrows():
-        tie_readings = raw[raw.line == tie_row.line]
-        first_reading = readings[readings.line == tie_row.line].iloc[0].corr_grav
-        tie_station = tie_row.station_to
-        for reading_index, reading_row in tie_readings.iterrows():
-            if reading_row.station == tie_station:
-                raw.loc[
-                    reading_index,
-                    ['residuals']] = reading_row.corr_grav\
-                        - first_reading - tie_row.tie
-            else:
-                raw.loc[
-                    reading_index,
-                    ['residuals']] = reading_row.corr_grav - first_reading
+    meters = ties.instrument_serial_number.unique()
+    for meter in meters:
+        meter_raw = raw[raw.instrument_serial_number == meter]
+        meter_readings = readings[readings.instrument_serial_number == meter]
+        meter_ties = ties[ties.instrument_serial_number == meter]
+        for _, tie_row in meter_ties.iterrows():
+            tie_readings = meter_raw[meter_raw.line == tie_row.line]
+            first_reading = meter_readings[meter_readings.line == tie_row.line].iloc[0].corr_grav
+            tie_station = tie_row.station_to
+            for reading_index, reading_row in tie_readings.iterrows():
+                if reading_row.station == tie_station:
+                    raw.loc[
+                        reading_index,
+                        ['residuals']] = reading_row.corr_grav\
+                            - first_reading - tie_row.tie
+                else:
+                    raw.loc[
+                        reading_index,
+                        ['residuals']] = reading_row.corr_grav - first_reading
 
-    survey_names = ', '.join(str(survey_name) for survey_name in readings.survey_name.unique())
-    delta_time = readings.iloc[-1].date_time - readings.iloc[0].date_time
-    if delta_time < td(hours=24):
-        date_formatter = DateFormatter('%H:%M')
-    elif delta_time > td(days=2):
-        date_formatter = DateFormatter('%b %d')
-    else:
-        date_formatter = DateFormatter('%b %d %H:%M')
-    sns.set(style="whitegrid")
-    plt.xlabel('Date & Time')
-    plt.ylabel('Residuals [uGals]')
-    plt.title(f'Residuals of {survey_names} surveys')
-    sns.scatterplot(
-        raw,
-        x=raw.index,
-        y='residuals',
-        hue='station').xaxis.set_major_formatter(date_formatter)
-    plt.legend(title='Stations')
-    plt.savefig(str(ties.iloc[0].instrument_serial_number)+'.pdf')
+    # delta_time = readings.iloc[-1].date_time - readings.iloc[0].date_time
+    # if delta_time < td(hours=24):
+    #     date_formatter = DateFormatter('%H:%M')
+    # elif delta_time > td(days=2):
+    #     date_formatter = DateFormatter('%b %d')
+    # else:
+    #     date_formatter = DateFormatter('%b %d %H:%M')
+    meter_type = raw.iloc[0].meter_type
+    with sns.axes_style("whitegrid"):
+        plots = sns.FacetGrid(
+            raw,
+            col='instrument_serial_number',
+            hue='station',
+            col_wrap=1,
+            aspect=4,
+            margin_titles=True,
+            sharey=False,
+            sharex=False
+        )
+    plots.map(
+        sns.scatterplot,
+        'date_time',
+        'residuals')
+    plots.set_axis_labels('Date & Time [UTC]', 'Residuals [uGals]')
+    plots.set_titles('Residuals of '+meter_type+' {col_name}')
+    plots.add_legend(title='Stations')
+    # plots.axes[0].xaxis.set_major_formatter(date_formatter)
 
     return raw
 
@@ -875,13 +916,15 @@ def get_map(readings):
         'station',
         'data_file',
         'lon_user',
-        'lat_user'
+        'lat_user',
+        'meter_type'
     ]
     group = [
         'survey_name',
         'station'
     ]
     agg = {
+        'meter_type': 'last',
         'instrument_serial_number': 'last',
         'created': 'last',
         'operator': 'last',
