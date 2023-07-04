@@ -535,7 +535,7 @@ def get_mean_ties(ties):
         'instr_height_from',
         'instr_height_to',
         'tie',
-        'std',
+        'err',
         'data_file',
         'lat_user_from',
         'lat_user_to',
@@ -560,7 +560,7 @@ def get_mean_ties(ties):
             'line': 'last',
             'instr_height_from': 'mean',
             'instr_height_to': 'mean',
-            'tie': ['mean', 'std'],
+            'tie': ['mean', 'sem'],
             'data_file': 'last',
             'lat_user_from': 'mean',
             'lat_user_to': 'mean',
@@ -579,7 +579,7 @@ def get_mean_ties(ties):
             'instr_height_from',
             'instr_height_to',
             'tie',
-            'std',
+            'err',
             'data_file',
             'lat_user_from',
             'lat_user_to',
@@ -650,7 +650,7 @@ def reverse_tie(tie):
         tie.instr_height_to,
         tie.instr_height_from,
         -tie.tie,
-        tie['std'],
+        tie['err'],
         tie.data_file,
         tie.lat_user_from,
         tie.lat_user_to,
@@ -675,7 +675,7 @@ def get_report(means):
         'instr_height_from',
         'instr_height_to',
         'tie',
-        'std'
+        'err'
     ]
     headers = [
         'From',
@@ -688,7 +688,7 @@ def get_report(means):
         'Height From (mm)',
         'Height To (mm)',
         'Tie (uGals)',
-        'SDev (uGals)'
+        'SErr (uGals)'
     ]
     means = means.replace(np.nan, None)
     means_table = means[columns].to_markdown(
@@ -718,7 +718,7 @@ def make_vgfit_input(means, filename):
         'instr_height_from',
         'instr_height_to',
         'tie',
-        'std',
+        'err',
         'data_file'
     ]
     means_to_vgfit = means[columns]
@@ -731,7 +731,7 @@ def make_vgfit_input(means, filename):
         'level_1',
         'level_2',
         'delta_g',
-        'std',
+        'err',
         'source'
     ]
     means_to_vgfit.to_csv(filename, index=False)
