@@ -812,7 +812,6 @@ def get_report(means):
 
 def make_vgfit_input(means):
     ''' Make CSV file for vg_fit utilite '''
-<<<<<<< HEAD
     columns = [
         'date_time',
         'survey_name',
@@ -840,39 +839,6 @@ def make_vgfit_input(means):
     ]
     means_to_vgfit.to_csv(filename, index=False)
     return means_to_vgfit
-=======
-    for meter in means.instrument_serial_number.unique():
-        meter_means = means[means.instrument_serial_number == meter]
-        filename = meter_means.iloc[0].survey_name+'_'+str(meter)+'.csv'
-        columns = [
-            'date_time',
-            'survey_name',
-            'operator',
-            'instrument_serial_number',
-            'line',
-            'instr_height_from',
-            'instr_height_to',
-            'tie',
-            'std',
-            'data_file'
-        ]
-        means_to_vgfit = meter_means[columns]
-        means_to_vgfit.columns = [
-            'date',
-            'station',
-            'observer',
-            'gravimeter',
-            'runn',
-            'level_1',
-            'level_2',
-            'delta_g',
-            'std',
-            'source'
-        ]
-        means_to_vgfit.to_csv(filename, index=False)
-    return
->>>>>>> 049b0d0541fc70e4c90a51ed77bd3796a11df597
-
 
 def get_residuals_plot(raw, readings, ties):
     ''' Get plot of residuals '''
