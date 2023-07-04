@@ -8,14 +8,14 @@ import sys
 from matplotlib import pyplot as plt
 from cg6_proc.utils import \
     read_data, \
-    get_readings, \
-    get_ties, \
-    get_mean_ties, \
     make_vgfit_input, \
-    get_report, \
     get_residuals_plot, \
     get_map, \
-    make_frame_to_proc
+    make_frame_to_proc, \
+    get_meters_readings, \
+    get_meters_ties, \
+    get_meters_mean_ties, \
+    get_meters_report
 
 GUI = False
 
@@ -30,7 +30,7 @@ if GUI:
     )
     data_files = []
     for data_file_name in list(data_file_names):
-        data_files.append(open(data_file_name, 'r'))
+        data_files.append(open(data_file_name, 'r', encoding='utf-8'))
 else:
     parser = argparse.ArgumentParser(
         prog='rgrav',
@@ -51,14 +51,13 @@ else:
     data_files = args.data_files
     # GUI=args.gui
 
-data = read_data(data_files)
-data = make_frame_to_proc(data)
+raw_data = make_frame_to_proc(read_data(data_files))
 
-readings = get_readings(data)
-ties = get_ties(readings)
-means = get_mean_ties(ties)
+readings = get_meters_readings(raw_data)
+ties = get_meters_ties(readings)
+means = get_meters_mean_ties(ties)
 
-basename = '_'.join(str(survey) for survey in data.survey_name.unique())
+basename = '_'.join(str(survey) for survey in raw_data.survey_name.unique())
 
 default_output_file_report = 'report_'+basename+'.txt'
 
@@ -74,7 +73,7 @@ else:
     else:
         output_file_report = default_output_file_report
 
-report = get_report(means)
+report = get_meters_report(means)
 
 with open(output_file_report, 'w', encoding='utf-8') as report_file:
     report_file.write(report)
@@ -82,31 +81,32 @@ with open(output_file_report, 'w', encoding='utf-8') as report_file:
 
 if not GUI:
     if args.to_vgfit:
-        make_vgfit_input(means, basename+'.csv')
-
+        make_vgfit_input(means)
     if args.verbose:
         print(report)
 
-get_residuals_plot(data, readings, means)
 
 if GUI:
+    get_residuals_plot(raw_data, readings, means)
     plt.show()
 else:
     if args.plot:
+        get_residuals_plot(raw_data, readings, means)
         plt.savefig(basename+'.pdf')
 
 default_output_file_map = 'index_'+basename+'.html'
 
-if GUI:
-    output_file_map = fd.asksaveasfilename(
-        defaultextension='.html',
-        filetypes=[('html', '*.html'), ('All files', '*')],
-        initialfile=default_output_file_map,
-        title='Save Map')
-else:
-    if args.map:
-        output_file_map = args.map
+if not args.to_vgfit:
+    if GUI:
+        output_file_map = fd.asksaveasfilename(
+            defaultextension='.html',
+            filetypes=[('html', '*.html'), ('All files', '*')],
+            initialfile=default_output_file_map,
+            title='Save Map')
     else:
-        output_file_map = default_output_file_map
+        if args.map:
+            output_file_map = args.map
+        else:
+            output_file_map = default_output_file_map
 
-get_map(readings).save(output_file_map)
+    get_map(readings).save(output_file_map)

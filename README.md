@@ -39,14 +39,20 @@ The following Python packages need to be installed:
 
 1. For Linux
 
-        rgrav.py [options] <path to input filename>.dat
+        usage: rgrav [-h] [--verbose] [--to_vgfit] [--output out-file] [--plot] [--map out-file] data_files [data_files ...]
 
-        Options:
-            -v                              verbose mode: print result table to stdout
-            -o path_to_output_report        custom name for report file (default: report_[input_filename].txt)
-            -m path_to_output_map           custom name for map file (default: index_[input_filename].txt)
-            --to_vgfit                      create CSV input file for the vg_fit utility
-            --plot                          create residuals plot figure to PDF file (default show to display)
+        Read CG-6 data file and compute ties
+
+        positional arguments:
+          data_files
+
+        options:
+          -h, --help         show this help message and exit
+          --verbose          Print results to stdout
+          --to_vgfit         Create CSV file for the vg_fit utility
+          --output out-file  Name for the report file
+          --plot             Create plot to PDF
+          --map out-file     Name for the map file
 
 ## To Do
 
@@ -59,4 +65,4 @@ The following Python packages need to be installed:
 - [x] Option to interactive stations mapping (GeoPandas, Leaflet, Folium etc.)
 - [ ] Correct setting for setuptools
 - [ ] Loading CG-5 data files
-- [ ] Processing with set of meters
+- [x] Processing with set of meters
