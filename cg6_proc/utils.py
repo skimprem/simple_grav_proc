@@ -622,7 +622,7 @@ def get_mean_ties(ties):
         'instr_height_from',
         'instr_height_to',
         'tie',
-        'std',
+        'err',
         'data_file',
         'lat_user_from',
         'lat_user_to',
@@ -648,7 +648,7 @@ def get_mean_ties(ties):
             'line': 'last',
             'instr_height_from': 'mean',
             'instr_height_to': 'mean',
-            'tie': ['mean', 'std'],
+            'tie': ['mean', 'sem'],
             'data_file': 'last',
             'lat_user_from': 'mean',
             'lat_user_to': 'mean',
@@ -668,7 +668,7 @@ def get_mean_ties(ties):
             'instr_height_from',
             'instr_height_to',
             'tie',
-            'std',
+            'err',
             'data_file',
             'lat_user_from',
             'lat_user_to',
@@ -743,7 +743,7 @@ def reverse_tie(tie):
         tie.instr_height_to,
         tie.instr_height_from,
         -tie.tie,
-        tie['std'],
+        tie['err'],
         tie.data_file,
         tie.lat_user_from,
         tie.lat_user_to,
@@ -767,7 +767,7 @@ def get_report(means):
         'instr_height_from',
         'instr_height_to',
         'tie',
-        'std'
+        'err'
     ]
     headers = [
         'From',
@@ -781,7 +781,7 @@ def get_report(means):
         'Height From (mm)',
         'Height To (mm)',
         'Tie (uGals)',
-        'SDev (uGals)'
+        'SErr (uGals)'
     ]
     meters = means.instrument_serial_number.unique()
     report = f'\nThe mean ties between the stations:\n==================================='
@@ -812,37 +812,33 @@ def get_report(means):
 
 def make_vgfit_input(means):
     ''' Make CSV file for vg_fit utilite '''
-    for meter in means.instrument_serial_number.unique():
-        meter_means = means[means.instrument_serial_number == meter]
-        filename = meter_means.iloc[0].survey_name+'_'+str(meter)+'.csv'
-        columns = [
-            'date_time',
-            'survey_name',
-            'operator',
-            'instrument_serial_number',
-            'line',
-            'instr_height_from',
-            'instr_height_to',
-            'tie',
-            'std',
-            'data_file'
-        ]
-        means_to_vgfit = meter_means[columns]
-        means_to_vgfit.columns = [
-            'date',
-            'station',
-            'observer',
-            'gravimeter',
-            'runn',
-            'level_1',
-            'level_2',
-            'delta_g',
-            'std',
-            'source'
-        ]
-        means_to_vgfit.to_csv(filename, index=False)
-    return
-
+    columns = [
+        'date_time',
+        'survey_name',
+        'operator',
+        'instrument_serial_number',
+        'line',
+        'instr_height_from',
+        'instr_height_to',
+        'tie',
+        'err',
+        'data_file'
+    ]
+    means_to_vgfit = means[columns]
+    means_to_vgfit.columns = [
+        'date',
+        'station',
+        'observer',
+        'gravimeter',
+        'runn',
+        'level_1',
+        'level_2',
+        'delta_g',
+        'err',
+        'source'
+    ]
+    means_to_vgfit.to_csv(filename, index=False)
+    return means_to_vgfit
 
 def get_residuals_plot(raw, readings, ties):
     ''' Get plot of residuals '''
