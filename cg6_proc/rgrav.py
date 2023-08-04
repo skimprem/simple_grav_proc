@@ -15,7 +15,7 @@ from cg6_proc.utils import \
     get_meters_readings, \
     get_meters_ties, \
     get_meters_mean_ties, \
-    get_meters_report
+    get_report
 
 GUI = False
 
@@ -73,7 +73,7 @@ else:
     else:
         output_file_report = default_output_file_report
 
-report = get_meters_report(means)
+report = get_report(means)
 
 with open(output_file_report, 'w', encoding='utf-8') as report_file:
     report_file.write(report)

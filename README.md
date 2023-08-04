@@ -41,8 +41,6 @@ The following Python packages need to be installed:
 
         usage: rgrav [-h] [--verbose] [--to_vgfit] [--output out-file] [--plot] [--map out-file] data_files [data_files ...]
 
-        Read CG-6 data file and compute ties
-
         positional arguments:
           data_files
 
@@ -66,3 +64,4 @@ The following Python packages need to be installed:
 - [ ] Correct setting for setuptools
 - [ ] Loading CG-5 data files
 - [x] Processing with set of meters
+- [ ] Add other signals to residuals plots

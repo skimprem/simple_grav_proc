@@ -684,6 +684,7 @@ def get_mean_ties(ties):
 
 def get_ties_sum(ties):
     ''' Get sum of ties '''
+    meter = f'{ties.iloc[0].meter_type} #{str(ties.iloc[0].instrument_serial_number)}'
     nodes = list(ties.station_from)
     nodes.extend(list(ties.station_to))
     nodes = list(set(nodes))
@@ -696,6 +697,7 @@ def get_ties_sum(ties):
     ties_graph.add_edges_from(edges)
 
     cicles_sum = {
+        'meter': [],
         'cicle': [],
         'sum': []
     }
@@ -719,6 +721,7 @@ def get_ties_sum(ties):
             cicle_ties.append(line_tie)
         cicle.pop()
         cicle_line = '-'.join([str(station) for station in cicle])
+        cicles_sum['meter'].append(meter)
         cicles_sum['cicle'].append(cicle_line)
         cicles_sum['sum'].append(sum(cicle_ties))
 
@@ -751,18 +754,7 @@ def reverse_tie(tie):
     ]
     return reverse
 
-def get_meters_report(means):
-    report = ''    
-    for meter in means.instrument_serial_number.unique():
-        meter_means = means[means.instrument_serial_number == meter]
-        meter_report = get_report(meter_means)
-        report = report + meter_report
-    return report
-
-
 def get_report(means):
-    ''' Get table report of means '''
-    report = f'The mean ties between the stations for meter #{means.iloc[0].instrument_serial_number}:'
     columns = [
         'station_from',
         'station_to',
@@ -791,22 +783,30 @@ def get_report(means):
         'Tie (uGals)',
         'SDev (uGals)'
     ]
+    meters = means.instrument_serial_number.unique()
+    report = f'\nThe mean ties between the stations:\n==================================='
     means = means.replace(np.nan, None)
     means_table = means[columns].to_markdown(
         index=False,
         headers=headers,
         tablefmt="simple",
         floatfmt=".1f")
-    report = f'{report}\n{means_table}\n\n'
-    ties_sum = get_ties_sum(means)
-    if len(ties_sum):
-        headers = ['Cicles', 'Sum (uGals)']
-        sums_table = ties_sum.to_markdown(
-            index=False,
-            headers=headers,
-            tablefmt="simple",
-            floatfmt=".2f")
-        report = f'{report}Sum of the ties:\n{sums_table}\n\n'
+    report = f'{report}\n{means_table}'
+    ties_sums = pd.DataFrame(columns=['meter', 'cicle', 'sum'])
+    for meter in meters:
+        meter_means = means[means.instrument_serial_number == meter]
+        meter_ties_sums = get_ties_sum(meter_means)
+        if len(meter_ties_sums):
+            ties_sums = pd.concat([ties_sums, meter_ties_sums])
+    if len(ties_sums):
+        report = f'{report}\n\nSum of the cicle ties:\n======================\n'
+        headers = ['Meter', 'Cicles', 'Sum (uGals)']
+        sums_table = ties_sums.to_markdown(
+                index=False,
+                headers=headers,
+                tablefmt="simple",
+                floatfmt=".2f")
+        report = report + sums_table
     return report
 
 
