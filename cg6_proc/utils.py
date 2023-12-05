@@ -19,7 +19,7 @@ import networkx as nx
 def format_detect(data_file):
     for line in data_file:
         line = line.strip()
-        if not line:
+        if not line or line == '/':
             continue
         if line[0] == '/':
             line = line[1:].strip()
@@ -564,7 +564,6 @@ def get_meters_mean_ties(ties):
         'instr_height_from',
         'instr_height_to',
         'tie',
-        'std',
         'data_file',
         'lat_user_from',
         'lat_user_to',
@@ -572,7 +571,6 @@ def get_meters_mean_ties(ties):
         'lon_user_to',
         'date_time',
         'meter_type'
-
     ])
     for meter in ties.instrument_serial_number.unique():
         meter_ties = ties[ties.instrument_serial_number == meter]
