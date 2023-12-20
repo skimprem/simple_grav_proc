@@ -357,7 +357,9 @@ def get_readings(cg_data):
         first_date_time = line_data.iloc[0].date_time
         first_index = line_data.iloc[0].index
         for index, row in line_data.iterrows():
+            print('hi 1')
             if index == line_data.index[-1]:
+                print('hi 2')
                 readings.loc[reading_index] = [
                     first_date_time + (row.date_time - first_date_time) / 2,
                     row.created,
@@ -373,6 +375,7 @@ def get_readings(cg_data):
                     line_data.loc[first_index:index].lon_user.mean(),
                     row.meter_type
                 ]
+                print('hi 3')
                 reading_index += 1
                 break
             if row.station == line_data.station.iloc[count + 1]:
