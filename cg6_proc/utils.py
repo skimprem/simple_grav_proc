@@ -841,26 +841,26 @@ def make_vgfit_input(means):
 
 def get_residuals_plot(raw, readings, ties):
     ''' Get plot of residuals '''
-    meters = ties.instrument_serial_number.unique()
-    for meter in meters:
-        meter_raw = raw[raw.instrument_serial_number == meter]
-        meter_readings = readings[readings.instrument_serial_number == meter]
-        meter_ties = ties[ties.instrument_serial_number == meter]
-        for _, tie_row in meter_ties.iterrows():
-            tie_readings = meter_raw[meter_raw.line == tie_row.line]
-            first_reading = meter_readings[meter_readings.line == tie_row.line].iloc[0].corr_grav
-            tie_station = tie_row.station_to
-            for reading_index, reading_row in tie_readings.iterrows():
-                if reading_row.station == tie_station:
-                    raw.loc[
-                        reading_index,
-                        ['residuals']] = reading_row.corr_grav\
-                            - first_reading - tie_row.tie
-                else:
-                    raw.loc[
-                        reading_index,
-                        ['residuals']] = reading_row.corr_grav - first_reading
 
+    for meter, station, group_by_meter in raw.groupby(['instrument_serial_number', 'station']):
+        meter_ties = ties[(ties['instrument_serial_number'] == meter) & (ties['station_to'] == station)]
+        
+        # meter_raw = raw[raw.instrument_serial_number == meter]
+        # meter_readings = readings[readings.instrument_serial_number == meter]
+        # for _, tie_row in group_by_meter.iterrows():
+        #     tie_readings = meter_raw[meter_raw.line == tie_row.line]
+        #     first_reading = meter_readings[meter_readings.line == tie_row.line].iloc[0].corr_grav
+        #     tie_station = tie_row.station_to
+        #     for reading_index, reading_row in tie_readings.iterrows():
+                # reading_row.corr_grav += -first_reading
+                # if reading_row.station == tie_station:
+                #     residual = reading_row.corr_grav #- tie_row.tie #- first_reading
+                #     print(1, residual)
+                # else:
+                #     residual = reading_row.corr_grav + tie_row.tie #- first_reading
+                #     print(2, residual)
+                # raw.loc[reading_index, ['residuals']] = residual
+ 
     # delta_time = readings.iloc[-1].date_time - readings.iloc[0].date_time
     # if delta_time < td(hours=24):
     #     date_formatter = DateFormatter('%H:%M')
