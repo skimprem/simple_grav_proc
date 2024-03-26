@@ -33,8 +33,6 @@ def main():
 
     raw_data = make_frame_to_proc(read_data(args.input))
 
-    print(args)
-
     if args.calibration_factors:
         print(read_calibration_factors(args.calibration_factors))
         
