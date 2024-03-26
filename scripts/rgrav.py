@@ -20,17 +20,20 @@ def main():
     if args.input is None:
         gui_mode = True
         args = gui_arguments()
+        if args.calibration_factors:
+            calibration_files = []
+            for calibration_file_name in args.calibration_factors:
+                calibration_files.append(open(calibration_file_name, 'r', encoding='utf-8'))
+            args.calibration_factors = calibration_files
 
     data_files = []
-
     for data_file_name in args.input:
         data_files.append(open(data_file_name, 'r', encoding='utf-8'))
-
     args.input = data_files
 
     raw_data = make_frame_to_proc(read_data(args.input))
 
-    # print(raw_data)
+    print(args)
 
     if args.calibration_factors:
         print(read_calibration_factors(args.calibration_factors))

@@ -67,14 +67,30 @@ def gui_arguments():
         filetypes=[('CG-6 data files', '*.dat'), ('All files', '*')],
         title='Choose data file'
     )
-
+    
+    
     arguments = []
     parser = argparse.ArgumentParser()
+
+    calibration_factors_mode = mb.askyesno(
+        title='Calibration file selected',
+        message='Want to load a calibration factors?'
+    )
+    
+    if calibration_factors_mode:
+        calibration_factors = fd.askopenfilenames(
+            defaultextension='.txt',
+            filetypes=[('Calibration files', '*.txt'), ('All files', '*')],
+            title='Choose data file'
+        )
 
     parser.add_argument('--input')
     arguments.append('--input')
     arguments.append(data_file_names)
 
-    return parser.parse_args(arguments)
+    parser.add_argument('--calibration_factors')
+    if calibration_factors_mode:
+        arguments.append('--calibration_factors')
+        arguments.append(calibration_factors)
 
-    # GUI=args.gui
+    return parser.parse_args(arguments)
