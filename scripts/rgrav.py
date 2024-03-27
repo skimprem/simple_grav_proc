@@ -69,6 +69,8 @@ def main():
 
     report = get_report(means)
 
+    print(output_file_report)
+
     with open(output_file_report, 'w', encoding='utf-8') as report_file:
         report_file.write(report)
         report_file.close()

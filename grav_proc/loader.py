@@ -188,7 +188,7 @@ def cg5_to_cg6_converter(cg5_data):
     cg6_data['Drift Rate [mGal/day]'] = cg5_data['Drift']
     cg6_data['Drift Zero Time'] = cg5_data.apply(lambda x: dt.strptime(' '.join([x['DriftDate Start'], x['DriftTime Start']]), '%Y/%m/%d %H %M %S'), axis=1)
     cg6_data['Firmware Version'] = None
-    cg6_data['Station'] = cg5_data['STATION']
+    cg6_data['Station'] = cg5_data['STATION'].astype('float').astype('int')
     cg6_data['Date'] = cg5_data['DATE']
     cg6_data['Time'] = cg5_data['TIME']
     cg6_data['CorrGrav'] = cg5_data['GRAV.']
