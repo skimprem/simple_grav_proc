@@ -7,6 +7,7 @@ import networkx as nx
 
 def make_frame_to_proc(cg_data):
     ''' Make a data frame to processing (only needed columns to be selected) '''
+
     match cg_data.iloc[0].MeterType:
         case 'CG6':
             data = cg_data[
@@ -49,7 +50,46 @@ def make_frame_to_proc(cg_data):
                 data.loc[index, 'instr_height'] = row.instr_height * 1e3
             return data
         case 'CG5':
-            pass
+            data = cg_data[
+                [
+                    'date_time',
+                    'Created',
+                    'Survey Name',
+                    'Operator',
+                    'Instrument Serial Number',
+                    'InstrHeight',
+                    'Line',
+                    'Station',
+                    'CorrGrav',
+                    'DataFile',
+                    'LatUser',
+                    'LonUser',
+                    'MeterType'
+                ]
+            ]
+
+            headers = [
+                'date_time',
+                'created',
+                'survey_name',
+                'operator',
+                'instrument_serial_number',
+                'instr_height',
+                'line',
+                'station',
+                'corr_grav',
+                'data_file',
+                'lat_user',
+                'lon_user',
+                'meter_type'
+            ]
+
+            data.columns = headers
+            for index, row in data.iterrows():
+                data.loc[index, 'corr_grav'] = row.corr_grav * 1e3
+                data.loc[index, 'instr_height'] = row.instr_height * 1e3
+            return data
+
 
 
 def get_meters_readings(cg_data):
@@ -84,7 +124,7 @@ def get_readings(cg_data):
             'data_file',
             'lat_user',
             'lon_user',
-            'meter_type'
+            'meter_type',
         ]
     )
     # readings['date_time'].to_datetime
@@ -140,13 +180,14 @@ def get_readings(cg_data):
                 count += 1
                 reading_index += 1
 
-    for station in readings.station.unique():
-        station_readings = readings[readings.station == station]
-        first_lat = station_readings.iloc[0].lat_user
-        first_lon = station_readings.iloc[0].lon_user
-        for index, row in station_readings.iterrows():
-            readings.loc[
-                index, ['lat_user', 'lon_user']] = [first_lat, first_lon]
+    group_by_station = readings.groupby('station')
+    
+    for station, station_readings in group_by_station:
+        mean_lat = station_readings.lat_user.mean()
+        mean_lon = station_readings.lon_user.mean()
+        readings.loc[readings.station == station, 'lat_user'] = mean_lat
+        readings.loc[readings.station == station, 'lon_user'] = mean_lon
+
     return readings
 
 
@@ -291,6 +332,7 @@ def get_meters_mean_ties(ties):
 
 def get_mean_ties(ties):
     ''' Get mean values of ties '''
+
     for _, row in ties.iterrows():
         from_station = row['station_from']
         to_station = row['station_to']

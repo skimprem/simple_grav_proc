@@ -30,7 +30,7 @@ def read_data(data_files):
 
     match format_detect(data_files[0]):
         case 'cg5':
-            cg5_reader(data_files)
+            return cg5_to_cg6_converter(cg5_reader(data_files))
         case 'cg6':
             return cg6_reader(data_files)
         case _:
@@ -88,7 +88,6 @@ def cg5_reader(data_files):
     }
 
     for data_file in data_files:
-
         if format_detect(data_file) != meter_type:
             raise ImportError(f'{data_file.name} data file must be in {meter_type.upper()} format')
         
@@ -98,7 +97,6 @@ def cg5_reader(data_files):
         line_station_format = False
 
         row = {}
-
         for line in lines:
             if not line.strip():
                 continue
@@ -123,12 +121,102 @@ def cg5_reader(data_files):
                     
                     for key, value in row.items():
                         rows[key].append(value)
-
+    
     cg_data = pd.DataFrame(rows)
 
-    exit()
+    cg_data = cg_data.astype(
+        {
+            'Instrument S/N': 'int',
+            'ZONE': 'int',
+            'GMT DIFF.': 'float',
+            'Gref': 'float',
+            'Gcal1': 'float',
+            'TiltxS': 'float',
+            'TiltyS': 'float',
+            'TiltxO': 'float',
+            'TiltyO': 'float',
+            'Tempco': 'float',
+            'Drift': 'float',
+            # 'DriftTime Start': [],
+            # 'DriftDate Start': [],
+            # 'Tide Correction': [],
+            # 'Cont. Tilt': [],
+            # 'Auto Rejection': [],
+            # 'Terrain Corr.': [],
+            # 'Seismic Filter': [],
+            # 'Raw Data': [],
+            'LINE': 'int',
+            # 'STATION': [],
+            'ALT.': 'float',
+            'GRAV.': 'float',
+            'SD.': 'float',
+            'TILTX': 'float',
+            'TILTY': 'float',
+            'TEMP': 'float',
+            'TIDE': 'float',
+            'DUR': 'int',
+            'REJ': 'int',
+            # 'TIME': [],
+            # 'DEC.TIME+DATE': [],
+            'TERRAIN': 'float',
+            # 'DATE': [],
+        }, errors='ignore'
+    )
 
+    cg_data['Created'] = cg_data.apply(lambda x: dt.strptime(' '.join([x['Date'], x['Time']]), '%Y/ %m/%d %H %M %S'), axis=1)
+    cg_data['Date_time'] = cg_data.apply(lambda x: dt.strptime(' '.join([x['DATE'], x['TIME']]), '%Y/%m/%d %H:%M:%S'), axis=1)
 
+    return cg_data
+
+def cg5_to_cg6_converter(cg5_data):
+
+    cg6_data = pd.DataFrame()
+
+    cg6_data['Survey Name'] = cg5_data['Survey name']
+    cg6_data['Instrument Serial Number'] = cg5_data['Instrument S/N']
+    cg6_data['Created'] = cg5_data['Created']
+    cg6_data['Operator'] = cg5_data['Operator']
+    cg6_data['Gcal1 [mGal]'] = cg5_data['Gcal1']
+    cg6_data['Goff [ADU]'] = None
+    cg6_data['Gref [mGal]'] = cg5_data['Gref']
+    cg6_data['X Scale [arc-sec/ADU]'] = None
+    cg6_data['Y Scale [arc-sec/ADU]'] = None
+    cg6_data['X Offset [ADU]'] = None
+    cg6_data['Y Offset [ADU]'] = None
+    cg6_data['Temperature Coefficient [mGal/mK]'] = None
+    cg6_data['Temperature Scale [mK/ADU]'] = None
+    cg6_data['Drift Rate [mGal/day]'] = cg5_data['Drift']
+    cg6_data['Drift Zero Time'] = cg5_data.apply(lambda x: dt.strptime(' '.join([x['DriftDate Start'], x['DriftTime Start']]), '%Y/%m/%d %H %M %S'), axis=1)
+    cg6_data['Firmware Version'] = None
+    cg6_data['Station'] = cg5_data['STATION']
+    cg6_data['Date'] = cg5_data['DATE']
+    cg6_data['Time'] = cg5_data['TIME']
+    cg6_data['CorrGrav'] = cg5_data['GRAV.']
+    cg6_data['Line'] = cg5_data['LINE'].astype('float').astype('int')
+    cg6_data['StdDev'] = cg5_data['SD.']
+    cg6_data['StdErr'] = None
+    cg6_data['RawGrav'] = None
+    cg6_data['X'] = cg5_data['TILTX']
+    cg6_data['Y'] = cg5_data['TILTY']
+    cg6_data['SensorTemp'] = cg5_data['TEMP']
+    cg6_data['TideCorr'] = cg5_data['TIDE']
+    cg6_data['TiltCorr'] = None
+    cg6_data['TempCorr'] = None
+    cg6_data['DriftCorr'] = None
+    cg6_data['MeasurDur'] = cg5_data['DUR']
+    cg6_data['InstrHeight'] = 0.0
+    cg6_data['LatUser'] = None
+    cg6_data['LonUser'] = None
+    cg6_data['ElevUser'] = None
+    cg6_data['LatGPS'] = None
+    cg6_data['LonGPS'] = None
+    cg6_data['ElevGPS'] = None
+    cg6_data['Corrections[drift-temp-na-tide-tilt]'] = None
+    cg6_data['MeterType'] = cg5_data['MeterType']
+    cg6_data['DataFile'] = cg5_data['DataFile']
+    cg6_data['date_time'] = cg5_data['Date_time']
+ 
+    return cg6_data
 
 def cg6_reader(data_files):
     meter_type = 'cg6'
@@ -248,20 +336,27 @@ def cg6_reader(data_files):
     for index, row in cg_data.iterrows():
         cg_data.loc[index, 'date_time'] = dt.strptime(row.Date+' '+row.Time, '%Y-%m-%d %H:%M:%S')
 
-    # cg_data = cg_data.set_index('date_time')
     return cg_data
 
-def read_calibration_factors(calibration_files):
+def read_scale_factors(calibration_files):
     
     ''' Get calibration factors from file(s) '''
     
-    calibration_factors = pd.DataFrame()
+    scale_factors = pd.DataFrame()
 
     for calibration_file in calibration_files:
-        calibration_data = pd.read_csv(calibration_file.name, delimiter=' ', names = ['meter', 'k', 'std_k'])
-        calibration_factors = pd.concat([calibration_factors, calibration_data], axis=0)
+        calibration_data = pd.read_csv(
+            calibration_file.name,
+            delimiter=' ',
+            names = [
+                'instrument_serial_number',
+                'scale_factor',
+                'scale_factor_std'
+            ]
+        )
+        scale_factors = pd.concat([scale_factors, calibration_data], axis=0)
 
-    calibration_factors = calibration_factors.reset_index()
+    scale_factors = scale_factors.reset_index()
 
-    return calibration_factors
+    return scale_factors
     

@@ -45,7 +45,7 @@ def cli_arguments():
     )
 
     parser.add_argument(
-        '--calibration_factors',
+        '--scale_factors',
         type=argparse.FileType('r'),
         nargs='+',
         help='Calibration factors for all gravimeters'
@@ -72,13 +72,13 @@ def gui_arguments():
     arguments = []
     parser = argparse.ArgumentParser()
 
-    calibration_factors_mode = mb.askyesno(
+    scale_factors_mode = mb.askyesno(
         title='Calibration file selected',
         message='Want to load a calibration factors?'
     )
     
-    if calibration_factors_mode:
-        calibration_factors = fd.askopenfilenames(
+    if scale_factors_mode:
+        scale_factors = fd.askopenfilenames(
             defaultextension='.txt',
             filetypes=[('Calibration files', '*.txt'), ('All files', '*')],
             title='Choose data file'
@@ -88,9 +88,9 @@ def gui_arguments():
     arguments.append('--input')
     arguments.append(data_file_names)
 
-    parser.add_argument('--calibration_factors')
-    if calibration_factors_mode:
-        arguments.append('--calibration_factors')
-        arguments.append(calibration_factors)
+    parser.add_argument('--scale_factors')
+    if scale_factors_mode:
+        arguments.append('--scale_factors')
+        arguments.append(scale_factors)
 
     return parser.parse_args(arguments)
