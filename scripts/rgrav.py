@@ -71,9 +71,8 @@ def main():
 
     print(output_file_report)
 
-    with open(output_file_report, 'w', encoding='utf-8') as report_file:
-        report_file.write(report)
-        report_file.close()
+    output_file_report.write(report)
+    output_file_report.close()
 
     if not gui_mode:
         if args.to_vgfit:
