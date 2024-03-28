@@ -69,8 +69,6 @@ def main():
 
     report = get_report(means)
 
-    print(output_file_report)
-
     output_file_report.write(report)
     output_file_report.close()
 
@@ -89,22 +87,22 @@ def main():
             get_residuals_plot(raw_data, readings, means)
             plt.savefig(basename+'.pdf')
 
-    default_output_file_map = 'index_'+basename+'.html'
+    # default_output_file_map = 'index_'+basename+'.html'
 
-    if not args.to_vgfit:
-        if gui_mode:
-            output_file_map = fd.asksaveasfilename(
-                defaultextension='.html',
-                filetypes=[('html', '*.html'), ('All files', '*')],
-                initialfile=default_output_file_map,
-                title='Save Map')
-        else:
-            if args.map:
-                output_file_map = args.map
-            else:
-                output_file_map = default_output_file_map
+    # if not args.to_vgfit:
+    #     if gui_mode:
+    #         output_file_map = fd.asksaveasfilename(
+    #             defaultextension='.html',
+    #             filetypes=[('html', '*.html'), ('All files', '*')],
+    #             initialfile=default_output_file_map,
+    #             title='Save Map')
+    #     else:
+    #         if args.map:
+    #             output_file_map = args.map
+    #         else:
+    #             output_file_map = default_output_file_map
 
-        get_map(readings).save(output_file_map)
+    #     get_map(readings).save(output_file_map)
 
 # run main program
 if __name__ == '__main__':

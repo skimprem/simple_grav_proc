@@ -163,8 +163,11 @@ def cg5_reader(data_files):
         }, errors='ignore'
     )
 
-    cg_data['Created'] = cg_data.apply(lambda x: dt.strptime(' '.join([x['Date'], x['Time']]), '%Y/ %m/%d %H %M %S'), axis=1)
-    cg_data['Date_time'] = cg_data.apply(lambda x: dt.strptime(' '.join([x['DATE'], x['TIME']]), '%Y/%m/%d %H:%M:%S'), axis=1)
+    cg_data['Created'] = cg_data.apply(
+        lambda x: dt.strptime(' '.join(x['Date'].split('/')+x['Time'].split(':')), '%Y %m %d %H %M %S'), axis=1)
+
+    cg_data['Date_time'] = cg_data.apply(
+        lambda x: dt.strptime(' '.join(x['DATE'].split('/')+x['TIME'].split(':')), '%Y %m %d %H %M %S'), axis=1)
 
     return cg_data
 
