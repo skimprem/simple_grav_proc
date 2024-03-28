@@ -3,6 +3,7 @@ from datetime import datetime as dt
 # from time import time as tm
 import numpy as np
 import networkx as nx
+import statsmodels.api as sm
 
 
 def make_frame_to_proc(cg_data):
@@ -506,3 +507,21 @@ def reverse_tie(tie):
     ]
     return reverse
 
+
+def to_minutes(value):
+    return value.timestamp() / 60
+
+
+def gravfit(grav, date_time):
+
+    x = np.array(grav)
+
+    print(x)
+    a = np.append(np.array(date_time), np.ones((np.size(grav), 1)), axis=1)
+    print(a)
+
+    model = sm.RLM(x, a)
+
+    res = model.fit()
+
+    return res

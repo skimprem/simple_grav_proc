@@ -7,7 +7,7 @@ from tkinter import filedialog as fd
 from matplotlib import pyplot as plt
 from grav_proc.arguments import cli_arguments, gui_arguments
 from grav_proc.calculations import make_frame_to_proc, get_meters_readings, \
-    get_meters_ties, get_meters_mean_ties
+    get_meters_ties, get_meters_mean_ties, gravfit, to_minutes
 from grav_proc.loader import read_data, read_scale_factors
 from grav_proc.plots import get_residuals_plot, get_map
 from grav_proc.reports import get_report, make_vgfit_input
@@ -48,6 +48,11 @@ def main():
             raw_data.loc[raw_data['instrument_serial_number'] == meter, 'corr_grav'] = raw_data.loc[raw_data['instrument_serial_number'] == meter, 'corr_grav'] * scale_factor
     
     readings = get_meters_readings(raw_data)
+
+    fitgrav = gravfit(readings['corr_grav'], readings['date_time'].apply(to_minutes))
+
+    print(fitgrav)
+    
     ties = get_meters_ties(readings)
     means = get_meters_mean_ties(ties)
 
