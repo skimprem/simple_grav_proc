@@ -22,6 +22,7 @@ def make_frame_to_proc(cg_data):
                     'Line',
                     'Station',
                     'CorrGrav',
+                    'StdErr',
                     'DataFile',
                     'LatUser',
                     'LonUser',
@@ -39,6 +40,7 @@ def make_frame_to_proc(cg_data):
                 'line',
                 'station',
                 'corr_grav',
+                'std_err',
                 'data_file',
                 'lat_user',
                 'lon_user',
@@ -48,6 +50,7 @@ def make_frame_to_proc(cg_data):
             data.columns = headers
             for index, row in data.iterrows():
                 data.loc[index, 'corr_grav'] = row.corr_grav * 1e3
+                data.loc[index, 'std_err'] = row.std_err * 1e3
                 data.loc[index, 'instr_height'] = row.instr_height * 1e3
             return data
         case 'CG5':
@@ -62,6 +65,7 @@ def make_frame_to_proc(cg_data):
                     'Line',
                     'Station',
                     'CorrGrav',
+                    'StdErr',
                     'DataFile',
                     'LatUser',
                     'LonUser',
@@ -79,6 +83,7 @@ def make_frame_to_proc(cg_data):
                 'line',
                 'station',
                 'corr_grav',
+                'std_err',
                 'data_file',
                 'lat_user',
                 'lon_user',
@@ -88,6 +93,7 @@ def make_frame_to_proc(cg_data):
             data.columns = headers
             for index, row in data.iterrows():
                 data.loc[index, 'corr_grav'] = row.corr_grav * 1e3
+                data.loc[index, 'std_err'] = row.std_err * 1e3
                 data.loc[index, 'instr_height'] = row.instr_height * 1e3
             return data
 
@@ -122,6 +128,7 @@ def get_readings(cg_data):
             'line',
             'station',
             'corr_grav',
+            'std_err',
             'data_file',
             'lat_user',
             'lon_user',
@@ -147,7 +154,11 @@ def get_readings(cg_data):
                     line_data.loc[first_index:index].instr_height.mean(),
                     row.line,
                     row.station,
+                    # line_data.loc[first_index:index].apply(lambda x: weighted_avg_and_std(x.corr_grav, x.std_err**-2)[0], axis=1),
                     line_data.loc[first_index:index].corr_grav.mean(),
+                    # line_data.loc[first_index:index].apply(lambda x: weighted_avg_and_std(x.corr_grav, x.std_err**-2)[1], axis=1),
+                    line_data.loc[first_index:index].corr_grav.sem(),
+
                     row.data_file,
                     line_data.loc[first_index:index].lat_user.mean(),
                     line_data.loc[first_index:index].lon_user.mean(),
@@ -172,7 +183,10 @@ def get_readings(cg_data):
                     line_data.loc[first_index:index].instr_height.mean(),
                     row.line,
                     row.station,
+                    # line_data.loc[first_index:index].apply(lambda x: weighted_avg_and_std(x.corr_grav, x.std_err**-2)[0], axis=1),
                     line_data.loc[first_index:index].corr_grav.mean(),
+                    # line_data.loc[first_index:index].apply(lambda x: weighted_avg_and_std(x.corr_grav, x.std_err**-2)[1], axis=1),
+                    line_data.loc[first_index:index].corr_grav.sem(),
                     row.data_file,
                     line_data.loc[first_index:index].lat_user.mean(),
                     line_data.loc[first_index:index].lon_user.mean(),
@@ -191,6 +205,19 @@ def get_readings(cg_data):
 
     return readings
 
+def weighted_avg_and_std(values, weights):
+    """
+    Return the weighted average and standard deviation.
+
+    They weights are in effect first normalized so that they 
+    sum to 1 (and so they must not all be 0).
+
+    values, weights -- NumPy ndarrays with the same shape.
+    """
+    average = np.average(values, weights=weights)
+    # Fast and numerically precise:
+    variance = np.average((values-average)**2, weights=weights)
+    return (average, np.sqrt(variance))
 
 def get_meters_ties(readings):
     ''' Get ties from meters '''
