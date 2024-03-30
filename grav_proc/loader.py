@@ -3,6 +3,7 @@ Set of utilites for relative gravity processing
 '''
 
 from datetime import datetime as dt
+from datetime import timedelta as td
 import re
 import numpy as np
 import pandas as pd
@@ -103,6 +104,7 @@ def cg5_reader(data_files):
                 continue
             match line[:2].strip():
                 case '/':
+                    data_mode = False
                     split_line = re.split(':', line[1:])
                     for index in range(len(split_line)):
                         split_line[index] = split_line[index].strip()
@@ -119,10 +121,14 @@ def cg5_reader(data_files):
                         row.update({headers[index]: split_line[index]})
                     row.update({'MeterType': meter_type.upper()})
                     row.update({'DataFile': data_file.name})
-                    
+                    created = dt.strptime(' '.join(row['Date'].split('/')+row['Time'].split(':')), '%Y %m %d %H %M %S')
+                    date_time = dt.strptime(' '.join(row['DATE'].split('/')+row['TIME'].split(':')), '%Y %m %d %H %M %S')
+                    row.update({'Created': created})
+                    row.update({'date_time': date_time})
+                   
                     for key, value in row.items():
                         rows[key].append(value)
-    
+   
     cg_data = pd.DataFrame(rows)
 
     cg_data = cg_data.astype(
@@ -164,11 +170,11 @@ def cg5_reader(data_files):
         }, errors='ignore'
     )
 
-    cg_data['Created'] = cg_data.apply(
-        lambda x: dt.strptime(' '.join(x['Date'].split('/')+x['Time'].split(':')), '%Y %m %d %H %M %S'), axis=1)
+    # cg_data['Created'] = cg_data.apply(
+        # lambda x: dt.strptime(' '.join(x['Date'].split('/')+x['Time'].split(':')), '%Y %m %d %H %M %S'), axis=1)
 
-    cg_data['Date_time'] = cg_data.apply(
-        lambda x: dt.strptime(' '.join(x['DATE'].split('/')+x['TIME'].split(':')), '%Y %m %d %H %M %S'), axis=1)
+    # cg_data['Date_time'] = cg_data.apply(
+        # lambda x: dt.strptime(' '.join(x['DATE'].split('/')+x['TIME'].split(':')), '%Y %m %d %H %M %S'), axis=1)
 
     return cg_data
 
