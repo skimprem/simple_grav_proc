@@ -49,10 +49,8 @@ def main():
     
     readings = get_meters_readings(raw_data)
 
-    fitgrav = gravfit(readings['corr_grav'], readings['date_time'].apply(to_minutes))
+    # fitgrav = gravfit(readings['corr_grav'], readings['date_time'].apply(to_minutes))
 
-    print(fitgrav)
-    
     ties = get_meters_ties(readings)
     means = get_meters_mean_ties(ties)
 

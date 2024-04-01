@@ -90,11 +90,12 @@ def make_frame_to_proc(cg_data):
                 'meter_type'
             ]
 
+            data.loc[:, 'CorrGrav'] = data.loc[:, 'CorrGrav'] * 1000.0
+            data.loc[:, 'StdErr']  = data.loc[:, 'StdErr'] * 1000.0
+            data.loc[:, 'InstrHeight'] = data.loc[:, 'InstrHeight'] * 1000.0
+
             data.columns = headers
-            for index, row in data.iterrows():
-                data.loc[index, 'corr_grav'] = row.corr_grav * 1e3
-                data.loc[index, 'std_err'] = row.std_err * 1e3
-                data.loc[index, 'instr_height'] = row.instr_height * 1e3
+
             return data
 
 

@@ -87,6 +87,8 @@ def cg5_reader(data_files):
         'DATE': [],
         'MeterType': [],
         'DataFile': [],
+        'Created': [],
+        'Date_time': []
     }
 
     for data_file in data_files:
@@ -104,7 +106,6 @@ def cg5_reader(data_files):
                 continue
             match line[:2].strip():
                 case '/':
-                    data_mode = False
                     split_line = re.split(':', line[1:])
                     for index in range(len(split_line)):
                         split_line[index] = split_line[index].strip()
@@ -124,7 +125,7 @@ def cg5_reader(data_files):
                     created = dt.strptime(' '.join(row['Date'].split('/')+row['Time'].split(':')), '%Y %m %d %H %M %S')
                     date_time = dt.strptime(' '.join(row['DATE'].split('/')+row['TIME'].split(':')), '%Y %m %d %H %M %S')
                     row.update({'Created': created})
-                    row.update({'date_time': date_time})
+                    row.update({'Date_time': date_time})
                    
                     for key, value in row.items():
                         rows[key].append(value)
@@ -178,8 +179,16 @@ def cg5_reader(data_files):
 
     return cg_data
 
+def std_dev_to_std_err(std_dev, dur, rej):
+    num = dur - rej
+    if num <= 0:
+        return std_dev
+    return std_dev / num**0.5
+    
+
 def cg5_to_cg6_converter(cg5_data):
 
+    cg5_data = cg5_data.reset_index(drop=True)
     cg6_data = pd.DataFrame()
 
     cg6_data['Survey Name'] = cg5_data['Survey name']
@@ -204,7 +213,7 @@ def cg5_to_cg6_converter(cg5_data):
     cg6_data['CorrGrav'] = cg5_data['GRAV.']
     cg6_data['Line'] = cg5_data['LINE'].astype('float').astype('int')
     cg6_data['StdDev'] = cg5_data['SD.']
-    cg6_data['StdErr'] = cg5_data['SD.'] / np.sqrt(cg5_data['DUR'] - cg5_data['REJ'])
+    cg6_data['StdErr'] = cg5_data.apply(lambda x: std_dev_to_std_err(x['SD.'], x['DUR'], x['REJ']), axis=1)
     cg6_data['RawGrav'] = None
     cg6_data['X'] = cg5_data['TILTX']
     cg6_data['Y'] = cg5_data['TILTY']
@@ -225,7 +234,7 @@ def cg5_to_cg6_converter(cg5_data):
     cg6_data['MeterType'] = cg5_data['MeterType']
     cg6_data['DataFile'] = cg5_data['DataFile']
     cg6_data['date_time'] = cg5_data['Date_time']
- 
+    
     return cg6_data
 
 def cg6_reader(data_files):
@@ -272,7 +281,7 @@ def cg6_reader(data_files):
         'ElevGPS': [],
         'Corrections[drift-temp-na-tide-tilt]': [],
         'MeterType': [],
-        'DataFile': []
+        'DataFile': [],
     }
 
     for data_file in data_files:
