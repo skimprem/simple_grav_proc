@@ -68,7 +68,6 @@ def gui_arguments():
         title='Choose data file'
     )
     
-    
     arguments = []
     parser = argparse.ArgumentParser()
 

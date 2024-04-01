@@ -104,11 +104,6 @@ def get_meters_readings(cg_data):
     ''' Get mean values of signals of readings from different meters '''
 
     readings = pd.DataFrame()
-    # for meter in cg_data.instrument_serial_number.unique():
-    #     meter_data = cg_data[cg_data.instrument_serial_number == meter]
-    #     meter_readings = get_readings(meter_data)
-    #     readings = pd.concat([readings, meter_readings])
-
     group_by_meters = cg_data.groupby('instrument_serial_number')
     for meter, meter_data in group_by_meters:
         meter_readings = get_readings(meter_data)
@@ -138,8 +133,8 @@ def get_readings(cg_data):
     )
     # readings['date_time'].to_datetime
     reading_index = 0
-    for line in cg_data.line.unique():
-        line_data = cg_data[cg_data.line == line]
+    group_by_line = cg_data.groupby('line')
+    for line, line_data in group_by_line:
         trigger = False
         count = 0
         first_date_time = line_data.iloc[0].date_time
@@ -230,10 +225,6 @@ def get_meters_ties(readings):
         meter_ties = get_ties(meter_readings)
         ties = pd.concat([ties, meter_ties])
     
-    # for meter in readings.instrument_serial_number.unique():
-    #     meter_readings = readings[readings.instrument_serial_number == meter]
-    #     meter_ties = get_ties(meter_readings)
-    #     ties = pd.concat([ties, meter_ties])
     return ties
 
 
@@ -260,8 +251,8 @@ def get_ties(readings):
         'meter_type'
     ])
     count = 0
-    for line in readings.line.unique():
-        line_readings = readings[readings.line == line]
+    group_by_line = readings.groupby('line')
+    for line, line_readings in group_by_line:
         loops = []
         for index, row in line_readings.iterrows():
             if len(loops) == 0:
@@ -412,13 +403,8 @@ def get_mean_ties(ties):
     ])
 
     means = []
-    for line in ties.line.unique():
-        line_ties = ties[ties.line == int(line)]
-        # print(line_ties.date_to)
-        # print((line_ties.loc[0, 'date_to']))
-        # for index_line_tie, _ in line_ties.iterrows():
-        #     line_ties.loc[index_line_tie, 'date_to'] =\
-        #         dt.date(line_ties.loc[index_line_tie, 'date_to'])
+    group_by_line = ties.groupby('line')
+    for line, line_ties in group_by_line:
         group_mean = line_ties.groupby(
             ['station_from', 'station_to'], as_index=False)
         mean = group_mean.agg({
@@ -540,16 +526,49 @@ def to_minutes(value):
     return value.timestamp() / 60
 
 
-def gravfit(grav, date_time):
+def gravfit(input_stations, input_grav, input_std, time_, max_degree=2):
 
-    x = np.array(grav)
+    stations = np.array(input_stations)
+    unique_stations = input_stations.unique()
+    first_station = unique_stations[0]
+    defined_stations = unique_stations[unique_stations != first_station].T
+    stations_number = stations.size
+    defined_stations_number = defined_stations.size
 
-    print(x)
-    a = np.append(np.array(date_time), np.ones((np.size(grav), 1)), axis=1)
-    print(a)
+    rows = []
+    for station in stations:
+        row = []
+        for defined_station in defined_stations:
+            if station == defined_station:
+                row.append(1)
+            else:
+                row.append(0)
+        rows.append(row)
+    observation_matrix = np.array(rows)
 
-    model = sm.RLM(x, a)
+    time_matrix = np.vstack(time_ - time_.iloc[0])
+    if max_degree > 1:
+        for degree in range(2, max_degree + 1):
+            time_matrix = np.hstack((time_matrix, np.power(time_matrix, degree)))
+    
+    design_matrix = np.concatenate((observation_matrix, time_matrix, np.ones(shape=(stations_number, 1))), axis=1)
 
-    res = model.fit()
+    model = sm.OLS(input_grav, design_matrix)
 
-    return res
+    result = model.fit()
+
+    ties = {
+        'from_station': [],
+        'to_station': [],
+        'grav': [],
+        'std_err': []
+    }
+
+    for index, station_name in enumerate(defined_stations):
+        ties['from_station'].append(first_station)
+        ties['to_station'].append(station_name)
+        ties['grav'].append(result.params[index])
+        ties['std_err'].append(result.bse[index])
+    
+    return pd.DataFrame(ties)
+

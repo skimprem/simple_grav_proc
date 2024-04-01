@@ -47,28 +47,31 @@ def main():
             raw_data.loc[raw_data['instrument_serial_number'] == meter, 'scale_factor_std'] = scale_factor_std
             raw_data.loc[raw_data['instrument_serial_number'] == meter, 'corr_grav'] = raw_data.loc[raw_data['instrument_serial_number'] == meter, 'corr_grav'] * scale_factor
     
-    readings = get_meters_readings(raw_data)
 
-    # fitgrav = gravfit(readings['corr_grav'], readings['date_time'].apply(to_minutes))
+    fitgrav = gravfit(raw_data['station'], raw_data['corr_grav'], raw_data['std_err'], raw_data['date_time'].apply(to_minutes))
+
+    print(fitgrav)
+    
+    readings = get_meters_readings(raw_data)
 
     ties = get_meters_ties(readings)
     means = get_meters_mean_ties(ties)
 
-    basename = '_'.join(str(survey) for survey in raw_data.survey_name.unique())
+    basename = '-'.join(str(survey) for survey in raw_data.station.unique())
 
     default_output_file_report = 'report_'+basename+'.txt'
 
     if gui_mode:
-        output_file_report = fd.asksaveasfilename(
+        output_file_report = open(fd.asksaveasfilename(
             defaultextension=".txt",
             filetypes=[('ACSII text file', '*.txt'), ('All files', '*')],
             initialfile=default_output_file_report,
-            title="Save Report")
+            title="Save Report"), 'w', encoding='utf-8')
     else:
         if args.output:
             output_file_report = args.output
         else:
-            output_file_report = default_output_file_report
+            output_file_report = open(default_output_file_report, 'w', encoding='utf-8')
 
     report = get_report(means)
 
@@ -80,7 +83,6 @@ def main():
             make_vgfit_input(means)
         if args.verbose:
             print(report)
-
 
     if gui_mode:
         get_residuals_plot(raw_data, readings, means)
