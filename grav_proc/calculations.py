@@ -578,7 +578,7 @@ def gravfit(input_stations, input_grav, input_std, time_, max_degree=2):
     
     return pd.DataFrame(ties)
 
-def get_vg(readings):
+def get_vg(readings, max_degree=2):
 
     group_by_station_and_line = readings.groupby(['line', 'station'])
 
@@ -594,27 +594,19 @@ def get_vg(readings):
             row.append(value)
         rows.append(row)
 
-    print(rows)
-    # rows = []
-    # for station in stations:
-    #     row = []
-    #     for desired_station in desired_stations:
-    #         value = 1 if desired_station == station else 0
-    #         row.append(value)
-    #     rows.append(row)
-    # grav_matrix = np.array(rows)
+        grav_design = np.array(rows)
 
+        height_design = np.vstack(line_and_station_readings.instr_height / 1e3)
+        if max_degree > 1:
+            for degree in range(2, max_degree + 1):
+                height_design = np.hstack((height_design, np.power(height_design, degree)))
+        
     # date_time = date_time - date_time.iloc[0]
     # times = np.vstack(date_time.dt.seconds.array)
     # if max_degree > 1:
     #     for degree in range(2, max_degree + 1):
     #         times = np.hstack((times, np.power(times, degree)))
-
-    # height_matrix = np.vstack(height / 1e3)
-    # if max_degree > 1:
-    #     for degree in range(2, max_degree + 1):
-    #         height_matrix = np.hstack((height_matrix, np.power(height_matrix, degree)))
-    
+   
     # rows = []
     # for serial_number in instrument_serial_number:
     #     row = []
@@ -627,7 +619,7 @@ def get_vg(readings):
     # ones = np.ones(shape=(readings.size, 1))
     # # design_matrix = np.concatenate((observation_matrix, time_matrix, np.ones(shape=(stations_number, 1)), height_matrix, np.ones(shape=(stations_number, 1))), axis=1)
     # # design_matrix = np.concatenate((observation_matrix, time_matrix, np.ones(shape=(stations_number, 1))), axis=1)
-    # design_matrix = np.concatenate((height_matrix, times, meters_matrix), axis=1)
+    design_matrix = np.concatenate((grav_design, height_design), axis=1)
 
     # # model = sm.OLS(grav, design_matrix)
     # model = sm.RLM(grav, design_matrix)
