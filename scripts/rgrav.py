@@ -7,7 +7,8 @@ from tkinter import filedialog as fd
 from matplotlib import pyplot as plt
 from grav_proc.arguments import cli_arguments, gui_arguments
 from grav_proc.calculations import make_frame_to_proc, get_meters_readings, \
-    get_meters_ties, get_meters_mean_ties, gravfit, to_minutes
+    get_meters_ties, get_meters_mean_ties, gravfit, to_minutes, get_vg, \
+    get_meter_ties_by_lines, get_meter_ties_all #,vgfit2
 from grav_proc.loader import read_data, read_scale_factors
 from grav_proc.plots import get_residuals_plot, get_map
 from grav_proc.reports import get_report, make_vgfit_input
@@ -48,15 +49,30 @@ def main():
             raw_data.loc[raw_data['instrument_serial_number'] == meter, 'corr_grav'] = raw_data.loc[raw_data['instrument_serial_number'] == meter, 'corr_grav'] * scale_factor
     
 
-    fitgrav = gravfit(raw_data['station'], raw_data['corr_grav'], raw_data['std_err'], raw_data['date_time'].apply(to_minutes))
+    # fitgrav = gravfit(raw_data['station'], raw_data['corr_grav'], raw_data['std_err'], raw_data['date_time'].apply(to_minutes))
 
-    print(fitgrav)
+    # print(fitgrav)
+
+    vg = get_vg(raw_data)
+
+    print(vg)
     
     readings = get_meters_readings(raw_data)
 
     ties = get_meters_ties(readings)
+
+    print(get_meter_ties_by_lines(raw_data))
+    # print(get_meter_ties_all(raw_data))
     means = get_meters_mean_ties(ties)
 
+    # fitvg = vgfit(raw_data['station'], raw_data['corr_grav'], raw_data['std_err'], raw_data['date_time'].apply(to_minutes), raw_data['instr_height'])
+
+    # print(fitvg)
+    
+    # fitvg2 = vgfit2(means.station_from, means.station_to, means.tie, means.err, means.instr_height_from, means.instr_height_to)
+
+    # print(fitvg2)
+ 
     basename = '-'.join(str(survey) for survey in raw_data.station.unique())
 
     default_output_file_report = 'report_'+basename+'.txt'
@@ -80,7 +96,7 @@ def main():
 
     if not gui_mode:
         if args.to_vgfit:
-            make_vgfit_input(means)
+            make_vgfit_input(means, 'output.vg')
         if args.verbose:
             print(report)
 

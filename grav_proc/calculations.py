@@ -525,6 +525,11 @@ def reverse_tie(tie):
 def to_minutes(value):
     return value.timestamp() / 60
 
+def to_days(value):
+    return value.timestamp() / 60 / 60 / 24
+
+def to_seconds(value):
+    return value.timestamp()
 
 def gravfit(input_stations, input_grav, input_std, time_, max_degree=2):
 
@@ -551,7 +556,8 @@ def gravfit(input_stations, input_grav, input_std, time_, max_degree=2):
         for degree in range(2, max_degree + 1):
             time_matrix = np.hstack((time_matrix, np.power(time_matrix, degree)))
     
-    design_matrix = np.concatenate((observation_matrix, time_matrix, np.ones(shape=(stations_number, 1))), axis=1)
+    ones = np.ones(shape=(stations_number, 1))
+    design_matrix = np.concatenate((time_matrix), axis=1)
 
     model = sm.OLS(input_grav, design_matrix)
 
@@ -572,3 +578,248 @@ def gravfit(input_stations, input_grav, input_std, time_, max_degree=2):
     
     return pd.DataFrame(ties)
 
+def get_vg(readings):
+
+    group_by_station_and_line = readings.groupby(['line', 'station'])
+
+    rows = []
+    for line_and_station, line_and_station_readings in group_by_station_and_line:
+        line, station = line_and_station
+        row = []
+        for index, reading in readings.iterrows():
+            if line == reading.line and station == reading.station:
+                value = 1
+            else:
+                value = 0
+            row.append(value)
+        rows.append(row)
+
+    print(rows)
+    # rows = []
+    # for station in stations:
+    #     row = []
+    #     for desired_station in desired_stations:
+    #         value = 1 if desired_station == station else 0
+    #         row.append(value)
+    #     rows.append(row)
+    # grav_matrix = np.array(rows)
+
+    # date_time = date_time - date_time.iloc[0]
+    # times = np.vstack(date_time.dt.seconds.array)
+    # if max_degree > 1:
+    #     for degree in range(2, max_degree + 1):
+    #         times = np.hstack((times, np.power(times, degree)))
+
+    # height_matrix = np.vstack(height / 1e3)
+    # if max_degree > 1:
+    #     for degree in range(2, max_degree + 1):
+    #         height_matrix = np.hstack((height_matrix, np.power(height_matrix, degree)))
+    
+    # rows = []
+    # for serial_number in instrument_serial_number:
+    #     row = []
+    #     for meter in meters:
+    #         value = 1 if serial_number == meter else 0
+    #         row.append(value)
+    #     rows.append(row)
+    # meters_matrix = np.array(rows)
+
+    # ones = np.ones(shape=(readings.size, 1))
+    # # design_matrix = np.concatenate((observation_matrix, time_matrix, np.ones(shape=(stations_number, 1)), height_matrix, np.ones(shape=(stations_number, 1))), axis=1)
+    # # design_matrix = np.concatenate((observation_matrix, time_matrix, np.ones(shape=(stations_number, 1))), axis=1)
+    # design_matrix = np.concatenate((height_matrix, times, meters_matrix), axis=1)
+
+    # # model = sm.OLS(grav, design_matrix)
+    # model = sm.RLM(grav, design_matrix)
+
+    # result = model.fit()
+
+    # coef = {
+    #     'a': [],
+    #     'b': [],
+    #     'c': [],
+    # }
+
+    # coef['a'].append(result.params[2])
+    # coef['a'].append(result.params[3])
+    # coef['a'].append(result.params[3])
+    
+    # return result.params, result.bse
+    return None
+
+# def vgfit2(levels_from, levels_to, grav, grav_std, height_from, height_to, max_degree=2):
+
+    # levels = np.vstack((levels_from, levels_to))
+    # first_level = unique_levels[0]
+    # defined_levels = unique_levels[unique_levels != first_level].T
+    # levels_number = levels.size
+    # defined_levels_number = defined_levels.size
+
+    # rows = []
+    # for level in levels:
+    #     row = []
+    #     for defined_level in defined_levels:
+    #         if level == defined_level:
+    #             row.append(1)
+    #         else:
+    #             row.append(0)
+    #     rows.append(row)
+    # observation_matrix = np.array(rows)
+
+    # # time_matrix = np.vstack(time_ - time_.iloc[0])
+    # time_matrix = np.vstack(time_)
+    # if max_degree > 1:
+    #     for degree in range(2, max_degree + 1):
+    #         time_matrix = np.hstack((time_matrix, np.power(time_matrix, degree)))
+
+    # height_matrix = np.hstack((np.array([height_to - height_from]).T, np.array([height_to**2 - height_from**2]).T))
+    
+    # ones = np.ones(shape=(len(grav), 1))
+    # # design_matrix = np.concatenate((observation_matrix, time_matrix, np.ones(shape=(stations_number, 1)), height_matrix, np.ones(shape=(stations_number, 1))), axis=1)
+    # # design_matrix = np.concatenate((observation_matrix, time_matrix, np.ones(shape=(stations_number, 1))), axis=1)
+    # design_matrix = np.concatenate((observation_matrix, height_matrix, ones), axis=1)
+
+    # print(grav)
+    # print(design_matrix)
+    # model = sm.OLS(np.array(grav), design_matrix)
+
+    # result = model.fit()
+
+    # # coef = {
+    # #     'a': [],
+    # #     'b': [],
+    # #     'c': [],
+    # # }
+
+    # # coef['a'].append(result.params[2])
+    # # coef['a'].append(result.params[3])
+    # # coef['a'].append(result.params[3])
+    
+    # return result.params, result.bse
+
+def drift_fitting(stations, grav, std_err, date_time, fix_station=None, max_degree=2):
+    ''' drift_fitting'''
+    
+    readings = np.vstack(grav.array)
+    readings = readings - readings[0]
+
+    date_time = date_time - date_time.iloc[0]
+    times = np.vstack(date_time.dt.seconds.array)
+
+    desired_stations = stations.unique()
+    if fix_station:
+        desired_stations = desired_stations[desired_stations != fix_station]
+    else:
+        desired_stations = desired_stations[desired_stations != desired_stations[0]]
+    
+    if max_degree > 1:
+        for degree in range(2, max_degree + 1):
+            times = np.hstack((times, np.power(times, degree)))
+    
+    rows = []
+    for station in stations:
+        row = []
+        for desired_station in desired_stations:
+            value = 1 if desired_station == station else 0
+            row.append(value)
+        rows.append(row)
+    station_grav = np.array(rows)
+    
+    ones = np.ones(shape=(readings.size, 1))
+    
+    design_matrix = np.concatenate((station_grav, times, ones), axis=1)
+    # design_matrix = np.concatenate((times, ones), axis=1)
+
+    # model = sm.OLS(readings, design_matrix)
+    # model = sm.WLS(readings, design_matrix, weights=np.array(std_err)**-2)
+    model = sm.RLM(readings, design_matrix)
+    
+    result = model.fit()
+
+    return [(value, std) for value, std in zip(result.params, result.bse)]
+
+def get_meter_ties_by_lines(readings):
+    
+    lines = {
+        'station_from': [],
+        'station_to': [],
+        'created': [],
+        'survey_name': [],
+        'operator': [],
+        'instrument_serial_number': [],
+        'line': [],
+        'instr_height_from': [],
+        'instr_height_to': [],
+        'tie': [],
+        'err': [],
+    }
+
+    for meter, meter_data in readings.groupby('instrument_serial_number'):
+
+        for line, line_data in meter_data.groupby('line'):
+            stations = line_data.station.unique()
+            first_station = stations[0]
+            stations = stations[stations != first_station]
+            instr_height_from = line_data[line_data.station == first_station].instr_height.mean()
+            gravs = drift_fitting(
+                stations=line_data.station,
+                grav=line_data.corr_grav,
+                std_err=line_data.std_err,
+                date_time=line_data.date_time,
+                max_degree=2
+            )[:len(stations)]
+            for station, grav in zip(stations, gravs):
+                lines['station_from'].append(first_station)
+                lines['station_to'].append(station)
+                lines['created'].append(line_data[line_data.station == station].iloc[0].created)
+                lines['survey_name'].append(line_data[line_data.station == station].iloc[0].survey_name)
+                lines['operator'].append(line_data[line_data.station == station].iloc[0].operator)
+                lines['instrument_serial_number'].append(meter)
+                lines['line'].append(line)
+                lines['instr_height_from'].append(instr_height_from)
+                lines['instr_height_to'].append(line_data[line_data.station == station].instr_height.mean())
+                lines['tie'].append(grav[0])
+                lines['err'].append(grav[1])
+        
+    return pd.DataFrame(lines)
+
+def get_meter_ties_all(readings):
+    
+    lines = {}
+
+    lines['station_from'] = []
+    lines['station_to'] = []
+    lines['created'] = []
+    lines['survey_name'] = []
+    lines['operator'] = []
+    lines['instrument_serial_number'] = []
+    lines['instr_height_from'] = []
+    lines['instr_height_to'] = []
+    lines['tie'] = []
+    lines['err'] = []
+
+    stations = readings.station.unique()
+    first_station = stations[0]
+    stations = stations[stations != first_station]
+    instr_height_from = readings[readings.station == first_station].instr_height.mean()
+    result = drift_fitting(
+        stations=readings.station,
+        grav=readings.corr_grav,
+        std_err=readings.std_err,
+        date_time=readings.date_time,
+        max_degree=2
+    )
+    gravs = result[:len(stations)]
+    for station, grav in zip(stations, gravs):
+        lines['station_from'].append(first_station)
+        lines['station_to'].append(station)
+        lines['created'].append(readings[readings.station == station].iloc[0].created)
+        lines['survey_name'].append(readings[readings.station == station].iloc[0].survey_name)
+        lines['operator'].append(readings[readings.station == station].iloc[0].operator)
+        lines['instrument_serial_number'].append(readings[readings.station == station].iloc[0].instrument_serial_number)
+        lines['instr_height_from'].append(instr_height_from)
+        lines['instr_height_to'].append(readings[readings.station == station].instr_height.mean())
+        lines['tie'].append(grav[0])
+        lines['err'].append(grav[1])
+
+    return pd.DataFrame(lines)
