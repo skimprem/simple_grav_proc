@@ -578,66 +578,92 @@ def gravfit(input_stations, input_grav, input_std, time_, max_degree=2):
     
     return pd.DataFrame(ties)
 
-def get_vg(readings, max_degree=2):
+def get_vg(readings, max_degree=2, vg_max_degree=2):
 
-    group_by_station_and_line = readings.groupby(['line', 'station'])
+    drift_model_dict = {
+        'meter': [],
+        'survey': [],
+        'line': [],
+        'from_point': [],
+        'to_point': [],
+        'from_height': [],
+        'to_height': [],
+        'gravity': [],
+        'std_gravity': [],
+        'drift': [],
+        'std_drift': [],
+        'const': [],
+        'std_const': [],
+   }
 
-    rows = []
-    for line_and_station, line_and_station_readings in group_by_station_and_line:
-        line, station = line_and_station
-        row = []
-        for index, reading in readings.iterrows():
-            if line == reading.line and station == reading.station:
-                value = 1
-            else:
-                value = 0
-            row.append(value)
-        rows.append(row)
-
-        grav_design = np.array(rows)
-
-        height_design = np.vstack(line_and_station_readings.instr_height / 1e3)
-        if max_degree > 1:
-            for degree in range(2, max_degree + 1):
-                height_design = np.hstack((height_design, np.power(height_design, degree)))
-        
-    # date_time = date_time - date_time.iloc[0]
-    # times = np.vstack(date_time.dt.seconds.array)
-    # if max_degree > 1:
-    #     for degree in range(2, max_degree + 1):
-    #         times = np.hstack((times, np.power(times, degree)))
-   
-    # rows = []
-    # for serial_number in instrument_serial_number:
-    #     row = []
-    #     for meter in meters:
-    #         value = 1 if serial_number == meter else 0
-    #         row.append(value)
-    #     rows.append(row)
-    # meters_matrix = np.array(rows)
-
-    # ones = np.ones(shape=(readings.size, 1))
-    # # design_matrix = np.concatenate((observation_matrix, time_matrix, np.ones(shape=(stations_number, 1)), height_matrix, np.ones(shape=(stations_number, 1))), axis=1)
-    # # design_matrix = np.concatenate((observation_matrix, time_matrix, np.ones(shape=(stations_number, 1))), axis=1)
-    design_matrix = np.concatenate((grav_design, height_design), axis=1)
-
-    # # model = sm.OLS(grav, design_matrix)
-    # model = sm.RLM(grav, design_matrix)
-
-    # result = model.fit()
-
-    # coef = {
-    #     'a': [],
-    #     'b': [],
-    #     'c': [],
-    # }
-
-    # coef['a'].append(result.params[2])
-    # coef['a'].append(result.params[3])
-    # coef['a'].append(result.params[3])
+    group_by_meter_and_survey = readings.groupby(['instrument_serial_number', 'survey_name'])
+    for meter_survey, grouped_by_meter_and_survey in group_by_meter_and_survey:
+        meter, survey = meter_survey
+        group_by_line = grouped_by_meter_and_survey.groupby('line')
+        for line, grouped_by_line in group_by_line:
+            grav = np.vstack(grouped_by_line.corr_grav)
+            date_time = np.array(grouped_by_line.date_time.apply(lambda x: x.timestamp()/86400))
+            drift_design = np.vander(date_time, max_degree + 1)
+            change_stations = grouped_by_line.station.unique()
+            change_heights = grouped_by_line.instr_height.unique()
+            fix_station = change_stations[0]
+            fix_height = change_heights[0]
+            change_stations = change_stations[change_stations != fix_station]
+            change_heights = change_heights[change_heights != fix_height]
+            rows = []
+            stations = grouped_by_line.station
+            for station in stations:
+                row = []
+                for change_station in change_stations:
+                    if station == change_station:
+                        row.append(1)
+                    else:
+                        row.append(0)
+                rows.append(row)
+            grav_design = np.array(rows)
+            design = np.concatenate((grav_design, drift_design), axis=1)
+            model = sm.OLS(grav, design)
+            result = model.fit()
+            const = result.params[-1]
+            std_const = result.bse[-1]
+            drift = tuple(result.params[-(max_degree+1):-1])
+            std_drift = tuple(result.bse[-(max_degree+1):-1])
+            gravity = result.params[:-(max_degree+1)]
+            std_gravity = result.bse[:-(max_degree+1)]
+            stations_number = len(change_stations)
+            for index, station, height in zip(range(stations_number), change_stations, change_heights):
+                drift_model_dict['meter'].append(meter)
+                drift_model_dict['survey'].append(survey)
+                drift_model_dict['line'].append(line)
+                drift_model_dict['from_point'].append(fix_station)
+                drift_model_dict['to_point'].append(station)
+                drift_model_dict['from_height'].append(fix_height)
+                drift_model_dict['to_height'].append(height)
+                drift_model_dict['gravity'].append(gravity[index])
+                drift_model_dict['std_gravity'].append(std_gravity[index])
+                drift_model_dict['drift'].append(drift)
+                drift_model_dict['std_drift'].append(std_drift)
+                drift_model_dict['const'].append(const)
+                drift_model_dict['std_const'].append(std_const)
     
-    # return result.params, result.bse
-    return None
+    drift_model = pd.DataFrame(drift_model_dict)
+
+    group_by_meter_and_survey = drift_model.groupby(['meter', 'survey'])
+    for meter_survey, grouped_by_meter in group_by_meter_and_survey:
+        meter, survey = meter_survey
+        grav = grouped_by_meter.gravity
+        from_height = np.vstack(grouped_by_meter.from_height * 1e-3)
+        to_height = np.vstack(grouped_by_meter.to_height * 1e-3)
+        coef_design = to_height - from_height
+        
+        if vg_max_degree > 1:
+            for degree in range(2, vg_max_degree + 1):
+                coef_design = np.hstack((coef_design, to_height**degree - from_height**degree))
+        ones = np.ones(shape=(grav.size, 1))
+        design = np.concatenate((coef_design, ones), axis=1)
+        model = sm.OLS(grav, coef_design)
+        result = model.fit() 
+    return [(coef, std_coef) for coef, std_coef in zip(result.params, result.bse)]
 
 # def vgfit2(levels_from, levels_to, grav, grav_std, height_from, height_to, max_degree=2):
 

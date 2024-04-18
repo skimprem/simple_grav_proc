@@ -5,6 +5,7 @@ Read CG-6 data file and calculate ties
 
 from tkinter import filedialog as fd
 from matplotlib import pyplot as plt
+import numpy as np
 from grav_proc.arguments import cli_arguments, gui_arguments
 from grav_proc.calculations import make_frame_to_proc, get_meters_readings, \
     get_meters_ties, get_meters_mean_ties, gravfit, to_minutes, get_vg, \
@@ -55,13 +56,21 @@ def main():
 
     vg = get_vg(raw_data)
 
-    print(vg)
+    y = np.linspace(0, 1.5, 10)
+    print(y)
+    coefs = [vg[1][0], vg[0][0]]
+    print(coefs)
+    p=np.poly1d(coefs+[0])
+    print(p)
+    print(p(y))
+    _ = plt.plot(y, p(y))
+    plt.show()
     
     readings = get_meters_readings(raw_data)
 
     ties = get_meters_ties(readings)
 
-    print(get_meter_ties_by_lines(raw_data))
+    # print(get_meter_ties_by_lines(raw_data))
     # print(get_meter_ties_all(raw_data))
     means = get_meters_mean_ties(ties)
 
