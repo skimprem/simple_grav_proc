@@ -56,15 +56,36 @@ def main():
 
     vg = get_vg(raw_data)
 
-    y = np.linspace(0, 1.5, 10)
-    print(y)
-    coefs = [vg[1][0], vg[0][0]]
-    print(coefs)
-    p=np.poly1d(coefs+[0])
-    print(p)
-    print(p(y))
-    _ = plt.plot(y, p(y))
-    plt.show()
+    vg_ties, vg_coef = vg
+
+    for index, row in vg_coef.iterrows():
+        y = np.linspace(0, 1.5, 50)
+        p=np.poly1d(row.coefs[::-1]+[0])
+        ref_h = 1
+        a, b = row.std_coefs
+        u = abs(y - ref_h) * np.sqrt(a**2 + (y - ref_h)**2 * b**2 + 2 * (y - ref_h) * row.cov_coefs)
+        x = p(y) - p(ref_h) * y
+        plt.plot(x, y)
+        plt.fill_betweenx(y, x - u, x + u, alpha=0.2)
+
+        df = vg_ties[(vg_ties.meter == row.meter) & (vg_ties.survey == row.survey)]
+        grav = np.array(df.gravity)
+        h_f = np.array(df.from_height * 1e-3)
+        h_t = np.array(df.to_height * 1e-3)
+        vgs = np.array(grav / (h_t - h_f))
+
+        ties_from = h_f * vgs - p(ref_h) * h_f
+        ties_to = h_t * vgs - p(ref_h) * h_t
+        print(ties_from)
+        print(ties_to)
+
+        plt.plot(ties_from, h_f, '.', ties_to, h_t, '.')
+ 
+        plt.title(f'Vertical gradient model for meter {row.meter} (substract {p(ref_h):.2f} $\\times$ height)')
+        plt.xlabel(f'Gravity, uGal')
+        plt.ylabel('Height, m')
+
+        plt.show()
     
     readings = get_meters_readings(raw_data)
 
