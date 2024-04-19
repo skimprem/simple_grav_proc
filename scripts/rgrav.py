@@ -54,35 +54,42 @@ def main():
 
     # print(fitgrav)
 
-    vg = get_vg(raw_data)
+    vg_proc = get_vg(raw_data)
 
-    vg_ties, vg_coef = vg
+    vg_ties, vg_coef = vg_proc
 
     for index, row in vg_coef.iterrows():
+        df = vg_ties[(vg_ties.meter == row.meter) & (vg_ties.survey == row.survey)]
+        h_f = df.from_height * 1e-3
+        h_t = df.to_height * 1e-3
         y = np.linspace(0, 1.5, 50)
         p=np.poly1d(row.coefs[::-1]+[0])
-        ref_h = 1
+        h = np.array(list(h_f)+list(h_t))
+        h_min = min(h)
+        h_ref = 1
+        gp = lambda x: p(x) - x * (p(h_min) - p(h_ref)) / (h_min - h_ref)
+        # gp = lambda x: p(x) - x * p(h_ref) / h_ref
+
         a, b = row.std_coefs
-        u = abs(y - ref_h) * np.sqrt(a**2 + (y - ref_h)**2 * b**2 + 2 * (y - ref_h) * row.cov_coefs)
-        x = p(y) - p(ref_h) * y
+        u = abs(y - h_ref) * np.sqrt(a**2 + (y - h_ref)**2 * b**2 + 2 * (y - h_ref) * row.cov_coefs)
+        x = gp(y)
         plt.plot(x, y)
         plt.fill_betweenx(y, x - u, x + u, alpha=0.2)
 
-        df = vg_ties[(vg_ties.meter == row.meter) & (vg_ties.survey == row.survey)]
-        grav = np.array(df.gravity)
-        h_f = np.array(df.from_height * 1e-3)
-        h_t = np.array(df.to_height * 1e-3)
-        vgs = np.array(grav / (h_t - h_f))
-
-        ties_from = h_f * vgs - p(ref_h) * h_f
-        ties_to = h_t * vgs - p(ref_h) * h_t
-        print(ties_from)
-        print(ties_to)
-
-        plt.plot(ties_from, h_f, '.', ties_to, h_t, '.')
+        vg = df.gravity / (h_t - h_f)
+        mean_vg = np.mean(vg)
+        
+        for f, t, vg in zip(h_f, h_t, vg):
+            x1, x2 = f * vg - p(h_ref) * f / h_ref, t * vg - p(h_ref) * t / h_ref
+            # x1, x2 = f * vg - mean_vg * f, t * vg - mean_vg * t
+            x11, x22 = p(f) - p(h_ref) * f, p(t) - p(h_ref) * t
+            print('meas', f, x1, t, x2)
+            # print('model', x11, x22)
+            # print('diff', x11-x1, x22-x2)
+            plt.plot([x11, x22], [f, t], 'o', [x1, x2], [f, t], '.-')
  
-        plt.title(f'Vertical gradient model for meter {row.meter} (substract {p(ref_h):.2f} $\\times$ height)')
-        plt.xlabel(f'Gravity, uGal')
+        plt.title(f'Vertical gradient model for meter {row.meter} (substract {p(h_ref):.2f} $\\times$ height)')
+        plt.xlabel(f'Gravity, $\mu$Gal')
         plt.ylabel('Height, m')
 
         plt.show()
@@ -95,14 +102,6 @@ def main():
     # print(get_meter_ties_all(raw_data))
     means = get_meters_mean_ties(ties)
 
-    # fitvg = vgfit(raw_data['station'], raw_data['corr_grav'], raw_data['std_err'], raw_data['date_time'].apply(to_minutes), raw_data['instr_height'])
-
-    # print(fitvg)
-    
-    # fitvg2 = vgfit2(means.station_from, means.station_to, means.tie, means.err, means.instr_height_from, means.instr_height_to)
-
-    # print(fitvg2)
- 
     basename = '-'.join(str(survey) for survey in raw_data.station.unique())
 
     default_output_file_report = 'report_'+basename+'.txt'
