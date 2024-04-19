@@ -67,8 +67,8 @@ def main():
         h = np.array(list(h_f)+list(h_t))
         h_min = min(h)
         h_ref = 1
-        gp = lambda x: p(x) - x * (p(h_min) - p(h_ref)) / (h_min - h_ref)
-        # gp = lambda x: p(x) - x * p(h_ref) / h_ref
+        # gp = lambda x: p(x) - x * (p(h_min) - p(h_ref)) / (h_min - h_ref)
+        gp = lambda x: p(x) - x * p(h_ref)
 
         a, b = row.std_coefs
         u = abs(y - h_ref) * np.sqrt(a**2 + (y - h_ref)**2 * b**2 + 2 * (y - h_ref) * row.cov_coefs)
@@ -80,9 +80,9 @@ def main():
         mean_vg = np.mean(vg)
         
         for f, t, vg in zip(h_f, h_t, vg):
-            x1, x2 = f * vg - p(h_ref) * f / h_ref, t * vg - p(h_ref) * t / h_ref
+            x1, x2 = f * vg - f * p(h_ref), t * vg - t * p(h_ref)
             # x1, x2 = f * vg - mean_vg * f, t * vg - mean_vg * t
-            x11, x22 = p(f) - p(h_ref) * f, p(t) - p(h_ref) * t
+            x11, x22 = gp(f), gp(t)
             print('meas', f, x1, t, x2)
             # print('model', x11, x22)
             # print('diff', x11-x1, x22-x2)
