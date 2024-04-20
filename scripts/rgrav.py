@@ -57,6 +57,8 @@ def main():
     vg_proc = get_vg(raw_data)
 
     vg_ties, vg_coef = vg_proc
+    print(vg_ties.gravity.sum())
+    vg_ties.to_csv('out.csv')
 
     for index, row in vg_coef.iterrows():
         df = vg_ties[(vg_ties.meter == row.meter) & (vg_ties.survey == row.survey)]
