@@ -57,38 +57,45 @@ def main():
     vg_proc = get_vg(raw_data)
 
     vg_ties, vg_coef = vg_proc
-    print(vg_ties.gravity.sum())
+    print()
     vg_ties.to_csv('out.csv')
 
     for index, row in vg_coef.iterrows():
         df = vg_ties[(vg_ties.meter == row.meter) & (vg_ties.survey == row.survey)]
         h_f = df.from_height * 1e-3
         h_t = df.to_height * 1e-3
+        h_g = df.gravity
         y = np.linspace(0, 1.5, 50)
         p=np.poly1d(row.coefs[::-1]+[0])
         h = np.array(list(h_f)+list(h_t))
         h_min = min(h)
         h_ref = 1
-        # gp = lambda x: p(x) - x * (p(h_min) - p(h_ref)) / (h_min - h_ref)
-        gp = lambda x: p(x) - x * p(h_ref)
+        gp = lambda x: p(x) - x * (p(h_min) - p(h_ref)) / (h_min - h_ref)
+        # gp = lambda x: p(x) - x * p(h_ref)
 
-        a, b = row.std_coefs
-        u = abs(y - h_ref) * np.sqrt(a**2 + (y - h_ref)**2 * b**2 + 2 * (y - h_ref) * row.cov_coefs)
+        # ua, ub = row.std_coefs
+        # u = abs(y - h_ref) * np.sqrt(ua**2 + (y - h_ref)**2 * ub**2 + 2 * (y - h_ref) * row.cov_coefs)
         x = gp(y)
         plt.plot(x, y)
-        plt.fill_betweenx(y, x - u, x + u, alpha=0.2)
+        # plt.fill_betweenx(y, x - u, x + u, alpha=0.2)
 
-        vg = df.gravity / (h_t - h_f)
-        mean_vg = np.mean(vg)
+        # vg = df.gravity / (h_f - h_t)
+        # mean_vg = np.mean(vg)
+        # vg = vg - mean_vg
         
-        for f, t, vg in zip(h_f, h_t, vg):
-            x1, x2 = f * vg - f * p(h_ref), t * vg - t * p(h_ref)
-            # x1, x2 = f * vg - mean_vg * f, t * vg - mean_vg * t
-            x11, x22 = gp(f), gp(t)
-            print('meas', f, x1, t, x2)
-            # print('model', x11, x22)
-            # print('diff', x11-x1, x22-x2)
-            plt.plot([x11, x22], [f, t], 'o', [x1, x2], [f, t], '.-')
+        for f, t, g in zip(h_f, h_t, h_g):
+            vg = g / (t - f)
+            x1 = f * vg - p(h_ref) * f
+            x2 = t * vg - p(h_ref) * t
+            print(f'{f:.2f}', f'{x1:.2f}')
+            print(f'{t:.2f}', f'{x2:.2f}')
+        #     # x1, x2 = f * vg - mean_vg * f, t * vg - mean_vg * t
+        #     # x11, x22 = gp(f), gp(t)
+        #     print('from x1', f, x1, 'to x2', t, x2)
+        #     print()
+        #     # print('model', x11, x22)
+        #     # print('diff', x11-x1, x22-x2)
+            plt.plot([x1, x2], [f, t], '.-')
  
         plt.title(f'Vertical gradient model for meter {row.meter} (substract {p(h_ref):.2f} $\\times$ height)')
         plt.xlabel(f'Gravity, $\mu$Gal')

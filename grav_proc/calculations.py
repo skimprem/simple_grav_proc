@@ -596,59 +596,104 @@ def get_vg(readings, max_degree=2, vg_max_degree=2):
         'std_const': [],
    }
 
-    group_by_meter_and_survey = readings.groupby(['instrument_serial_number', 'survey_name'])
-    for meter_survey, grouped_by_meter_and_survey in group_by_meter_and_survey:
-        meter, survey = meter_survey
-        group_by_line = grouped_by_meter_and_survey.groupby('line')
-        for line, grouped_by_line in group_by_line:
-            grav = np.vstack(grouped_by_line.corr_grav)
-            date_time = np.array(grouped_by_line.date_time.apply(lambda x: x.timestamp()/86400))
-            drift_design = np.vander(date_time, max_degree + 1)
-            change_stations = grouped_by_line.station.unique()
-            change_heights = grouped_by_line.instr_height.unique()
-            fix_station = change_stations[0]
-            fix_height = change_heights[0]
-            change_stations = change_stations[change_stations != fix_station]
-            change_heights = change_heights[change_heights != fix_height]
-            rows = []
-            stations = grouped_by_line.station
-            for station in stations:
-                row = []
-                for change_station in change_stations:
-                    if station == change_station:
-                        row.append(1)
-                    else:
-                        row.append(0)
-                rows.append(row)
-            grav_design = np.array(rows)
-            design = np.concatenate((grav_design, drift_design), axis=1)
-            model = sm.OLS(grav, design)
-            result = model.fit()
-            const = result.params[-1]
-            std_const = result.bse[-1]
-            drift = tuple(result.params[-(max_degree+1):-1])
-            std_drift = tuple(result.bse[-(max_degree+1):-1])
-            gravity = result.params[:-(max_degree+1)]
-            std_gravity = result.bse[:-(max_degree+1)]
-            stations_number = len(change_stations)
-            for index, station, height in zip(range(stations_number), change_stations, change_heights):
-                ties_dict['meter'].append(meter)
-                ties_dict['survey'].append(survey)
-                ties_dict['line'].append(line)
-                ties_dict['from_point'].append(fix_station)
-                ties_dict['to_point'].append(station)
-                ties_dict['from_height'].append(fix_height)
-                ties_dict['to_height'].append(height)
-                ties_dict['gravity'].append(gravity[index])
-                ties_dict['std_gravity'].append(std_gravity[index])
-                ties_dict['drift'].append(drift)
-                ties_dict['std_drift'].append(std_drift)
-                ties_dict['const'].append(const)
-                ties_dict['std_const'].append(std_const)
+    # group_by_meter_and_survey = readings.groupby(['instrument_serial_number', 'survey_name'])
+    # for meter_survey, grouped_by_meter_and_survey in group_by_meter_and_survey:
+    #     meter, survey = meter_survey
+    #     group_by_line = grouped_by_meter_and_survey.groupby('line')
+    #     for line, grouped_by_line in group_by_line:
+    #         grav = np.vstack(grouped_by_line.corr_grav)
+    #         date_time = np.array(grouped_by_line.date_time.apply(lambda x: x.timestamp()/86400))
+    #         drift_design = np.vander(date_time, max_degree + 1)
+    #         change_stations = grouped_by_line.station.unique()
+    #         change_heights = grouped_by_line.instr_height.unique()
+    #         fix_station = change_stations[0]
+    #         fix_height = change_heights[0]
+    #         change_stations = change_stations[change_stations != fix_station]
+    #         change_heights = change_heights[change_heights != fix_height]
+    #         rows = []
+    #         stations = grouped_by_line.station
+    #         for station in stations:
+    #             row = []
+    #             for change_station in change_stations:
+    #                 if station == change_station:
+    #                     row.append(1)
+    #                 else:
+    #                     row.append(0)
+    #             rows.append(row)
+    #         grav_design = np.array(rows)
+    #         design = np.concatenate((grav_design, drift_design), axis=1)
+    #         model = sm.OLS(grav, design)
+    #         result = model.fit()
+    #         const = result.params[-1]
+    #         std_const = result.bse[-1]
+    #         drift = tuple(result.params[-(max_degree+1):-1])
+    #         std_drift = tuple(result.bse[-(max_degree+1):-1])
+    #         gravity = result.params[:-(max_degree+1)]
+    #         std_gravity = result.bse[:-(max_degree+1)]
+    #         stations_number = len(change_stations)
+    #         for index, station, height in zip(range(stations_number), change_stations, change_heights):
+    #             ties_dict['meter'].append(meter)
+    #             ties_dict['survey'].append(survey)
+    #             ties_dict['line'].append(line)
+    #             ties_dict['from_point'].append(fix_station)
+    #             ties_dict['to_point'].append(station)
+    #             ties_dict['from_height'].append(fix_height)
+    #             ties_dict['to_height'].append(height)
+    #             ties_dict['gravity'].append(gravity[index])
+    #             ties_dict['std_gravity'].append(std_gravity[index])
+    #             ties_dict['drift'].append(drift)
+    #             ties_dict['std_drift'].append(std_drift)
+    #             ties_dict['const'].append(const)
+    #             ties_dict['std_const'].append(std_const)
     
-    ties = pd.DataFrame(ties_dict)
+    ties_dict['meter'].append('001')
+    ties_dict['survey'].append('001')
+    ties_dict['line'].append('001')
+    ties_dict['from_point'].append('1')
+    ties_dict['to_point'].append('2')
+    ties_dict['from_height'].append(270.0)
+    ties_dict['to_height'].append(719.0)
+    ties_dict['gravity'].append(-144.2)
+    ties_dict['std_gravity'].append(0.2)
+    ties_dict['drift'].append(144.2)
+    ties_dict['std_drift'].append(0.2)
+    ties_dict['const'].append(0.0)
+    ties_dict['std_const'].append(0.0)
 
-    meter_drift_dict = {
+    ties_dict['meter'].append('001')
+    ties_dict['survey'].append('001')
+    ties_dict['line'].append('001')
+    ties_dict['from_point'].append('2')
+    ties_dict['to_point'].append('3')
+    ties_dict['from_height'].append(719.0)
+    ties_dict['to_height'].append(1300.0)
+    ties_dict['gravity'].append(-189.2)
+    ties_dict['std_gravity'].append(0.2)
+    ties_dict['drift'].append(144.2)
+    ties_dict['std_drift'].append(0.2)
+    ties_dict['const'].append(0.0)
+    ties_dict['std_const'].append(0.0)
+
+    ties_dict['meter'].append('001')
+    ties_dict['survey'].append('001')
+    ties_dict['line'].append('001')
+    ties_dict['from_point'].append('1')
+    ties_dict['to_point'].append('3')
+    ties_dict['from_height'].append(270.0)
+    ties_dict['to_height'].append(1300.0)
+    ties_dict['gravity'].append(-333.8)
+    ties_dict['std_gravity'].append(0.2)
+    ties_dict['drift'].append(144.2)
+    ties_dict['std_drift'].append(0.2)
+    ties_dict['const'].append(0.0)
+    ties_dict['std_const'].append(0.0)
+
+    print(ties_dict)
+
+    ties = pd.DataFrame(ties_dict)
+    print(ties)
+
+    vg_dict = {
         'meter': [],
         'survey': [],
         'coefs': [],
@@ -661,29 +706,48 @@ def get_vg(readings, max_degree=2, vg_max_degree=2):
         grav = grouped_by_meter.gravity
         from_height = np.vstack(grouped_by_meter.from_height * 1e-3)
         to_height = np.vstack(grouped_by_meter.to_height * 1e-3)
-        coef_design = to_height - from_height
+
+        # points = np.concatenate((np.vstack(grouped_by_meter.from_point), np.vstack(grouped_by_meter.to_point)), axis=0)
+        # rows = []
+        # for from_point, to_point in zip(grouped_by_meter.from_point, grouped_by_meter.to_point):
+        #     row = []
+        #     for point in points:
+        #         if from_point == point:
+        #             row.append(-1)
+        #         elif to_point == point:
+        #             row.append(1)
+        #         else:
+        #             row.append(0)
+        #     rows.append(row)
         
+        # grav_design = np.array(rows)
+        # print(grav_design)
+        
+        coef_design = to_height - from_height
         if vg_max_degree > 1:
             for degree in range(2, vg_max_degree + 1):
                 coef_design = np.hstack((coef_design, to_height**degree - from_height**degree))
         ones = np.ones(shape=(grav.size, 1))
         design = np.concatenate((coef_design, ones), axis=1)
-        model = sm.OLS(grav, coef_design)
+        # design = np.concatenate((grav_design, coef_design, ones), axis=1)
+        model = sm.OLS(grav, design)
         result = model.fit() 
+        print(result.params)
         coefs = result.params
         std_coefs = result.bse
-        meter_drift_dict['meter'].append(meter)
-        meter_drift_dict['survey'].append(survey)
-        meter_drift_dict['coefs'].append(list(coefs))
-        meter_drift_dict['std_coefs'].append(list(std_coefs))
+        vg_dict['meter'].append(meter)
+        vg_dict['survey'].append(survey)
+        vg_dict['coefs'].append(list(coefs))
+        vg_dict['std_coefs'].append(list(std_coefs))
+        print(std_coefs)
         cov_coefs = result.cov_params().iloc[0].iloc[1]
         # rows = []
         # for index, row in cov_params.iterrows():
         #     rows.append([x for x in row])
-        meter_drift_dict['cov_coefs'].append(cov_coefs)
+        vg_dict['cov_coefs'].append(cov_coefs)
 
-    meters_drift = pd.DataFrame(meter_drift_dict)
-    return ties, meters_drift
+    vg = pd.DataFrame(vg_dict)
+    return ties, vg
 
 
 def drift_fitting(stations, grav, std_err, date_time, fix_station=None, max_degree=2):
