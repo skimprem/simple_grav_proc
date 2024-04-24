@@ -4,9 +4,7 @@ Read CG-6 data file and calculate ties
 '''
 
 from tkinter import filedialog as fd
-from matplotlib import pyplot as plt
-import numpy as np
-from grav_proc.arguments import cli_arguments, gui_arguments
+from grav_proc.arguments import cli_rgrav_arguments, gui_rgrav_arguments
 from grav_proc.calculations import make_frame_to_proc, get_meters_readings, \
     get_meters_ties, get_meters_mean_ties, gravfit, to_minutes, get_vg, \
     get_meter_ties_by_lines, get_meter_ties_all #,vgfit2
@@ -17,11 +15,11 @@ from grav_proc.reports import get_report, make_vgfit_input
 def main():
 
     gui_mode = False
-    args = cli_arguments()
+    args = cli_rgrav_arguments()
 
     if args.input is None:
         gui_mode = True
-        args = gui_arguments()
+        args = gui_rgrav_arguments()
         if args.scale_factors:
             calibration_files = []
             for calibration_file_name in args.scale_factors:
@@ -54,44 +52,7 @@ def main():
 
     # print(fitgrav)
 
-    vg_proc = get_vg(raw_data)
-
-    vg_ties, vg_coef = vg_proc
-
-    vg_ties.to_csv('out.csv')
-
-    for _, row in vg_coef.iterrows():
-        df = vg_ties[(vg_ties.meter == row.meter) & (vg_ties.survey == row.survey)]
-        y = np.linspace(0, 1.5, 50)
-        b, a = row.coefs
-        p = np.poly1d([b, a, 0])
-        resid = row.resid.reshape((len(df), 2))
-        
-        # h_min = df[['from_height', 'to_height']].min().min() * 1e-3
-        h_ref = 1
-
-        # substruct = (p(h_min) - p(h_ref)) / (h_min - h_ref)
-        substruct = p(h_ref)
-        gp = lambda x: p(x) - x * substruct
-
-        ua, ub = row.std_coefs
-        cov = row.cov_coefs
-        u = abs(h_ref - y) * np.sqrt(ub**2 + (y + h_ref)**2 * ua**2 + 2 * (h_ref + y) * cov)
-
-        x = gp(y)
-        plt.plot(x, y)
-        plt.fill_betweenx(y, x - u, x + u, alpha=0.2)
-
-        for height_from, height_to, resid in zip(df.from_height, df.to_height, resid):
-            heights = np.array([height_from, height_to]) * 1e-3
-            plt.plot(gp(heights) + resid, heights, '.-')
- 
-        plt.title(f'Meter: {row.meter}, survey {row.survey} (substract {substruct:.1f} $\mu$Gal/m)')
-        plt.xlabel(f'Gravity, $\mu$Gal')
-        plt.ylabel('Height, m')
-
-        plt.show()
-    
+   
     # readings = get_meters_readings(raw_data)
 
     # ties = get_meters_ties(readings)

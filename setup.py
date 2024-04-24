@@ -20,7 +20,7 @@ with open('requirements.txt', mode='r', encoding='utf-8') as fh:
     install_requires = [line.split().pop(0) for line in fh.read().splitlines()]
 
 setup(
-    name = 'rgrav',
+    name = 'rgrav_proc',
     version = version,
     author = 'Roman Sermiagin',
     author_email = 'roman.sermiagin@gmail.com',
