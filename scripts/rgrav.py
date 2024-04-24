@@ -57,59 +57,49 @@ def main():
     vg_proc = get_vg(raw_data)
 
     vg_ties, vg_coef = vg_proc
-    print()
+
     vg_ties.to_csv('out.csv')
 
-    for index, row in vg_coef.iterrows():
+    for _, row in vg_coef.iterrows():
         df = vg_ties[(vg_ties.meter == row.meter) & (vg_ties.survey == row.survey)]
-        h_f = df.from_height * 1e-3
-        h_t = df.to_height * 1e-3
-        h_g = df.gravity
         y = np.linspace(0, 1.5, 50)
-        p=np.poly1d(row.coefs[::-1]+[0])
-        h = np.array(list(h_f)+list(h_t))
-        h_min = min(h)
+        b, a = row.coefs
+        p = np.poly1d([b, a, 0])
+        resid = row.resid.reshape((len(df), 2))
+        
+        # h_min = df[['from_height', 'to_height']].min().min() * 1e-3
         h_ref = 1
-        gp = lambda x: p(x) - x * (p(h_min) - p(h_ref)) / (h_min - h_ref)
-        # gp = lambda x: p(x) - x * p(h_ref)
 
-        # ua, ub = row.std_coefs
-        # u = abs(y - h_ref) * np.sqrt(ua**2 + (y - h_ref)**2 * ub**2 + 2 * (y - h_ref) * row.cov_coefs)
+        # substruct = (p(h_min) - p(h_ref)) / (h_min - h_ref)
+        substruct = p(h_ref)
+        gp = lambda x: p(x) - x * substruct
+
+        ua, ub = row.std_coefs
+        cov = row.cov_coefs
+        u = abs(h_ref - y) * np.sqrt(ub**2 + (y + h_ref)**2 * ua**2 + 2 * (h_ref + y) * cov)
+
         x = gp(y)
         plt.plot(x, y)
-        # plt.fill_betweenx(y, x - u, x + u, alpha=0.2)
+        plt.fill_betweenx(y, x - u, x + u, alpha=0.2)
 
-        # vg = df.gravity / (h_f - h_t)
-        # mean_vg = np.mean(vg)
-        # vg = vg - mean_vg
-        
-        for f, t, g in zip(h_f, h_t, h_g):
-            vg = g / (t - f)
-            x1 = f * vg - p(h_ref) * f
-            x2 = t * vg - p(h_ref) * t
-            print(f'{f:.2f}', f'{x1:.2f}')
-            print(f'{t:.2f}', f'{x2:.2f}')
-        #     # x1, x2 = f * vg - mean_vg * f, t * vg - mean_vg * t
-        #     # x11, x22 = gp(f), gp(t)
-        #     print('from x1', f, x1, 'to x2', t, x2)
-        #     print()
-        #     # print('model', x11, x22)
-        #     # print('diff', x11-x1, x22-x2)
-            plt.plot([x1, x2], [f, t], '.-')
+        for height_from, height_to, resid in zip(df.from_height, df.to_height, resid):
+            heights = np.array([height_from, height_to]) * 1e-3
+            plt.plot(gp(heights) + resid, heights, '.-')
  
-        plt.title(f'Vertical gradient model for meter {row.meter} (substract {p(h_ref):.2f} $\\times$ height)')
+        plt.title(f'Meter: {row.meter}, survey {row.survey} (substract {substruct:.1f} $\mu$Gal/m)')
         plt.xlabel(f'Gravity, $\mu$Gal')
         plt.ylabel('Height, m')
 
         plt.show()
     
-    readings = get_meters_readings(raw_data)
+    # readings = get_meters_readings(raw_data)
 
-    ties = get_meters_ties(readings)
+    # ties = get_meters_ties(readings)
 
     # print(get_meter_ties_by_lines(raw_data))
     # print(get_meter_ties_all(raw_data))
-    means = get_meters_mean_ties(ties)
+    # means = get_meters_mean_ties(ties)
+    # print(means)
 
     basename = '-'.join(str(survey) for survey in raw_data.station.unique())
 
@@ -127,26 +117,26 @@ def main():
         else:
             output_file_report = open(default_output_file_report, 'w', encoding='utf-8')
 
-    report = get_report(means)
+    # report = get_report(means)
 
-    output_file_report.write(report)
-    output_file_report.close()
+    # output_file_report.write(report)
+    # output_file_report.close()
 
     if not gui_mode:
         if args.to_vgfit:
-            make_vgfit_input(means, 'output.vg')
-        if args.verbose:
-            print(report)
+            make_vgfit_input(vg_ties, 'output.vg')
+        # if args.verbose:
+            # print(report)
 
-    if gui_mode:
-        get_residuals_plot(raw_data, readings, means)
-        plt.show()
-    else:
-        if args.plot:
-            get_residuals_plot(raw_data, readings, means)
-            plt.savefig(basename+'.pdf')
+    # if gui_mode:
+    #     get_residuals_plot(raw_data, readings, means)
+    #     plt.show()
+    # else:
+    #     if args.plot:
+    #         get_residuals_plot(raw_data, readings, means)
+    #         plt.savefig(basename+'.pdf')
 
-    # default_output_file_map = 'index_'+basename+'.html'
+    default_output_file_map = 'index_'+basename+'.html'
 
     # if not args.to_vgfit:
     #     if gui_mode:
@@ -161,7 +151,7 @@ def main():
     #         else:
     #             output_file_map = default_output_file_map
 
-    #     get_map(readings).save(output_file_map)
+        # get_map(readings).save(output_file_map)
 
 # run main program
 if __name__ == '__main__':

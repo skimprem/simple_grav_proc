@@ -63,15 +63,15 @@ def get_report(means):
 def make_vgfit_input(means, filename):
     ''' Make CSV file for vg_fit utilite '''
     columns = [
-        'date_time',
-        'survey_name',
+        'created_date',
+        'survey',
         'operator',
-        'instrument_serial_number',
+        'meter',
         'line',
-        'instr_height_from',
-        'instr_height_to',
-        'tie',
-        'err',
+        'from_height',
+        'to_height',
+        'gravity',
+        'std_gravity',
         'data_file'
     ]
     means_to_vgfit = means[columns]
