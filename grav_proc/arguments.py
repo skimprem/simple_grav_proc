@@ -117,16 +117,23 @@ def cli_vgrad_arguments():
     )
 
     parser.add_argument(
-        '--output',
+        '--coeffs',
         metavar='out-file',
         type=argparse.FileType('w'),
-        help='Name for the report file'
+        help='Name for the coeffs file'
+    )
+
+    parser.add_argument(
+        '--ties',
+        metavar='out-file',
+        type=argparse.FileType('w'),
+        help='Name for the ties file'
     )
 
     parser.add_argument(
         '--plot',
         action='store_true',
-        help='Create plot to PDF'
+        help='Create plot to PNG'
     )
 
     parser.add_argument(
@@ -161,9 +168,18 @@ def gui_vgrad_arguments():
             title='Choose data file'
         )
 
+    plot_mode = mb.askyesno(
+        title='Plot results',
+        message='Want to plot a vertical gradient?'
+    )
+ 
     parser.add_argument('--input')
     arguments.append('--input')
     arguments.append(data_file_names)
+
+    parser.add_argument('--plot', action='store_true')
+    if plot_mode:
+        arguments.append('--plot')
 
     parser.add_argument('--scale_factors')
     if scale_factors_mode:

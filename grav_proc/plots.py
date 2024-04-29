@@ -4,7 +4,7 @@ from matplotlib.dates import DateFormatter
 import matplotlib.pyplot as plt
 import geopandas as gpd
 from shapely.geometry import LineString
-
+import numpy as np
 
 
 def get_residuals_plot(raw, readings, ties):
@@ -133,3 +133,36 @@ def get_map(readings):
     )
 
     return ties_map
+
+def vg_plot(coeffs, ties):
+
+    figs = []
+    for _, row in coeffs.iterrows():
+        df = ties[(ties.meter == row.meter) & (ties.survey == row.survey)]
+        y = np.linspace(0, 1.5, 50)
+        b, a = row.coefs
+        p = np.poly1d([b, a, 0])
+        resid = row.resid.reshape((len(df), 2))
+        # h_min = df[['from_height', 'to_height']].min().min() * 1e-3
+        h_ref = 1
+        # substruct = (p(h_min) - p(h_ref)) / (h_min - h_ref)
+        substruct = p(h_ref)
+        gp = lambda x: p(x) - x * substruct
+        ua, ub = row.std_coefs
+        cov = row.cov_coefs
+        u = abs(h_ref - y) * np.sqrt(ub**2 + (y + h_ref)**2 * ua**2 + 2 * (h_ref + y) * cov)
+        x = gp(y)
+        fig, ax = plt.subplots(figsize=(10, 10))
+        ax.plot(x, y)
+        ax.fill_betweenx(y, x - u, x + u, alpha=0.2)
+        for height_from, height_to, resid in zip(df.from_height, df.to_height, resid):
+            heights = np.array([height_from, height_to]) * 1e-3
+            ax.plot(gp(heights) + resid, heights, '.-')
+        plt.title(f'Meter: {row.meter}, survey: {row.survey} (substract {substruct:.1f} $\mu$Gal/m)')
+        plt.xlabel(f'Gravity, $\mu$Gal')
+        plt.ylabel('Height, m')
+        ax.set(xlim=(-10, 10), ylim=(0, 1.5))
+        figs.append((fig, '_'.join([str(row.meter), str(row.survey)])))
+        # fig.savefig('_'.join([str(row.meter), str(row.survey)])+'.png')
+    return figs
+    
