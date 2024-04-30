@@ -140,7 +140,7 @@ def vg_plot(coeffs, ties):
     for _, row in coeffs.iterrows():
         df = ties[(ties.meter == row.meter) & (ties.survey == row.survey)]
         y = np.linspace(0, 1.5, 50)
-        b, a = row.coefs
+        b, a = row.b, row.a
         p = np.poly1d([b, a, 0])
         resid = row.resid.reshape((len(df), 2))
         # h_min = df[['from_height', 'to_height']].min().min() * 1e-3
@@ -148,8 +148,8 @@ def vg_plot(coeffs, ties):
         # substruct = (p(h_min) - p(h_ref)) / (h_min - h_ref)
         substruct = p(h_ref)
         gp = lambda x: p(x) - x * substruct
-        ua, ub = row.std_coefs
-        cov = row.cov_coefs
+        ua, ub = row.ua, row.ub
+        cov = row.covab
         u = abs(h_ref - y) * np.sqrt(ub**2 + (y + h_ref)**2 * ua**2 + 2 * (h_ref + y) * cov)
         x = gp(y)
         fig, ax = plt.subplots(figsize=(10, 10))
