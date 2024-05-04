@@ -161,7 +161,9 @@ def vg_plot(coeffs, ties):
         plt.title(f'Meter: {row.meter}, survey: {row.survey} (substract {substruct:.1f} $\mu$Gal/m)')
         plt.xlabel(f'Gravity, $\mu$Gal')
         plt.ylabel('Height, m')
-        ax.set(xlim=(-10, 10), ylim=(0, 1.5))
+        low, high = plt.xlim()
+        bound = max(abs(low), abs(high))
+        ax.set(xlim=(-bound, bound), ylim=(0, 1.5))
         figs.append((fig, '_'.join([str(row.meter), str(row.survey)])))
         # fig.savefig('_'.join([str(row.meter), str(row.survey)])+'.png')
     return figs

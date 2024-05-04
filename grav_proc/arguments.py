@@ -145,6 +145,7 @@ def cli_vgrad_arguments():
 
     return parser.parse_args()
 
+
 def gui_vgrad_arguments():
     
     data_file_names = fd.askopenfilenames(
@@ -167,19 +168,49 @@ def gui_vgrad_arguments():
             filetypes=[('Calibration files', '*.txt'), ('All files', '*')],
             title='Choose data file'
         )
+    
+    coeffs = fd.asksaveasfilename(
+        defaultextension='.csv',
+        filetypes=[('Vertical gradient coefficients', '*.csv'), ('All files', '*')],
+        title='Save coefficients file'
+    )
+
+    ties = fd.asksaveasfilename(
+        defaultextension='.csv',
+        filetypes=[('Vertical gradient ties', '*.csv'), ('All files', '*')],
+        title='Save ties file'
+    )
+
 
     plot_mode = mb.askyesno(
         title='Plot results',
         message='Want to plot a vertical gradient?'
+    )
+    
+    verbose_mode = mb.askyesno(
+        title='Verbose mode',
+        message='Want to verbose mode?'
     )
  
     parser.add_argument('--input')
     arguments.append('--input')
     arguments.append(data_file_names)
 
+    parser.add_argument('--coeffs', type=argparse.FileType('w'))
+    arguments.append('--coeffs')
+    arguments.append(coeffs)
+
+    parser.add_argument('--ties', type=argparse.FileType('w'))
+    arguments.append('--ties')
+    arguments.append(ties)
+
     parser.add_argument('--plot', action='store_true')
     if plot_mode:
         arguments.append('--plot')
+
+    parser.add_argument('--verbose', action='store_true')
+    if plot_mode:
+        arguments.append('--verbose')
 
     parser.add_argument('--scale_factors')
     if scale_factors_mode:

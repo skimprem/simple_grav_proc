@@ -143,6 +143,6 @@ def make_vg_coeffs_report(coeffs, output_file, verbose=False):
         print(coeffs[['meter', 'survey', 'a', 'b', 'ua', 'ub', 'covab']].to_markdown(
             index=False,
             tablefmt='simple',
-            floatfmt='.3f'
+            floatfmt='.1f'
         ))
         print()
