@@ -134,15 +134,18 @@ def get_map(readings):
 
     return ties_map
 
-def vg_plot(coeffs, ties):
+def vg_plot(coeffs, ties, by_meter=False):
 
     figs = []
     for _, row in coeffs.iterrows():
-        df = ties[(ties.meter == row.meter) & (ties.survey == row.survey)]
+        if by_meter:
+            df = ties[(ties.meter == row.meter) & (ties.survey == row.survey)]
+        else:
+            df = ties[ties.survey == row.survey]
         y = np.linspace(0, 1.5, 50)
         b, a = row.b, row.a
         p = np.poly1d([b, a, 0])
-        resid = row.resid.reshape((len(df), 2))
+        resid = row.resid.reshape((int(len(row.resid)/2), 2))
         # h_min = df[['from_height', 'to_height']].min().min() * 1e-3
         h_ref = 1
         # substruct = (p(h_min) - p(h_ref)) / (h_min - h_ref)
@@ -158,13 +161,17 @@ def vg_plot(coeffs, ties):
         for height_from, height_to, resid in zip(df.from_height, df.to_height, resid):
             heights = np.array([height_from, height_to]) * 1e-3
             ax.plot(gp(heights) + resid, heights, '.-')
-        plt.title(f'Meter: {row.meter}, survey: {row.survey} (substract {substruct:.1f} $\mu$Gal/m)')
+        if by_meter:
+            plt.title(f'Meter: {row.meter}, survey: {row.survey} (substract {substruct:.1f} $\mu$Gal/m)')
+        else:
+            plt.title(f'Survey: {row.survey} (substract {substruct:.1f} $\mu$Gal/m)')
         plt.xlabel(f'Gravity, $\mu$Gal')
         plt.ylabel('Height, m')
         low, high = plt.xlim()
         bound = max(abs(low), abs(high))
         ax.set(xlim=(-bound, bound), ylim=(0, 1.5))
-        figs.append((fig, '_'.join([str(row.meter), str(row.survey)])))
-        # fig.savefig('_'.join([str(row.meter), str(row.survey)])+'.png')
+        fig.tight_layout()
+        figs.append((fig, row.survey))
+        plt.close()
     return figs
     
