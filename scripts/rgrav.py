@@ -33,6 +33,7 @@ def main():
     args.input = data_files
 
     raw_data = make_frame_to_proc(read_data(args.input))
+    # raw_data['station'].astype(str)
 
     if args.scale_factors:
         scale_factors = read_scale_factors(args.scale_factors)
@@ -61,12 +62,16 @@ def main():
         fitgrav, grouped['resid'] = gravfit(grouped['station'], grouped['corr_grav'], grouped['std_err'], grouped['date_time'].apply(to_days), args.anchor)
         fitgrav['meter'] = meter
         fitgrav['survey'] = created.date()
-        # indicies = grouped.index
         ties = pd.concat([ties, fitgrav], ignore_index=True)
         for station, grouped_by_station in grouped.groupby('station'):
-            ax[meter_number[meter]].set_title(f'CG-6 #{meter}', loc='left')
-            ax[meter_number[meter]].plot(grouped_by_station['date_time'], grouped_by_station['resid'], '.', label=station)
-            ax[meter_number[meter]].legend(loc='upper right')
+            if len(meters) > 1:
+                ax[meter_number[meter]].set_title(f'CG-6 #{meter}', loc='left')
+                ax[meter_number[meter]].plot(grouped_by_station['date_time'], grouped_by_station['resid'], '.', label=station)
+                ax[meter_number[meter]].legend(loc='upper right')
+            else:
+                ax.set_title(f'CG-6 #{meter}', loc='left')
+                ax.plot(grouped_by_station['date_time'], grouped_by_station['resid'], '.', label=station)
+                ax.legend(loc='upper right')
     print(ties)
     # fig.tight_layout()
     fig.savefig('output.png')

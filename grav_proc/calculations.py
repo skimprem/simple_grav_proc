@@ -533,7 +533,6 @@ def to_seconds(value):
 
 def gravfit(input_stations, input_grav, input_std, time_, fix_station, max_degree=2):
 
-    first_station = input_stations.unique()[0]
     observation_matrix = pd.get_dummies(input_stations).drop(fix_station, axis=1)
     defined_stations = observation_matrix.columns
     time_ = time_ - time_.iloc[0]
@@ -554,7 +553,7 @@ def gravfit(input_stations, input_grav, input_std, time_, fix_station, max_degre
     }
 
     for index, station_name in enumerate(defined_stations):
-        ties['from_station'].append(first_station)
+        ties['from_station'].append(fix_station)
         ties['to_station'].append(station_name)
         ties['grav'].append(result.params[index])
         ties['std_err'].append(result.bse[index])
