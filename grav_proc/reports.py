@@ -132,7 +132,8 @@ def make_vg_ties_report(ties, output_file, verbose=False):
         print()
 
 def make_vg_coeffs_report(coeffs, output_file, verbose=False):
-    coeffs[['meter', 'survey', 'a', 'b', 'ua', 'ub', 'covab']].to_csv(
+    # coeffs[['meter', 'survey', 'a', 'b', 'ua', 'ub', 'covab']].to_csv(
+    coeffs[['survey', 'a', 'b', 'ua', 'ub', 'covab']].to_csv(
         output_file,
         index=False,
         float_format='%.3f'
@@ -140,7 +141,8 @@ def make_vg_coeffs_report(coeffs, output_file, verbose=False):
 
     if verbose:
         print()
-        print(coeffs[['meter', 'survey', 'a', 'b', 'ua', 'ub', 'covab']].to_markdown(
+        # print(coeffs[['meter', 'survey', 'a', 'b', 'ua', 'ub', 'covab']].to_markdown(
+        print(coeffs[['survey', 'a', 'b', 'ua', 'ub', 'covab']].to_markdown(
             index=False,
             tablefmt='simple',
             floatfmt='.1f'

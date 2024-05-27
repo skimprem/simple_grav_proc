@@ -531,34 +531,17 @@ def to_days(value):
 def to_seconds(value):
     return value.timestamp()
 
-def gravfit(input_stations, input_grav, input_std, time_, max_degree=2):
+def gravfit(input_stations, input_grav, input_std, time_, fix_station, max_degree=2):
 
-    stations = np.array(input_stations)
-    unique_stations = input_stations.unique()
-    first_station = unique_stations[0]
-    defined_stations = unique_stations[unique_stations != first_station].T
-    stations_number = stations.size
-    defined_stations_number = defined_stations.size
-
-    rows = []
-    for station in stations:
-        row = []
-        for defined_station in defined_stations:
-            if station == defined_station:
-                row.append(1)
-            else:
-                row.append(0)
-        rows.append(row)
-    observation_matrix = np.array(rows)
-
-    time_matrix = np.vstack(time_ - time_.iloc[0])
-    if max_degree > 1:
-        for degree in range(2, max_degree + 1):
-            time_matrix = np.hstack((time_matrix, np.power(time_matrix, degree)))
+    first_station = input_stations.unique()[0]
+    observation_matrix = pd.get_dummies(input_stations).drop(fix_station, axis=1)
+    defined_stations = observation_matrix.columns
+    time_ = time_ - time_.iloc[0]
+    time_matrix = np.vander(time_, max_degree)
     
-    ones = np.ones(shape=(stations_number, 1))
-    design_matrix = np.concatenate((time_matrix), axis=1)
+    design_matrix = np.hstack((observation_matrix, time_matrix))
 
+    # model = sm.RLM(input_grav, design_matrix)
     model = sm.OLS(input_grav, design_matrix)
 
     result = model.fit()
@@ -567,7 +550,7 @@ def gravfit(input_stations, input_grav, input_std, time_, max_degree=2):
         'from_station': [],
         'to_station': [],
         'grav': [],
-        'std_err': []
+        'std_err': [],
     }
 
     for index, station_name in enumerate(defined_stations):
@@ -576,7 +559,7 @@ def gravfit(input_stations, input_grav, input_std, time_, max_degree=2):
         ties['grav'].append(result.params[index])
         ties['std_err'].append(result.bse[index])
     
-    return pd.DataFrame(ties)
+    return pd.DataFrame(ties), result.resid
 
 
 def drift_fitting(stations, grav, std_err, date_time, fix_station=None, max_degree=2):

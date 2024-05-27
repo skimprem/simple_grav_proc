@@ -58,6 +58,12 @@ def cli_rgrav_arguments():
         help='Name for the map file'
     )
 
+    parser.add_argument(
+        '--anchor',
+        type=str,
+        help='Fix Station'
+    )
+
     return parser.parse_args()
 
 def gui_rgrav_arguments():
