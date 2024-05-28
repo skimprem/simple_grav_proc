@@ -162,7 +162,8 @@ def get_vg_by_meter(readings, max_degree=2, vg_max_degree=2):
                 rows.append(row)
             grav_design = np.array(rows)
             design = np.concatenate((grav_design, drift_design), axis=1)
-            model = sm.OLS(grav, design)
+            # model = sm.OLS(grav, design)
+            model = sm.RLM(grav, design)
             result = model.fit()
             const = result.params[-1]
             std_const = result.bse[-1]
@@ -205,7 +206,8 @@ def get_vg_by_meter(readings, max_degree=2, vg_max_degree=2):
         coef_design = np.vander(heights, vg_max_degree + 1)[:,:-1]
         grav_design = np.repeat(np.matrix(pd.get_dummies(grouped_by_meter.line).astype(float)), 2, axis=0)
         design = np.concatenate((coef_design, grav_design), axis=1)
-        model = sm.OLS(gravity, design)
+        # model = sm.OLS(gravity, design)
+        model = sm.RLM(gravity, design)
         result = model.fit() 
         coefs = list(result.params[:vg_max_degree])[::-1]
         std_coefs = list(result.bse[:vg_max_degree])[::-1]
