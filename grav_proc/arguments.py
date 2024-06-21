@@ -14,6 +14,18 @@ def cli_rgrav_arguments():
     )
 
     parser.add_argument(
+        '--method',
+        type=str,
+        help='LS method: WLS (default) or RLM'
+    )
+
+    parser.add_argument(
+        '--by_lines',
+        action='store_true',
+        help='Calc by lines'
+    )
+
+    parser.add_argument(
         '--input',
         nargs='+',
         help='Input data files'
@@ -68,6 +80,12 @@ def cli_rgrav_arguments():
 
 def gui_rgrav_arguments():
     
+    method=sd.askstring(
+        title='Solve method',
+        initialvalue='WLS',
+        prompt='Enter method (WLS or RLM):',
+    )
+    
     data_file_names = fd.askopenfilenames(
         defaultextension='.dat',
         filetypes=[('CG-6 data files', '*.dat'), ('All files', '*')],
@@ -81,6 +99,11 @@ def gui_rgrav_arguments():
         title='Calibration file selected',
         message='Want to load a calibration factors?'
     )
+
+    by_lines_mode = mb.askyesno(
+        title='Calc by lines',
+        message='Want to calc by lines?'
+    )
     
     if scale_factors_mode:
         scale_factors = fd.askopenfilenames(
@@ -88,6 +111,10 @@ def gui_rgrav_arguments():
             filetypes=[('Calibration files', '*.txt'), ('All files', '*')],
             title='Choose data file'
         )
+
+    parser.add_argument('--method', type=str)
+    arguments.append('--method')
+    arguments.append(method)
 
     parser.add_argument('--input')
     arguments.append('--input')
@@ -97,6 +124,10 @@ def gui_rgrav_arguments():
     if scale_factors_mode:
         arguments.append('--scale_factors')
         arguments.append(scale_factors)
+
+    parser.add_argument('--by_lines')
+    if by_lines_mode:
+        arguments.append('--by_lines')
 
     return parser.parse_args(arguments)
     

@@ -175,3 +175,26 @@ def vg_plot(coeffs, ties, by_meter=False):
         plt.close()
     return figs
     
+def residuals_plot(raw_data):
+    meters = raw_data['instrument_serial_number'].unique()
+    meter_number = {}
+    for index, meter in enumerate(meters):
+        meter_number[meter] = index
+    fig, ax = plt.subplots(nrows=len(meters), figsize=(16, 8), layout='constrained')
+    fig.supylabel('Residuals, $\mu$Gal')
+    fig.supxlabel('Date Time')
+
+    for meter_created, grouped in raw_data.groupby(['instrument_serial_number', 'created']):
+        meter, created = meter_created
+        for station, grouped_by_station in grouped.groupby('station'):
+            if len(meters) > 1:
+                ax[meter_number[meter]].set_title(f'CG-6 #{meter}', loc='left')
+                ax[meter_number[meter]].plot(grouped_by_station['date_time'], grouped_by_station['resid'], '.', label=station)
+                ax[meter_number[meter]].legend(loc='upper right')
+            else:
+                ax.set_title(f'CG-6 #{meter}', loc='left')
+                ax.plot(grouped_by_station['date_time'], grouped_by_station['resid'], '.', label=station)
+                ax.legend(loc='upper right')
+    fig.tight_layout()
+
+    return fig

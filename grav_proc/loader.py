@@ -314,7 +314,10 @@ def cg6_reader(data_files):
                     
                     for key, value in row.items():
                         rows[key].append(value)    
-                
+
+    # for item, elem in rows.items():
+    #     print(item, len(elem))
+
     cg_data = pd.DataFrame(rows)        
 
     cg_data = cg_data.astype({

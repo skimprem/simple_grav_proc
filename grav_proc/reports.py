@@ -5,18 +5,18 @@ from grav_proc.calculations import get_ties_sum
 
 def get_report(means):
     columns = [
-        'station_from',
-        'station_to',
-        'date_time',
-        'survey_name',
-        'operator',
-        'meter_type',
-        'instrument_serial_number',
-        'line',
-        'instr_height_from',
-        'instr_height_to',
-        'tie',
-        'err'
+        'station_from',             # *
+        'station_to',               # *
+        'date_time',                #
+        'survey_name',              #
+        'operator',                 #
+        'meter_type',               #
+        'instrument_serial_number', # *
+        'line',                     # *
+        'instr_height_from',        #
+        'instr_height_to',          #
+        'tie',                      # *
+        'err'                       # *
     ]
     headers = [
         'From',

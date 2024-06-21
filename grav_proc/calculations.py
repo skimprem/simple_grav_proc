@@ -531,34 +531,48 @@ def to_days(value):
 def to_seconds(value):
     return value.timestamp()
 
-def gravfit(input_stations, input_grav, input_std, time_, fix_station, max_degree=2):
+def free_grav_fit(stations, gravity, date_time, fix_station, std=None, max_degree=2, method='WLS'):
+    
+    observation_matrix = pd.get_dummies(stations).drop(fix_station, axis=1)
 
-    observation_matrix = pd.get_dummies(input_stations).drop(fix_station, axis=1)
     defined_stations = observation_matrix.columns
-    time_ = time_ - time_.iloc[0]
-    time_matrix = np.vander(time_, max_degree)
+
+    # date_time = date_time - date_time.iloc[0]
+    time_matrix = np.vander(date_time, max_degree)
     
     design_matrix = np.hstack((observation_matrix, time_matrix))
 
     # model = sm.RLM(input_grav, design_matrix)
-    model = sm.OLS(input_grav, design_matrix)
+    match method:
+        case 'RLM':
+            model = sm.RLM(gravity, design_matrix)
+        case 'WLS':
+            if std is not None:
+                model = sm.WLS(gravity, design_matrix, weights=1/std)
+            else:
+                model = sm.WLS(gravity, design_matrix)
 
     result = model.fit()
 
-    ties = {
-        'from_station': [],
-        'to_station': [],
-        'grav': [],
-        'std_err': [],
-    }
+    ties = pd.DataFrame()
 
-    for index, station_name in enumerate(defined_stations):
-        ties['from_station'].append(fix_station)
-        ties['to_station'].append(station_name)
-        ties['grav'].append(result.params[index])
-        ties['std_err'].append(result.bse[index])
+    for index, station in enumerate(defined_stations):
+        ties = pd.concat(
+            [
+                ties,
+                pd.DataFrame(
+                    {
+                        'station_from': fix_station,
+                        'station_to': station,
+                        'tie': result.params.iloc[index],
+                        'err': result.bse.iloc[index],
+                        'line': f'{fix_station}-{station}'
+                    }, index=[0]
+                )
+            ], ignore_index=True
+        )
     
-    return pd.DataFrame(ties), result.resid
+    return ties, result.resid
 
 
 def drift_fitting(stations, grav, std_err, date_time, fix_station=None, max_degree=2):
@@ -687,3 +701,37 @@ def get_meter_ties_all(readings):
         lines['err'].append(grav[1])
 
     return pd.DataFrame(lines)
+
+def fit_by_meter_created(raw_data, anchor, method='WLS'):
+
+    ties = pd.DataFrame()
+    fix_station = anchor
+    for meter_created_survey_operator_meter_type, grouped in raw_data.groupby(['instrument_serial_number', 'created', 'survey_name', 'operator', 'meter_type']):
+        indices = grouped.index
+        if anchor is None:
+            fix_station = grouped.station.iloc[0]
+        meter, created, survey, operator, meter_type = meter_created_survey_operator_meter_type
+        fitgrav, raw_data.loc[indices, 'resid'] = free_grav_fit(
+            stations=grouped.station,
+            gravity=grouped.corr_grav,
+            date_time=grouped.date_time.apply(to_days),
+            fix_station=fix_station,
+            std=grouped.std_err,
+            max_degree=2,
+            method=method,
+        )
+        fitgrav['instrument_serial_number'] = meter
+        fitgrav['survey_name'] = survey
+        fitgrav['operator'] = operator
+        fitgrav['meter_type'] = meter_type
+        fitgrav['date_time'] = created.date()
+        instr_height_from = grouped.loc[grouped.station == fix_station, 'instr_height'].mean()
+        fitgrav['instr_height_from'] = instr_height_from
+        for idx, row in fitgrav.iterrows():
+            instr_height_to = grouped.loc[grouped.station == row.station_to, 'instr_height'].mean()
+            fitgrav.loc[idx, 'instr_height_to'] = instr_height_to
+
+        ties = pd.concat([ties, fitgrav], ignore_index=True)
+    
+    return ties
+ 
