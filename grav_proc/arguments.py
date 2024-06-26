@@ -65,8 +65,7 @@ def cli_rgrav_arguments():
 
     parser.add_argument(
         '--map',
-        metavar='out-file',
-        type=argparse.FileType('w'),
+        action='store_true',
         help='Name for the map file'
     )
 

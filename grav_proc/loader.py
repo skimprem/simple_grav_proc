@@ -3,9 +3,7 @@ Set of utilites for relative gravity processing
 '''
 
 from datetime import datetime as dt
-from datetime import timedelta as td
 import re
-import numpy as np
 import pandas as pd
 
 def format_detect(data_file):
@@ -315,48 +313,59 @@ def cg6_reader(data_files):
                     for key, value in row.items():
                         rows[key].append(value)    
 
-    # for item, elem in rows.items():
-    #     print(item, len(elem))
-
     cg_data = pd.DataFrame(rows)        
 
-    cg_data = cg_data.astype({
-        'Instrument Serial Number': 'int',
-        'Gcal1 [mGal]': 'float',
-        'Goff [ADU]': 'float',
-        'Gref [mGal]': 'float',
-        'X Scale [arc-sec/ADU]': 'float',
-        'Y Scale [arc-sec/ADU]': 'float',
-        'X Offset [ADU]': 'float',
-        'Y Offset [ADU]': 'float',
-        'Temperature Coefficient [mGal/mK]': 'float',
-        'Temperature Scale [mK/ADU]': 'float',
-        'Drift Rate [mGal/day]': 'float',
-        'CorrGrav': 'float',
-        'Line': 'int',
-        'StdDev': 'float',
-        'StdErr': 'float',
-        'RawGrav': 'float',
-        'X': 'float',
-        'Y': 'float',
-        'SensorTemp': 'float',
-        'TideCorr': 'float',
-        'TiltCorr': 'float',
-        'TempCorr': 'float',
-        'DriftCorr': 'float',
-        'MeasurDur': 'int',
-        'InstrHeight': 'float',
-        'LatUser': 'float',
-        'LonUser': 'float',
-        'ElevUser': 'float',
-        'LatGPS': 'float',
-        'LonGPS': 'float',
-        'ElevGPS': 'float',
-        }, errors='ignore')
-    cg_data['Created'] = pd.to_datetime(cg_data['Created'], format='%Y-%m-%d %H %M %S')
-    cg_data['Drift Zero Time'] = pd.to_datetime(cg_data['Drift Zero Time'], format='%Y-%m-%d %H %M %S')
-    for index, row in cg_data.iterrows():
-        cg_data.loc[index, 'date_time'] = dt.strptime(row.Date+' '+row.Time, '%Y-%m-%d %H:%M:%S')
+    cg_data = cg_data.astype(
+        {
+            'Instrument Serial Number': 'int',
+            'Gcal1 [mGal]': 'float',
+            'Goff [ADU]': 'float',
+            'Gref [mGal]': 'float',
+            'X Scale [arc-sec/ADU]': 'float',
+            'Y Scale [arc-sec/ADU]': 'float',
+            'X Offset [ADU]': 'float',
+            'Y Offset [ADU]': 'float',
+            'Temperature Coefficient [mGal/mK]': 'float',
+            'Temperature Scale [mK/ADU]': 'float',
+            'Drift Rate [mGal/day]': 'float',
+            'CorrGrav': 'float',
+            'Line': 'int',
+            'StdDev': 'float',
+            'StdErr': 'float',
+            'RawGrav': 'float',
+            'X': 'float',
+            'Y': 'float',
+            'SensorTemp': 'float',
+            'TideCorr': 'float',
+            'TiltCorr': 'float',
+            'TempCorr': 'float',
+            'DriftCorr': 'float',
+            'MeasurDur': 'int',
+            'InstrHeight': 'float',
+            'LatUser': 'float',
+            'LonUser': 'float',
+            'ElevUser': 'float',
+            'LatGPS': 'float',
+            'LonGPS': 'float',
+            'ElevGPS': 'float',
+        },
+        errors='ignore'
+    )
+
+    cg_data['Created'] = pd.to_datetime(
+        cg_data['Created'],
+        format='%Y-%m-%d %H %M %S',
+    )
+
+    cg_data['Drift Zero Time'] = pd.to_datetime(
+        cg_data['Drift Zero Time'],
+        format='%Y-%m-%d %H %M %S'
+    )
+
+    cg_data['date_time'] = cg_data.apply(
+        lambda x: dt.strptime('{d} {t}'.format(d=x['Date'], t=x['Time']), '%Y-%m-%d %H:%M:%S'),
+        axis=1
+    )
 
     return cg_data
 

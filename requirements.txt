@@ -6,3 +6,5 @@ folium
 mapclassify
 matplotlib
 statsmodels
+contextily
+cartopy

@@ -29,8 +29,8 @@ def get_report(means):
         'Line',
         'Height From (mm)',
         'Height To (mm)',
-        'Tie (uGals)',
-        'SErr (uGals)'
+        'Tie (uGal)',
+        'SErr (uGal)'
     ]
     report = f'\nThe mean ties between the stations:\n==================================='
     means = means.replace(np.nan, None)
@@ -50,7 +50,7 @@ def get_report(means):
             ties_sums = pd.concat([ties_sums, meter_ties_sums])
     if len(ties_sums):
         report = f'{report}\n\nSum of the cicle ties:\n======================\n'
-        headers = ['Meter', 'Cicles', 'Sum (uGals)']
+        headers = ['Meter', 'Cicles', 'Sum (uGal)']
         sums_table = ties_sums.to_markdown(
                 index=False,
                 headers=headers,

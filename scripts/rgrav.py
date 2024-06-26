@@ -8,7 +8,7 @@ from grav_proc.arguments import cli_rgrav_arguments, gui_rgrav_arguments
 from grav_proc.calculations import make_frame_to_proc, \
     fit_by_meter_created
 from grav_proc.loader import read_data, read_scale_factors
-from grav_proc.plots import residuals_plot
+from grav_proc.plots import residuals_plot, get_map
 from grav_proc.reports import get_report #, make_vgfit_input
 
 def main():
@@ -31,7 +31,6 @@ def main():
     args.input = data_files
 
     raw_data = make_frame_to_proc(read_data(args.input))
-    # raw_data['station'].astype(str)
 
     if args.scale_factors:
         scale_factors = read_scale_factors(args.scale_factors)
@@ -61,21 +60,13 @@ def main():
             anchor = None
 
         ties = fit_by_meter_created(raw_data, anchor=anchor, method=method)
-        fig = residuals_plot(raw_data)
-        fig.savefig('output.png')
-        fig.show()
-
-    # readings = get_meters_readings(raw_data)
-
-    # ties = get_meters_ties(readings)
-    # print(ties)
-
-    # print(get_meter_ties_by_lines(raw_data))
-    # print(get_meter_ties_all(raw_data))
-    # means = get_meters_mean_ties(ties)
-    # print(means)
 
     basename = '-'.join(str(survey) for survey in raw_data.station.unique())
+
+    if args.plot:
+        fig = residuals_plot(raw_data)
+        fig.savefig(f'{basename}.png')
+        fig.show()
 
     default_output_file_report = 'report_'+basename+'.txt'
 
@@ -96,22 +87,12 @@ def main():
     output_file_report.write(report)
     output_file_report.close()
 
-    # default_output_file_map = 'index_'+basename+'.html'
-
-    # if not args.to_vgfit:
-    #     if gui_mode:
-    #         output_file_map = fd.asksaveasfilename(
-    #             defaultextension='.html',
-    #             filetypes=[('html', '*.html'), ('All files', '*')],
-    #             initialfile=default_output_file_map,
-    #             title='Save Map')
-    #     else:
-    #         if args.map:
-    #             output_file_map = args.map
-    #         else:
-    #             output_file_map = default_output_file_map
-
-        # get_map(readings).save(output_file_map)
+    if args.verbose:
+        print(report)
+        
+    if args.map:
+        fig = get_map(ties)
+        fig.savefig(f'{basename}.pdf', bbox_inches = 'tight')
 
 # run main program
 if __name__ == '__main__':

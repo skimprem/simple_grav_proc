@@ -6,98 +6,90 @@ import networkx as nx
 import statsmodels.api as sm
 
 
+def replace_lat(lat_user, lat_gps):
+    if lat_gps == '--':
+        result = lat_user
+    else:
+        result = lat_gps
+    return float(result)
+
+def replace_lon(lon_user, lon_gps):
+    if lon_gps == '--':
+        result = lon_user
+    else:
+        result = lon_gps
+    return float(result)
+
+
 def make_frame_to_proc(cg_data):
     ''' Make a data frame to processing (only needed columns to be selected) '''
 
-    match cg_data.iloc[0].MeterType:
-        case 'CG6':
-            data = cg_data[
-                [
-                    'date_time',
-                    'Created',
-                    'Survey Name',
-                    'Operator',
-                    'Instrument Serial Number',
-                    'InstrHeight',
-                    'Line',
-                    'Station',
-                    'CorrGrav',
-                    'StdErr',
-                    'DataFile',
-                    'LatUser',
-                    'LonUser',
-                    'MeterType'
-                ]
-            ]
 
-            headers = [
-                'date_time',
-                'created',
-                'survey_name',
-                'operator',
-                'instrument_serial_number',
-                'instr_height',
-                'line',
-                'station',
-                'corr_grav',
-                'std_err',
-                'data_file',
-                'lat_user',
-                'lon_user',
-                'meter_type'
-            ]
+    headers = [
+        'date_time',
+        'created',
+        'survey_name',
+        'operator',
+        'instrument_serial_number',
+        'instr_height',
+        'line',
+        'station',
+        'corr_grav',
+        'std_err',
+        'data_file',
+        'lat',
+        'lon',
+        'meter_type',
+    ]
 
-            data.columns = headers
-            for index, row in data.iterrows():
-                data.loc[index, 'corr_grav'] = row.corr_grav * 1e3
-                data.loc[index, 'std_err'] = row.std_err * 1e3
-                data.loc[index, 'instr_height'] = row.instr_height * 1e3
-            return data
-        case 'CG5':
-            data = cg_data[
-                [
-                    'date_time',
-                    'Created',
-                    'Survey Name',
-                    'Operator',
-                    'Instrument Serial Number',
-                    'InstrHeight',
-                    'Line',
-                    'Station',
-                    'CorrGrav',
-                    'StdErr',
-                    'DataFile',
-                    'LatUser',
-                    'LonUser',
-                    'MeterType'
-                ]
-            ]
+    data = cg_data
 
-            headers = [
-                'date_time',
-                'created',
-                'survey_name',
-                'operator',
-                'instrument_serial_number',
-                'instr_height',
-                'line',
-                'station',
-                'corr_grav',
-                'std_err',
-                'data_file',
-                'lat_user',
-                'lon_user',
-                'meter_type'
-            ]
+    data['CorrGrav'] = data['CorrGrav'] * 1e3
+    data['StdErr']  = data['StdErr'] * 1e3
+    data['InstrHeight'] = data['InstrHeight'] * 1e3
 
-            data.loc[:, 'CorrGrav'] = data.loc[:, 'CorrGrav'] * 1000.0
-            data.loc[:, 'StdErr']  = data.loc[:, 'StdErr'] * 1000.0
-            data.loc[:, 'InstrHeight'] = data.loc[:, 'InstrHeight'] * 1000.0
+    group_by_meter_station = data.groupby(['Instrument Serial Number', 'Station'])
+    for meter_station, grouped_by_meter_station in group_by_meter_station:
+        meter, station = meter_station
+        indices = grouped_by_meter_station.index
 
-            data.columns = headers
+        grouped_by_meter_station['LatGPS'] = grouped_by_meter_station.apply(lambda x: replace_lat(x['LatUser'], x['LatGPS']), axis=1)
+        grouped_by_meter_station['LonGPS'] = grouped_by_meter_station.apply(lambda x: replace_lat(x['LonUser'], x['LonGPS']), axis=1)
+        
+        lat = grouped_by_meter_station['LatGPS'].mean()
+        lat_std = grouped_by_meter_station['LatGPS'].std()
+        lon = grouped_by_meter_station['LonGPS'].mean()
+        lon_std = grouped_by_meter_station['LonGPS'].std()
 
-            return data
+        if lat_std > 0.001 or lon_std > 0.001:
+            print(f'WARNING: {meter} {station}')
+            print('    lat_std = ', lat_std, ', lon_std = ', lon_std)
 
+        data.loc[indices, 'lat'] = lat
+        data.loc[indices, 'lon'] = lon
+    
+    data = data[
+        [
+            'date_time',
+            'Created',
+            'Survey Name',
+            'Operator',
+            'Instrument Serial Number',
+            'InstrHeight',
+            'Line',
+            'Station',
+            'CorrGrav',
+            'StdErr',
+            'DataFile',
+            'lat',
+            'lon',
+            'MeterType',
+        ]
+    ]
+
+    data.columns = headers
+
+    return data
 
 
 def get_meters_readings(cg_data):
@@ -113,6 +105,7 @@ def get_meters_readings(cg_data):
 
 def get_readings(cg_data):
     ''' Get mean values of signals of readings '''
+
     readings = pd.DataFrame(
         columns=[
             'date_time',
@@ -726,9 +719,17 @@ def fit_by_meter_created(raw_data, anchor, method='WLS'):
         fitgrav['meter_type'] = meter_type
         fitgrav['date_time'] = created.date()
         instr_height_from = grouped.loc[grouped.station == fix_station, 'instr_height'].mean()
+        lat_from = grouped.loc[grouped.station == fix_station, 'lat'].mean()
+        lon_from = grouped.loc[grouped.station == fix_station, 'lon'].mean()
+        fitgrav['lat_from'] = lat_from
+        fitgrav['lon_from'] = lon_from
         fitgrav['instr_height_from'] = instr_height_from
         for idx, row in fitgrav.iterrows():
+            lat_to = grouped.loc[grouped.station == row.station_to, 'lat'].mean()
+            lon_to = grouped.loc[grouped.station == row.station_to, 'lon'].mean()
             instr_height_to = grouped.loc[grouped.station == row.station_to, 'instr_height'].mean()
+            fitgrav.loc[idx, 'lat_to'] = lat_to
+            fitgrav.loc[idx, 'lon_to'] = lon_to
             fitgrav.loc[idx, 'instr_height_to'] = instr_height_to
 
         ties = pd.concat([ties, fitgrav], ignore_index=True)

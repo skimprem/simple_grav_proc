@@ -2,10 +2,18 @@ from datetime import timedelta as td
 import seaborn as sns
 from matplotlib.dates import DateFormatter
 import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
 import geopandas as gpd
 from shapely.geometry import LineString
 import numpy as np
+import pandas as pd
+import contextily as cx
+from cartopy import crs as ccrs
+import cartopy.io.img_tiles as cimgt
+# from cartopy.io.img_tiles import GoogleTiles
+# import ssl
 
+# ssl._create_default_https_context = ssl._create_unverified_context
 
 def get_residuals_plot(raw, readings, ties):
 
@@ -69,70 +77,46 @@ def get_residuals_plot(raw, readings, ties):
 
 
 
-def get_map(readings):
+def get_map(ties):
     ''' Get map of ties scheme '''
-    columns = ['station', 'lat_user', 'lon_user']
-    group = ['station']
-    stations = readings[columns].groupby(group).mean()
-    stations = gpd.GeoDataFrame(
-        stations,
-        geometry=gpd.points_from_xy(
-            stations.lon_user,
-            stations.lat_user),
-        crs='epsg:4326')
-    columns = [
-        'survey_name',
-        'instrument_serial_number',
-        'created',
-        'operator',
-        'station',
-        'data_file',
-        'lon_user',
-        'lat_user',
-        'meter_type'
-    ]
-    group = [
-        'survey_name',
-        'station'
-    ]
-    agg = {
-        'meter_type': 'last',
-        'instrument_serial_number': 'last',
-        'created': 'last',
-        'operator': 'last',
-        'data_file': 'last',
-        'lon_user': 'mean',
-        'lat_user': 'mean'
-    }
 
-    lines = readings[columns].groupby(group).agg(agg)
+    stations_from = ties[['station_from', 'lat_from', 'lon_from']]
+    stations_from.columns = ['station', 'lat', 'lon']
+    stations_to = ties[['station_to', 'lat_to', 'lon_to']]
+    stations_to.columns = ['station', 'lat', 'lon']
+    stations = pd.concat([stations_from, stations_to], ignore_index=True).groupby('station').mean()
 
-    lines = gpd.GeoDataFrame(
-        lines,
-        geometry=gpd.points_from_xy(
-            lines.lon_user,
-            lines.lat_user),
-        crs='epsg:4326')
+    lines = ties[['station_from', 'station_to']].drop_duplicates(ignore_index=True)
+    
+    fig = plt.figure(figsize=(15, 15))
+    xmin, xmax, ymin, ymax = stations.lon.min(), stations.lon.max(), stations.lat.min(), stations.lat.max()
+    offsetx = (xmax - xmin) * 0.1
+    offsety = (ymax - ymin) * 0.1
+    extent = [xmin - offsetx, xmax + offsetx, ymin - offsety, ymax + offsety]
+    request = cimgt.OSM()
+    ax = plt.axes(projection=request.crs)
+    ax.set_extent(extent)
+    ax.add_image(request, 10)
 
-    lines = lines.sort_values(
-        by=['station']).groupby(
-            ['survey_name'])['geometry'].apply(
-                lambda x: LineString(x.tolist()))
+    for _, row in lines.iterrows():
+        x_from = stations.loc[row.station_from, 'lon']
+        y_from = stations.loc[row.station_from, 'lat']
+        x_to = stations.loc[row.station_to, 'lon']
+        y_to = stations.loc[row.station_to, 'lat']
 
-    lines = gpd.GeoDataFrame(lines, geometry='geometry', crs='epsg:4326')
+        # tie = ties[
+        #     (ties['station_from'] == row.station_from) & \
+        #     (ties['station_to'] == row.station_to)
+        # ][['tie']].mean()
+        ax.plot([x_from, x_to], [y_from, y_to], '-ok', mfc='w', transform=ccrs.PlateCarree())
+   
+    for idx, row in stations.iterrows():
+        ax.annotate(idx, xy=(row.lon, row.lat),
+                    xycoords='data', xytext=(1.5, 1.5),
+                    textcoords='offset points', color='r', transform=ccrs.PlateCarree())
+    
+    return fig
 
-    stations.plot()
-
-    ties_map = lines.explore(
-        legend=True
-    )
-
-    ties_map = stations.explore(
-        m=ties_map,
-        color='red'
-    )
-
-    return ties_map
 
 def vg_plot(coeffs, ties, by_meter=False):
 
@@ -162,11 +146,11 @@ def vg_plot(coeffs, ties, by_meter=False):
             heights = np.array([height_from, height_to]) * 1e-3
             ax.plot(gp(heights) + resid, heights, '.-')
         if by_meter:
-            plt.title(f'Meter: {row.meter}, survey: {row.survey} (substract {substruct:.1f} $\mu$Gal/m)')
+            plt.title(f'Meter: {row.meter}, survey: {row.survey} (substract {substruct:.1f} uGal/m)')
         else:
-            plt.title(f'Survey: {row.survey} (substract {substruct:.1f} $\mu$Gal/m)')
-        plt.xlabel(f'Gravity, $\mu$Gal')
-        plt.ylabel('Height, m')
+            plt.title(f'Survey: {row.survey} (substract {substruct:.1f} uGal/m)')
+        plt.xlabel(f'Gravity [uGal]')
+        plt.ylabel('Height [m]')
         low, high = plt.xlim()
         bound = max(abs(low), abs(high))
         ax.set(xlim=(-bound, bound), ylim=(0, 1.5))
@@ -181,7 +165,7 @@ def residuals_plot(raw_data):
     for index, meter in enumerate(meters):
         meter_number[meter] = index
     fig, ax = plt.subplots(nrows=len(meters), figsize=(16, 8), layout='constrained')
-    fig.supylabel('Residuals, $\mu$Gal')
+    fig.supylabel('Residuals [uGal]')
     fig.supxlabel('Date Time')
 
     for meter_created, grouped in raw_data.groupby(['instrument_serial_number', 'created']):
@@ -190,11 +174,12 @@ def residuals_plot(raw_data):
             if len(meters) > 1:
                 ax[meter_number[meter]].set_title(f'CG-6 #{meter}', loc='left')
                 ax[meter_number[meter]].plot(grouped_by_station['date_time'], grouped_by_station['resid'], '.', label=station)
-                ax[meter_number[meter]].legend(loc='upper right')
+                # ax[meter_number[meter]].legend(loc='upper right')
             else:
                 ax.set_title(f'CG-6 #{meter}', loc='left')
                 ax.plot(grouped_by_station['date_time'], grouped_by_station['resid'], '.', label=station)
-                ax.legend(loc='upper right')
+                # ax.legend(loc='upper right')
+    fig.legend()
     fig.tight_layout()
 
     return fig
