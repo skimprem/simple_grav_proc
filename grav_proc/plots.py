@@ -113,7 +113,7 @@ def get_map(ties):
     for idx, row in stations.iterrows():
         ax.annotate(idx, xy=(row.lon, row.lat),
                     xycoords='data', xytext=(1.5, 1.5),
-                    textcoords='offset points', color='r', transform=ccrs.PlateCarree())
+                    textcoords='offset points', color='k', transform=ccrs.PlateCarree())
     
     return fig
 

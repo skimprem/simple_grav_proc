@@ -3,7 +3,7 @@ import pandas as pd
 from grav_proc.calculations import get_ties_sum
 
 
-def get_report(means):
+def get_report(ties):
     columns = [
         'station_from',             # *
         'station_to',               # *
@@ -12,7 +12,7 @@ def get_report(means):
         'operator',                 #
         'meter_type',               #
         'instrument_serial_number', # *
-        'line',                     # *
+        # 'line',                     # *
         'instr_height_from',        #
         'instr_height_to',          #
         'tie',                      # *
@@ -26,26 +26,26 @@ def get_report(means):
         'Operator',
         'Meter',
         'S/N',
-        'Line',
+        # 'Line',
         'Height From (mm)',
         'Height To (mm)',
         'Tie (uGal)',
         'SErr (uGal)'
     ]
     report = f'\nThe mean ties between the stations:\n==================================='
-    means = means.replace(np.nan, None)
-    means_table = means[columns].to_markdown(
+    ties = ties.replace(np.nan, None)
+    ties_table = ties[columns].to_markdown(
         index=False,
         headers=headers,
         tablefmt="simple",
         floatfmt=".1f")
-    report = f'{report}\n{means_table}'
+    report = f'{report}\n{ties_table}'
     ties_sums = pd.DataFrame()
 
-    group_by_meters = means.groupby('instrument_serial_number')
+    group_by_meters = ties.groupby('instrument_serial_number')
 
-    for meter, meter_means in group_by_meters:
-        meter_ties_sums = get_ties_sum(meter_means)
+    for meter, meter_ties in group_by_meters:
+        meter_ties_sums = get_ties_sum(meter_ties)
         if len(meter_ties_sums):
             ties_sums = pd.concat([ties_sums, meter_ties_sums])
     if len(ties_sums):

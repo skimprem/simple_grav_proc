@@ -559,7 +559,7 @@ def free_grav_fit(stations, gravity, date_time, fix_station, std=None, max_degre
                         'station_to': station,
                         'tie': result.params.iloc[index],
                         'err': result.bse.iloc[index],
-                        'line': f'{fix_station}-{station}'
+                        # 'line': f'{fix_station}-{station}'
                     }, index=[0]
                 )
             ], ignore_index=True
@@ -695,15 +695,28 @@ def get_meter_ties_all(readings):
 
     return pd.DataFrame(lines)
 
-def fit_by_meter_created(raw_data, anchor, method='WLS'):
+def fit_by_meter_created(raw_data, anchor, method='WLS', by_lines=False):
 
     ties = pd.DataFrame()
     fix_station = anchor
-    for meter_created_survey_operator_meter_type, grouped in raw_data.groupby(['instrument_serial_number', 'created', 'survey_name', 'operator', 'meter_type']):
+
+    if by_lines:
+        groupby = raw_data.groupby(['instrument_serial_number', 'created', 'survey_name', 'operator', 'meter_type', 'line'])
+    else:
+        groupby = raw_data.groupby(['instrument_serial_number', 'created', 'survey_name', 'operator', 'meter_type'])
+    
+    for meter_created_survey_operator_meter_type, grouped in groupby:
+
         indices = grouped.index
+
         if anchor is None:
             fix_station = grouped.station.iloc[0]
-        meter, created, survey, operator, meter_type = meter_created_survey_operator_meter_type
+
+        if by_lines:
+            meter, created, survey, operator, meter_type, line = meter_created_survey_operator_meter_type
+        else:
+            meter, created, survey, operator, meter_type = meter_created_survey_operator_meter_type
+
         fitgrav, raw_data.loc[indices, 'resid'] = free_grav_fit(
             stations=grouped.station,
             gravity=grouped.corr_grav,
@@ -731,6 +744,8 @@ def fit_by_meter_created(raw_data, anchor, method='WLS'):
             fitgrav.loc[idx, 'lat_to'] = lat_to
             fitgrav.loc[idx, 'lon_to'] = lon_to
             fitgrav.loc[idx, 'instr_height_to'] = instr_height_to
+            if by_lines:
+                fitgrav.loc[idx, 'line'] = int(line)
 
         ties = pd.concat([ties, fitgrav], ignore_index=True)
     

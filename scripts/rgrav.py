@@ -46,20 +46,19 @@ def main():
             raw_data.loc[raw_data['instrument_serial_number'] == meter, 'scale_factor_std'] = scale_factor_std
             raw_data.loc[raw_data['instrument_serial_number'] == meter, 'corr_grav'] = raw_data.loc[raw_data['instrument_serial_number'] == meter, 'corr_grav'] * scale_factor
     
+    by_lines = False
     if args.by_lines:
-        print('Bull shit!')
-    else:
-        if args.method:
-            method = args.method
-        else:
-            method = 'WLS'
+        by_lines = True
 
-        if args.anchor:
-            anchor = args.anchor
-        else:
-            anchor = None
+    method = 'WLS'
+    if args.method:
+        method = args.method
 
-        ties = fit_by_meter_created(raw_data, anchor=anchor, method=method)
+    anchor = None
+    if args.anchor:
+        anchor = args.anchor
+
+    ties = fit_by_meter_created(raw_data, anchor=anchor, method=method, by_lines=by_lines)
 
     basename = '-'.join(str(survey) for survey in raw_data.station.unique())
 
