@@ -90,13 +90,47 @@ def get_map(ties):
     
     fig = plt.figure(figsize=(15, 15))
     xmin, xmax, ymin, ymax = stations.lon.min(), stations.lon.max(), stations.lat.min(), stations.lat.max()
-    offsetx = (xmax - xmin) * 0.1
-    offsety = (ymax - ymin) * 0.1
-    extent = [xmin - offsetx, xmax + offsetx, ymin - offsety, ymax + offsety]
+    dx = xmax - xmin
+    dy = ymax - ymin
+    if dx < 2 * dy:
+        offsety = dy * 0.1
+        ymin, ymax = ymin - offsety, ymax + offsety
+        dy = ymax - ymin
+        dx = dy * 16 / 9
+        centerx = xmin + (xmax - xmin) / 2
+        xmin, xmax = centerx - dx / 2, centerx + dx / 2
+    else:
+        offsetx = dx * 0.1
+        xmin, xmax = xmin - offsetx, xmax + offsetx
+        dx = xmax - xmin
+        dy = dx * 9 / 16
+        centery = ymin + (ymax - ymin) / 2
+        ymin, ymax = centery - dy / 2, centery + dy / 2
+       
+    # offsetx = (xmax - xmin) * 0.1
+    extent = [xmin, xmax, ymin, ymax]
     request = cimgt.OSM()
     ax = plt.axes(projection=request.crs)
     ax.set_extent(extent)
-    ax.add_image(request, 10)
+
+    # print(xmin, xmax, ymin, ymax)
+    # print(dx, dy)
+ 
+    if dx < 0.2:
+        zoom = 13
+    elif dx < 0.3 and dx > 0.2:
+        zoom = 12
+    elif dx < 0.7 and dx > 0.3:
+        zoom = 11
+    elif dx < 1 and dx > 0.7:
+        zoom = 10
+    else:
+        zoom = 8
+    
+    # print(zoom)
+
+    ax.add_image(request, zoom)
+    # ax.add_image(request)
 
     for _, row in lines.iterrows():
         x_from = stations.loc[row.station_from, 'lon']
@@ -114,6 +148,7 @@ def get_map(ties):
         ax.annotate(idx, xy=(row.lon, row.lat),
                     xycoords='data', xytext=(1.5, 1.5),
                     textcoords='offset points', color='k', transform=ccrs.PlateCarree())
+    # plt.show()
     
     return fig
 
