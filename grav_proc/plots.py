@@ -107,15 +107,11 @@ def get_map(ties):
         centery = ymin + (ymax - ymin) / 2
         ymin, ymax = centery - dy / 2, centery + dy / 2
        
-    # offsetx = (xmax - xmin) * 0.1
     extent = [xmin, xmax, ymin, ymax]
     request = cimgt.OSM()
     ax = plt.axes(projection=request.crs)
     ax.set_extent(extent)
 
-    # print(xmin, xmax, ymin, ymax)
-    # print(dx, dy)
- 
     if dx < 0.2:
         zoom = 13
     elif dx < 0.3 and dx > 0.2:
@@ -126,11 +122,8 @@ def get_map(ties):
         zoom = 10
     else:
         zoom = 8
-    
-    # print(zoom)
 
     ax.add_image(request, zoom)
-    # ax.add_image(request)
 
     for _, row in lines.iterrows():
         x_from = stations.loc[row.station_from, 'lon']
@@ -147,9 +140,10 @@ def get_map(ties):
     for idx, row in stations.iterrows():
         ax.annotate(idx, xy=(row.lon, row.lat),
                     xycoords='data', xytext=(1.5, 1.5),
-                    textcoords='offset points', color='k', transform=ccrs.PlateCarree())
-    # plt.show()
-    
+                    textcoords='offset points',
+                    fontsize=14,
+                    color='k', transform=ccrs.PlateCarree())
+    # plt.show()    
     return fig
 
 
