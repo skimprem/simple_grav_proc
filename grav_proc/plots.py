@@ -88,7 +88,7 @@ def get_map(ties):
 
     lines = ties[['station_from', 'station_to']].drop_duplicates(ignore_index=True)
     
-    fig = plt.figure(figsize=(15, 15))
+    fig = plt.figure(figsize=(10, 10))
     xmin, xmax, ymin, ymax = stations.lon.min(), stations.lon.max(), stations.lat.min(), stations.lat.max()
     dx = xmax - xmin
     dy = ymax - ymin
@@ -145,9 +145,14 @@ def get_map(ties):
         ax.plot([x_from, x_to], [y_from, y_to], '-ok', mfc='w', transform=ccrs.PlateCarree())
    
     for idx, row in stations.iterrows():
-        ax.annotate(idx, xy=(row.lon, row.lat),
-                    xycoords='data', xytext=(1.5, 1.5),
-                    textcoords='offset points', color='k', transform=ccrs.PlateCarree())
+        ax.annotate(idx,
+                    xy=(row.lon, row.lat),
+                    xycoords='data',
+                    xytext=(1.5, 1.5),
+                    textcoords='offset points',
+                    color='k',
+                    fontsize=16,
+                    transform=ccrs.PlateCarree())
     # plt.show()
     
     return fig
