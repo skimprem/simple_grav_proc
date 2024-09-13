@@ -138,7 +138,6 @@ def get_map(ties):
         ax.plot([x_from, x_to], [y_from, y_to], '-ok', mfc='w', transform=ccrs.PlateCarree())
    
     for idx, row in stations.iterrows():
-<<<<<<< HEAD
         ax.annotate(idx,
                     xy=(row.lon, row.lat),
                     xycoords='data',
@@ -149,14 +148,6 @@ def get_map(ties):
                     transform=ccrs.PlateCarree())
     # plt.show()
     
-=======
-        ax.annotate(idx, xy=(row.lon, row.lat),
-                    xycoords='data', xytext=(1.5, 1.5),
-                    textcoords='offset points',
-                    fontsize=14,
-                    color='k', transform=ccrs.PlateCarree())
-    # plt.show()    
->>>>>>> 96c47d72374e5f4f1c57f2d4248c653407c715bb
     return fig
 
 
