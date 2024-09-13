@@ -99,17 +99,17 @@ def gui_rgrav_arguments():
         message='Want to load a calibration factors?'
     )
 
-    by_lines_mode = mb.askyesno(
-        title='Calc by lines',
-        message='Want to calc by lines?'
-    )
-    
     if scale_factors_mode:
         scale_factors = fd.askopenfilenames(
             defaultextension='.txt',
             filetypes=[('Calibration files', '*.txt'), ('All files', '*')],
             title='Choose data file'
         )
+
+    by_lines_mode = mb.askyesno(
+        title='Calc by lines',
+        message='Want to calc by lines?'
+    )
 
     parser.add_argument('--method', type=str)
     arguments.append('--method')
@@ -124,9 +124,14 @@ def gui_rgrav_arguments():
         arguments.append('--scale_factors')
         arguments.append(scale_factors)
 
-    parser.add_argument('--by_lines')
+    parser.add_argument('--by_lines', action='store_true')
     if by_lines_mode:
         arguments.append('--by_lines')
+
+    parser.add_argument('--anchor', type=str)
+    parser.add_argument('--plot', action='store_true')
+    parser.add_argument('--map', action='store_true')
+    parser.add_argument('--verbose', action='store_true')
 
     return parser.parse_args(arguments)
     
