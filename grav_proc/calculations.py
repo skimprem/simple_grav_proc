@@ -541,7 +541,7 @@ def free_grav_fit(stations, gravity, date_time, fix_station, std=None, max_degre
             model = sm.RLM(gravity, design_matrix)
         case 'WLS':
             if std is not None:
-                model = sm.WLS(gravity, design_matrix, weights=1/std)
+                model = sm.WLS(gravity, design_matrix, weights=std**-2)
             else:
                 model = sm.WLS(gravity, design_matrix)
 

@@ -151,7 +151,7 @@ def get_map(ties):
     return fig
 
 
-def vg_plot(coeffs, ties, by_meter=False):
+def vg_plot(coeffs, ties, by_meter=False, size=5, survey=True):
 
     figs = []
     for _, row in coeffs.iterrows():
@@ -172,16 +172,25 @@ def vg_plot(coeffs, ties, by_meter=False):
         cov = row.covab
         u = abs(h_ref - y) * np.sqrt(ub**2 + (y + h_ref)**2 * ua**2 + 2 * (h_ref + y) * cov)
         x = gp(y)
-        fig, ax = plt.subplots(figsize=(10, 10))
+        fig, ax = plt.subplots(figsize=(size, size))
         ax.plot(x, y)
         ax.fill_betweenx(y, x - u, x + u, alpha=0.2)
         for height_from, height_to, resid in zip(df.from_height, df.to_height, resid):
             heights = np.array([height_from, height_to]) * 1e-3
             ax.plot(gp(heights) + resid, heights, '.-')
+
         if by_meter:
-            plt.title(f'Meter: {row.meter}, survey: {row.survey} (substract {substruct:.1f} uGal/m)')
+            if survey:
+                title = f'Meter: {row.meter}, survey: {row.survey} (substract {substruct:.1f} uGal/m)'
+            else:
+                title = f'Meter: {row.meter}, Substract {substruct:.1f} uGal/m'
         else:
-            plt.title(f'Survey: {row.survey} (substract {substruct:.1f} uGal/m)')
+            if survey:
+                title = f'Survey: {row.survey} (substract {substruct:.1f} uGal/m)'
+            else:
+                title = f'Substract {substruct:.1f} uGal/m'
+
+        plt.title(title)
         plt.xlabel(f'Gravity [uGal]')
         plt.ylabel('Height [m]')
         low, high = plt.xlim()
