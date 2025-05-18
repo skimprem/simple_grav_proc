@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import statsmodels.api as sm
 
-def get_vg(readings, max_degree=2, vg_max_degree=2):
+def get_vg(readings, method='WLS', max_degree=2, vg_max_degree=2):
 
     ties_dict = {
         'meter': [],
@@ -52,9 +52,13 @@ def get_vg(readings, max_degree=2, vg_max_degree=2):
                 rows.append(row)
             grav_design = np.array(rows)
             design = np.concatenate((grav_design, drift_design), axis=1)
-            # model = sm.WLS(grav, design)
-            # model = sm.WLS(grav, design, weights=1/grouped_by_line.std_err)
-            model = sm.RLM(grav, design)
+            match method:
+                case 'WLS':
+                    model = sm.WLS(grav, design, weights=grouped_by_line.std_err**-2)
+                case 'OLS':
+                    model = sm.OLS(grav, design)
+                case 'RLM':
+                    model = sm.RLM(grav, design)
             result = model.fit()
             const = result.params[-1]
             std_const = result.bse[-1]
@@ -112,7 +116,7 @@ def get_vg(readings, max_degree=2, vg_max_degree=2):
 
     return ties, vg
 
-def get_vg_by_meter(readings, max_degree=2, vg_max_degree=2):
+def get_vg_by_meter(readings, method = 'WLS', max_degree=2, vg_max_degree=2):
 
     ties_dict = {
         'meter': [],
@@ -162,8 +166,13 @@ def get_vg_by_meter(readings, max_degree=2, vg_max_degree=2):
                 rows.append(row)
             grav_design = np.array(rows)
             design = np.concatenate((grav_design, drift_design), axis=1)
-            # model = sm.OLS(grav, design)
-            model = sm.RLM(grav, design)
+            match method:
+                case 'WLS':
+                    model = sm.WLS(grav, design, weights=grouped_by_line.std_err**-2)
+                case 'OLS':
+                    model = sm.OLS(grav, design)
+                case 'RLM':
+                    model = sm.RLM(grav, design)
             result = model.fit()
             const = result.params[-1]
             std_const = result.bse[-1]
