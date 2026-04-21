@@ -36,5 +36,10 @@ setup(
     #     "License :: OSI Approved :: BSD License",
     # ],
     install_requires = install_requires,
-    scripts=scripts,
+    entry_points={
+        'console_scripts': [
+            'rgrav=grav_proc.scripts.rgrav:main',
+            'vgrad=grav_proc.scripts.vgrad:main',
+        ],
+    },
 )
