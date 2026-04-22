@@ -15,7 +15,6 @@ description = 'Read CG-6 data file and simple proc of ties'
 with open('version.txt', mode='r', encoding='utf8') as fh:
     version = fh.read()
 
-scripts  = [os.path.join('scripts', f) for f in os.listdir('scripts') if f.endswith('.py')]
 with open('requirements.txt', mode='r', encoding='utf-8') as fh:
     install_requires = [line.split().pop(0) for line in fh.read().splitlines()]
 
@@ -30,12 +29,7 @@ setup(
     # url = "",
     packages=find_packages(),
     long_description=read('README.md'),
-    # classifiers=[
-    #     "Development Status :: 1 - Alpha",
-    #     "Topic :: Utilities",
-    #     "License :: OSI Approved :: BSD License",
-    # ],
-    install_requires = install_requires,
+    install_requires=install_requires,
     entry_points={
         'console_scripts': [
             'rgrav=grav_proc.scripts.rgrav:main',
