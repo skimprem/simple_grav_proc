@@ -8,11 +8,12 @@ The following Python packages need to be installed:
 
 - pandas
 - numpy
-- matplotlib
+- tabulate
 - seaborn
-- geopandas
-- folium
-- mapclassify
+- matplotlib
+- statsmodels
+- cartopy
+- networkx
 
 ## Installing
 
@@ -60,7 +61,7 @@ The following Python packages need to be installed:
 - [ ] Option to different processing methods
 - [ ] Option to adjustment of network
 - [ ] Test of Windows installing
-- [x] Option to interactive stations mapping (GeoPandas, Leaflet, Folium etc.)
+- [x] Option to stations mapping (Cartopy)
 - [ ] Correct setting for setuptools
 - [ ] Loading CG-5 data files
 - [x] Processing with set of meters
