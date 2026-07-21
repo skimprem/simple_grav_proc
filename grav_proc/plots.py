@@ -3,11 +3,8 @@ import seaborn as sns
 from matplotlib.dates import DateFormatter
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
-import geopandas as gpd
-from shapely.geometry import LineString
 import numpy as np
 import pandas as pd
-import contextily as cx
 from cartopy import crs as ccrs
 import cartopy.io.img_tiles as cimgt
 # from cartopy.io.img_tiles import GoogleTiles

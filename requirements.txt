@@ -1,10 +1,7 @@
 pandas
 tabulate
 seaborn
-geopandas
-folium
-mapclassify
 matplotlib
 statsmodels
-contextily
 cartopy
+networkx

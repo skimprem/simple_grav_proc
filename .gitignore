@@ -163,3 +163,9 @@ cython_debug/
 *.txt
 *.html
 *.csv
+
+# Raw/proprietary gravimeter dumps not read by grav_proc (only CG-5/CG-6 .dat is)
+*.smp
+*.raw
+*.sgd
+*.i2d
