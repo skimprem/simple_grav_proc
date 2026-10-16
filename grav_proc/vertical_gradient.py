@@ -30,6 +30,8 @@ def get_vg(readings, method='WLS', max_degree=2, vg_max_degree=2):
         for line, grouped_by_line in group_by_line:
             grav = np.vstack(grouped_by_line.corr_grav)
             date_time = np.array(grouped_by_line.date_time.apply(lambda x: x.timestamp()/86400))
+            # time from the start of the line: a polynomial in absolute days is ill-conditioned
+            date_time = date_time - date_time.min()
             drift_design = np.vander(date_time, max_degree + 1)
             change_stations = grouped_by_line.station.unique()
             change_heights = grouped_by_line.instr_height.unique()
@@ -144,6 +146,8 @@ def get_vg_by_meter(readings, method = 'WLS', max_degree=2, vg_max_degree=2):
         for line, grouped_by_line in group_by_line:
             grav = np.vstack(grouped_by_line.corr_grav)
             date_time = np.array(grouped_by_line.date_time.apply(lambda x: x.timestamp()/86400))
+            # time from the start of the line: a polynomial in absolute days is ill-conditioned
+            date_time = date_time - date_time.min()
             drift_design = np.vander(date_time, max_degree + 1)
             change_stations = grouped_by_line.station.unique()
             change_heights = grouped_by_line.instr_height.unique()

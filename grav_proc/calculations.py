@@ -530,7 +530,9 @@ def free_grav_fit(stations, gravity, date_time, fix_station, std=None, max_degre
 
     defined_stations = observation_matrix.columns
 
-    # date_time = date_time - date_time.iloc[0]
+    # time from the first reading: a polynomial in absolute days is ill-conditioned
+    date_time = np.asarray(date_time, dtype=float)
+    date_time = date_time - date_time.min()
     time_matrix = np.vander(date_time, max_degree)
     
     design_matrix = np.hstack((observation_matrix, time_matrix))
